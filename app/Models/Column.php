@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Column extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['board_id', 'title', 'position'];
 
     public function board(): \Illuminate\Database\Eloquent\Relations\BelongsTo
