@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 
 use App\Models\Board;
+use App\Models\Task;
 
 class ShowBoard extends Component
 {
@@ -12,15 +13,29 @@ class ShowBoard extends Component
 
     public function mount(Board $board)
     {
-        // Aqui carregamos o quadro e já trazemos as colunas e as tarefas 
-        // ordenadas pela coluna 'position', para que apareçam na ordem certa.
         $this->board = $board->load([
-            'columns' => function ($query) {
-                $query->orderBy('position');
-            },
-            'columns.tasks' => function ($query) {
-                $query->orderBy('position');
-            }
+            'columns' => fn($q) => $q->orderBy('position'),
+            'columns.tasks' => fn($q) => $q->orderBy('position')
+        ]);
+    }
+
+    // ESTE É O MÉTODO QUE O JAVASCRIPT ESTÁ CHAMANDO
+    public function updateTaskOrder($orderedIds, $columnId)
+    {
+        // $orderedIds é um array tipo [15, 8, 22] (Os IDs das tarefas)
+        // O index do array (0, 1, 2) passa a ser a nova 'position' no banco
+        
+        foreach ($orderedIds as $index => $taskId) {
+            Task::where('id', $taskId)->update([
+                'column_id' => $columnId,
+                'position'  => $index
+            ]);
+        }
+
+        // Recarrega os dados do banco para garantir que a tela fique atualizada
+        $this->board->load([
+            'columns' => fn($q) => $q->orderBy('position'),
+            'columns.tasks' => fn($q) => $q->orderBy('position')
         ]);
     }
 
