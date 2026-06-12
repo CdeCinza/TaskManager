@@ -1,0 +1,65 @@
+window.tailwind = {
+    config: {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Outfit', 'sans-serif'],
+                }
+            }
+        }
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});
+
+document.addEventListener('livewire:navigated', () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});
+
+document.addEventListener('livewire:init', () => {
+    if (typeof Livewire !== 'undefined') {
+        Livewire.hook('commit', ({ succeed }) => {
+            succeed(() => {
+                queueMicrotask(() => {
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                });
+            });
+        });
+    }
+});
+
+window.confirmAction = function(message, callback) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Atenção',
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#4f46e5',
+            cancelButtonColor: '#e11d48',
+            confirmButtonText: 'Sim, confirmar!',
+            cancelButtonText: 'Cancelar',
+            background: '#1e293b',
+            color: '#f8fafc',
+            customClass: {
+                popup: 'border border-slate-700 shadow-xl rounded-2xl',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback();
+            }
+        });
+    } else {
+        if (confirm(message)) {
+            callback();
+        }
+    }
+};
