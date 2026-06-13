@@ -54,22 +54,39 @@
         </div>
 
         <!-- Logged User Profile Footer -->
-        <div class="p-6 border-t border-slate-800 bg-slate-900/60 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
-                    {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
+        <div class="p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
+                        {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
+                    </div>
+                    <div class="overflow-hidden">
+                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? 'Usuário' }}</h4>
+                        <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden">
-                    <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? 'Usuário' }}</h4>
-                    <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="text-slate-400 hover:text-rose-400 p-2 hover:bg-rose-500/10 rounded-xl transition duration-200" title="{{ __('Sair') }}">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Dev Credits -->
+            <div class="pt-4 border-t border-slate-850 flex flex-col items-center gap-1.5 text-center">
+                <p class="text-[10px] text-slate-500 font-medium">
+                    {{ __('Desenvolvido por') }} <span class="text-slate-400">Matheus Marques Fernandes Vieira</span>
+                </p>
+                <div class="flex items-center gap-3 text-[10px]">
+                    <a href="https://github.com/CdeCinza" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
+                        <i data-lucide="github" class="w-3.5 h-3.5"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
+                        <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> LinkedIn
+                    </a>
                 </div>
             </div>
-            <form action="{{ route('logout') }}" method="POST" class="inline">
-                @csrf
-                <button type="submit" class="text-slate-400 hover:text-rose-400 p-2 hover:bg-rose-500/10 rounded-xl transition duration-200" title="{{ __('Sair') }}">
-                    <i data-lucide="log-out" class="w-5 h-5"></i>
-                </button>
-            </form>
         </div>
     </aside>
 
