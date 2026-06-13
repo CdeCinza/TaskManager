@@ -4,6 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ $title ?? 'Task Manager' }}</title>
+        <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon.svg') }}" type="image/svg+xml">
+        <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('assets/identidade-visualpack/apple-touch-icon.png') }}">
         
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

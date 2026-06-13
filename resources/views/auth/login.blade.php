@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar — Taskly</title>
+    <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('assets/identidade-visualpack/apple-touch-icon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,12 +37,47 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        @keyframes live-ping {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
+            50% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+        }
+        @keyframes data-glow {
+            0%, 100% { border-color: rgba(51, 65, 85, 0.8); transform: translateY(0); }
+            50% { border-color: rgba(99, 102, 241, 0.42); transform: translateY(-2px); }
+        }
+        @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(220%); }
+        }
         .float-1 { animation: float 6s ease-in-out infinite; }
         .float-2 { animation: float2 8s ease-in-out infinite 1s; }
         .float-3 { animation: float 7s ease-in-out infinite 2s; }
         .pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
         .slide-up { animation: slide-up 0.5s ease-out forwards; }
         .fade-in { animation: fade-in 0.8s ease-out forwards; }
+        .live-dot { animation: live-ping 1.8s ease-in-out infinite; }
+        .dashboard-metric { animation: data-glow 4.5s ease-in-out infinite; }
+        .dashboard-metric:nth-child(2) { animation-delay: 0.8s; }
+        .dashboard-metric:nth-child(3) { animation-delay: 1.6s; }
+        .live-number, .live-subtext, .live-growth, .live-time, .live-activity-title {
+            transition: color 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+        }
+        .is-updating {
+            color: #bfdbfe !important;
+            transform: translateY(-1px);
+        }
+        .dashboard-bar, .live-progress-bar {
+            transition: height 0.7s ease, width 0.7s ease;
+        }
+        .live-progress-bar { position: relative; overflow: hidden; }
+        .live-progress-bar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            width: 45%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+            animation: progress-shine 2.4s ease-in-out infinite;
+        }
 
         .auth-input {
             width: 100%;
@@ -86,10 +124,7 @@
         <!-- Brand -->
         <div class="relative z-10 fade-in">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
-                <span class="text-2xl font-bold bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</span>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_horizontal.svg') }}" alt="Taskly" class="h-12 w-auto">
             </div>
         </div>
 
@@ -168,6 +203,115 @@
             </div>
         </div>
 
+        <!-- Dashboard preview -->
+        <div data-dashboard-preview class="hidden xl:block absolute right-10 top-1/2 z-10 w-[44%] max-w-[540px] -translate-y-1/2 select-none" aria-hidden="true">
+            <div class="glass-card rounded-2xl p-4 shadow-2xl shadow-black/40 border-indigo-500/20">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5 text-indigo-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Dashboard</p>
+                            <p class="text-[11px] text-slate-500">Visao geral do projeto</p>
+                        </div>
+                    </div>
+                    <span class="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold text-emerald-400">
+                        <span class="live-dot h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                        Ao vivo
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 py-4">
+                    <div class="dashboard-metric rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+                        <div class="flex items-center justify-between">
+                            <i data-lucide="clipboard-list" class="w-4 h-4 text-sky-400"></i>
+                            <span class="text-[9px] font-semibold uppercase text-slate-500">Tarefas</span>
+                        </div>
+                        <p class="live-number mt-3 text-2xl font-bold text-white" data-live-key="tasks">48</p>
+                        <p class="live-subtext text-[10px] text-slate-500" data-live-key="progress">12 em progresso</p>
+                    </div>
+                    <div class="dashboard-metric rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+                        <div class="flex items-center justify-between">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                            <span class="text-[9px] font-semibold uppercase text-slate-500">Concluidas</span>
+                        </div>
+                        <p class="live-number mt-3 text-2xl font-bold text-emerald-400" data-live-key="done">31</p>
+                        <p class="live-subtext text-[10px] text-slate-500" data-live-key="doneRate">65% do total</p>
+                    </div>
+                    <div class="dashboard-metric rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+                        <div class="flex items-center justify-between">
+                            <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+                            <span class="text-[9px] font-semibold uppercase text-slate-500">Alta</span>
+                        </div>
+                        <p class="live-number mt-3 text-2xl font-bold text-amber-400" data-live-key="high">7</p>
+                        <p class="live-subtext text-[10px] text-slate-500">prioritarias</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-[1.1fr_0.9fr] gap-3">
+                    <div class="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                        <div class="mb-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400"></i>
+                                <span class="text-xs font-semibold text-slate-300">Progresso semanal</span>
+                            </div>
+                            <span class="live-growth text-xs font-bold text-indigo-300" data-live-key="growth">+18%</span>
+                        </div>
+                        <div class="flex h-32 items-end gap-2">
+                            <div class="dashboard-bar h-[38%] flex-1 rounded-t-md bg-slate-700"></div>
+                            <div class="dashboard-bar h-[54%] flex-1 rounded-t-md bg-slate-700"></div>
+                            <div class="dashboard-bar h-[45%] flex-1 rounded-t-md bg-slate-700"></div>
+                            <div class="dashboard-bar h-[72%] flex-1 rounded-t-md bg-indigo-500"></div>
+                            <div class="dashboard-bar h-[60%] flex-1 rounded-t-md bg-violet-500"></div>
+                            <div class="dashboard-bar h-[84%] flex-1 rounded-t-md bg-sky-500"></div>
+                            <div class="dashboard-bar h-full flex-1 rounded-t-md bg-emerald-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                        <div class="mb-4 flex items-center gap-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-sky-400"></i>
+                            <span class="text-xs font-semibold text-slate-300">Atividade</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                                <div class="min-w-0 flex-1">
+                                    <p class="live-activity-title truncate text-[11px] font-medium text-slate-300">Setup finalizado</p>
+                                    <p class="live-time text-[9px] text-slate-600">agora</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-indigo-400"></span>
+                                <div class="min-w-0 flex-1">
+                                    <p class="live-activity-title truncate text-[11px] font-medium text-slate-300">API movida</p>
+                                    <p class="live-time text-[9px] text-slate-600">12 min</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+                                <div class="min-w-0 flex-1">
+                                    <p class="live-activity-title truncate text-[11px] font-medium text-slate-300">Prazo revisado</p>
+                                    <p class="live-time text-[9px] text-slate-600">1 h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                    <div class="mb-2 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-300">Taxa de conclusao global</span>
+                        <span class="live-number text-sm font-bold text-emerald-400" data-live-key="completion">65%</span>
+                    </div>
+                    <div class="h-2 overflow-hidden rounded-full bg-slate-800">
+                        <div class="live-progress-bar h-full w-[65%] rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bottom tagline -->
         <div class="relative z-10 fade-in">
             <p class="text-xs text-slate-600 font-medium">© 2025 Taskly — Gerenciador de tarefas profissional</p>
@@ -184,9 +328,7 @@
 
             <!-- Mobile brand -->
             <div class="flex lg:hidden items-center gap-3 mb-10 justify-center">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="h-10 w-10">
                 <span class="text-xl font-bold text-white">Taskly</span>
             </div>
 
@@ -297,5 +439,67 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preview = document.querySelector('[data-dashboard-preview]');
+            if (!preview) return;
+
+            const snapshots = [
+                { tasks: 48, progress: 12, done: 31, high: 7, completion: 65, growth: 18, bars: [38, 54, 45, 72, 60, 84, 100], activities: ['Setup finalizado', 'API movida', 'Prazo revisado'], times: ['agora', '12 min', '1 h'] },
+                { tasks: 49, progress: 13, done: 32, high: 6, completion: 66, growth: 21, bars: [46, 52, 63, 68, 76, 88, 92], activities: ['Nova tarefa criada', 'Deploy aprovado', 'Checklist atualizado'], times: ['agora', '4 min', '24 min'] },
+                { tasks: 51, progress: 14, done: 34, high: 8, completion: 67, growth: 24, bars: [42, 61, 58, 80, 74, 91, 96], activities: ['Card movido', 'Comentário recebido', 'Prioridade alterada'], times: ['agora', '8 min', '31 min'] },
+                { tasks: 50, progress: 11, done: 35, high: 5, completion: 70, growth: 27, bars: [50, 64, 70, 78, 83, 90, 100], activities: ['Entrega concluida', 'Bug resolvido', 'Sprint revisada'], times: ['agora', '15 min', '42 min'] },
+            ];
+
+            let index = 0;
+            const setText = (selector, value) => {
+                const el = preview.querySelector(selector);
+                if (!el) return;
+                el.classList.add('is-updating');
+                el.style.opacity = '0.45';
+                setTimeout(() => {
+                    el.textContent = value;
+                    el.style.opacity = '1';
+                    setTimeout(() => el.classList.remove('is-updating'), 260);
+                }, 180);
+            };
+
+            const updatePreview = () => {
+                index = (index + 1) % snapshots.length;
+                const data = snapshots[index];
+
+                setText('[data-live-key="tasks"]', data.tasks);
+                setText('[data-live-key="progress"]', `${data.progress} em progresso`);
+                setText('[data-live-key="done"]', data.done);
+                setText('[data-live-key="doneRate"]', `${data.completion}% do total`);
+                setText('[data-live-key="high"]', data.high);
+                setText('[data-live-key="growth"]', `+${data.growth}%`);
+                setText('[data-live-key="completion"]', `${data.completion}%`);
+
+                preview.querySelectorAll('.dashboard-bar').forEach((bar, barIndex) => {
+                    bar.style.height = `${data.bars[barIndex]}%`;
+                });
+
+                const progressBar = preview.querySelector('.live-progress-bar');
+                if (progressBar) progressBar.style.width = `${data.completion}%`;
+
+                preview.querySelectorAll('.live-activity-title').forEach((item, itemIndex) => {
+                    item.classList.add('is-updating');
+                    item.style.opacity = '0.45';
+                    setTimeout(() => {
+                        item.textContent = data.activities[itemIndex];
+                        item.style.opacity = '1';
+                        item.classList.remove('is-updating');
+                    }, 180);
+                });
+
+                preview.querySelectorAll('.live-time').forEach((item, itemIndex) => {
+                    item.textContent = data.times[itemIndex];
+                });
+            };
+
+            setInterval(updatePreview, 2600);
+        });
+    </script>
 </body>
 </html>

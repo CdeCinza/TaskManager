@@ -1,0 +1,19 @@
+<svg width="1280" height="330" viewBox="0 0 1280 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tasklyGradient" x1="78" y1="55" x2="298" y2="275" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="0.62" stop-color="#5B43F6"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <filter id="glow" x="40" y="25" width="300" height="300">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#5B43F6" flood-opacity="0.36"/>
+    </filter>
+  </defs>
+  <rect x="78" y="55" width="220" height="220" rx="54" fill="url(#tasklyGradient)" filter="url(#glow)"/>
+  <rect x="92" y="69" width="192" height="192" rx="44" stroke="white" stroke-opacity="0.14" stroke-width="5"/>
+  <rect x="139" y="121" width="36" height="36" rx="8" stroke="#F3F4FF" stroke-width="12"/>
+  <rect x="199" y="121" width="36" height="36" rx="8" stroke="#F3F4FF" stroke-width="12"/>
+  <rect x="139" y="181" width="36" height="36" rx="8" stroke="#F3F4FF" stroke-width="12"/>
+  <rect x="199" y="181" width="36" height="36" rx="8" stroke="#F3F4FF" stroke-width="12"/>
+  <text x="330" y="207" fill="#F8FAFC" font-size="106" font-weight="800" font-family="Poppins, Inter, Arial, sans-serif">Taskly</text>
+</svg>

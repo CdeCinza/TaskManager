@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Conta — Taskly</title>
+    <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('assets/identidade-visualpack/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('assets/identidade-visualpack/apple-touch-icon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -88,10 +91,7 @@
         <!-- Brand -->
         <div class="relative z-10 fade-in">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
-                <span class="text-2xl font-bold bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</span>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_horizontal.svg') }}" alt="Taskly" class="h-12 w-auto">
             </div>
         </div>
 
@@ -162,9 +162,7 @@
 
             <!-- Mobile brand -->
             <div class="flex lg:hidden items-center gap-3 mb-10 justify-center">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="h-10 w-10">
                 <span class="text-xl font-bold text-white">Taskly</span>
             </div>
 
