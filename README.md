@@ -16,26 +16,24 @@ O **Taskly** e um gerenciador de tarefas desenvolvido como projeto de portfolio,
 A proposta do projeto e simular uma ferramenta moderna de produtividade, combinando:
 
 - Quadro Kanban com drag and drop.
-- Dashboard com indicadores, atividades e dados acionaveis.
+- Central de chamados (helpdesk) para suporte e atendimento.
+- Dashboard com indicadores, atividades, chamados pendentes e dados acionaveis.
 - Agenda/calendario para acompanhar prazos.
 - Fluxo de autenticacao.
-- Organizacao por quadros, colunas, tarefas, prioridades, responsaveis e subtarefas.
+- Organizacao por quadros, colunas, tarefas, prioridades, responsaveis, subtarefas e chamados.
 
 O objetivo e apresentar um projeto completo, visualmente bem acabado e com funcionalidades proximas de um produto real.
 
 ### Funcionalidades
 
 - Autenticacao de usuarios.
-- Dashboard com KPIs de quadros, tarefas, conclusoes, atrasos, prioridades e membros.
+- Dashboard com KPIs de quadros, tarefas, conclusoes, atrasos, prioridades, membros e resumo de chamados em risco de SLA.
 - Dashboard acionavel com:
   - Minha Semana.
-  - Tarefas de hoje.
-  - Tarefas de amanha.
-  - Tarefas da semana.
-  - Tarefas atrasadas.
-  - Tarefas sem responsavel.
-  - Boards com mais risco.
-  - Atividades relevantes.
+  - Tarefas de hoje, amanha e da semana.
+  - Tarefas atrasadas e sem responsavel.
+  - Quadros com mais risco e atividades recentes relevantes.
+  - Chamados proximos do vencimento ou do limite de SLA.
 - Quadro Kanban com colunas e cards.
 - Drag and drop de tarefas com persistencia no banco.
 - Criacao, edicao, exclusao e restauracao de tarefas.
@@ -45,8 +43,14 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
 - Responsavel por tarefa.
 - Subtarefas com progresso.
 - Data de vencimento.
-- Agenda em `/calendar`.
-- Visualizacao mensal, semanal e em lista.
+- Central de Chamados (`/tickets`):
+  - Quadro Kanban de chamados separado por status (Aberto, Em atendimento, Aguardando, Resolvido).
+  - Controle de prazos e prazos de SLA (com alerta visual para SLA vencido ou em risco).
+  - Vinculo opcional do chamado a um quadro (board) e a um responsavel.
+  - Informacoes completas de solicitante (nome, e-mail) e origem do chamado (portal, e-mail, whatsapp, telefone).
+  - Checklist operacional interno por chamado com progresso dinâmico (%).
+  - Busca de chamados por titulo ou solicitante e filtros por status e prioridade.
+- Agenda em `/calendar` com visualizacao mensal, semanal e em lista.
 - Filtros por prioridade e quadro.
 - Interface dark responsiva.
 - Identidade visual propria com logo e favicon.
@@ -144,26 +148,24 @@ It was designed to demonstrate practical experience with Laravel, Livewire, reac
 The project simulates a modern productivity tool by combining:
 
 - Kanban boards with drag and drop.
-- Analytical and actionable dashboard.
+- Helpdesk / support ticketing system.
+- Analytical and actionable dashboard with task metrics, recent activities, and ticket SLA overviews.
 - Calendar and agenda for task deadlines.
 - Authentication flow.
-- Boards, columns, tasks, priorities, assignees and subtasks.
+- Relational structure with boards, columns, tasks, priorities, assignees, subtasks, and support tickets.
 
 The goal is to present a complete, polished and realistic web application.
 
 ### Features
 
 - User authentication.
-- Dashboard with KPIs for boards, tasks, completion, overdue tasks, priorities and members.
+- Dashboard with KPIs for boards, tasks, completions, overdue items, priority breakdown, and ticket summary (open tickets, SLA risk).
 - Actionable dashboard with:
-  - My Week.
-  - Today's tasks.
-  - Tomorrow's tasks.
-  - This week's tasks.
-  - Overdue tasks.
-  - Unassigned tasks.
-  - Boards with higher risk.
-  - Relevant activity feed.
+  - My Week view.
+  - Tasks due today, tomorrow, and this week.
+  - Overdue and unassigned tasks.
+  - Higher risk boards and recent activity feed.
+  - Tickets due soon or in risk of SLA.
 - Kanban board with columns and cards.
 - Drag and drop task movement with database persistence.
 - Create, edit, delete and restore tasks.
@@ -173,8 +175,14 @@ The goal is to present a complete, polished and realistic web application.
 - Task assignee.
 - Subtasks with progress tracking.
 - Due dates.
-- Calendar page at `/calendar`.
-- Monthly, weekly and list views.
+- Helpdesk / Ticket Management (`/tickets`):
+  - Support ticket Kanban board categorized by status (Open, In progress, Waiting, Resolved).
+  - SLA tracking and deadline warnings (with visual indicators for breached or at-risk SLAs).
+  - Optional ticket association with a specific board and assignee.
+  - Requester information (name, email) and ticket origin (portal, email, whatsapp, phone).
+  - Internal operational checklist per ticket with live progress tracker (%).
+  - Ticket search by title or requester, plus filters by status and priority.
+- Calendar page at `/calendar` with monthly, weekly and list views.
 - Filters by priority and board.
 - Responsive dark interface.
 - Custom visual identity with logo and favicon.
@@ -272,26 +280,24 @@ Fue desarrollada para demostrar experiencia practica con Laravel, Livewire, inte
 La propuesta del proyecto es simular una herramienta moderna de productividad, combinando:
 
 - Tablero Kanban con drag and drop.
-- Dashboard analitico y accionable.
+- Central de tickets (helpdesk) para soporte y servicio.
+- Dashboard analitico y accionable con indicadores, actividades, tickets pendientes y mas.
 - Agenda/calendario para fechas de vencimiento.
 - Flujo de autenticacion.
-- Tableros, columnas, tareas, prioridades, responsables y subtareas.
+- Estructura relacional con tableros, columnas, tareas, prioridades, responsables, subtareas y tickets.
 
 El objetivo es presentar una aplicacion completa, pulida y cercana a un producto real.
 
 ### Funcionalidades
 
 - Autenticacion de usuarios.
-- Dashboard con KPIs de tableros, tareas, finalizaciones, atrasos, prioridades y miembros.
+- Dashboard con KPIs de tableros, tareas, finalizaciones, atrasos, prioridades, miembros y resumen de tickets en riesgo de SLA.
 - Dashboard accionable con:
-  - Mi Semana.
-  - Tareas de hoy.
-  - Tareas de manana.
-  - Tareas de esta semana.
-  - Tareas atrasadas.
-  - Tareas sin responsable.
-  - Tableros con mayor riesgo.
-  - Actividades relevantes.
+  - Vista Mi Semana.
+  - Tareas de hoy, manana y esta semana.
+  - Tareas atrasadas y sin responsable.
+  - Tableros con mayor riesgo y actividades recientes relevantes.
+  - Tickets proximos a vencer o en riesgo de SLA.
 - Tablero Kanban con columnas y tarjetas.
 - Movimiento de tareas con drag and drop y persistencia en base de datos.
 - Crear, editar, eliminar y restaurar tareas.
@@ -301,8 +307,14 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
 - Responsable por tarea.
 - Subtareas con seguimiento de progreso.
 - Fechas de vencimiento.
-- Pagina de agenda en `/calendar`.
-- Vistas mensual, semanal y de lista.
+- Gestion de Tickets / Helpdesk (`/tickets`):
+  - Tablero Kanban de tickets categorizado por estado (Abierto, En atencion, Esperando, Resuelto).
+  - Control de plazos y vencimientos de SLA (con alertas visuales para SLA vencido o en riesgo).
+  - Vinculo opcional del ticket a un tablero (board) y a un responsable.
+  - Informacion completa del solicitante (nombre, correo) y origen del ticket (portal, correo, whatsapp, telefono).
+  - Checklist operacional interno por ticket con progreso dinámico (%).
+  - Busqueda de tickets por titulo o solicitante y filtros por estado y prioridad.
+- Pagina de agenda en `/calendar` con vistas mensual, semanal y de lista.
 - Filtros por prioridad y tablero.
 - Interfaz dark responsiva.
 - Identidad visual propia con logo y favicon.
