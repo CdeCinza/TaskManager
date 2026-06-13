@@ -23,6 +23,8 @@ class ShowBoard extends Component
     public $showTaskModal = false;
     public $newSubtaskTitle = '';
     public $editingDescription = '';
+    public $editingDueDate = '';
+    public $showTrashModal = false;
 
     public function mount(Board $board)
     {
@@ -40,7 +42,7 @@ class ShowBoard extends Component
         ]);
 
         $this->newBoardTitle = '';
-        return redirect()->route('board.show', $newBoard->id);
+        return redirect()->route('board.show', $newBoard->id)->navigate();
     }
 
     public function renameBoard($newTitle)
@@ -100,10 +102,12 @@ class ShowBoard extends Component
     public function updateTaskOrder($orderedIds, $columnId)
     {
         foreach ($orderedIds as $index => $taskId) {
-            Task::where('id', $taskId)->update([
-                'column_id' => $columnId,
-                'position'  => $index
-            ]);
+            $task = Task::find($taskId);
+            if ($task) {
+                $task->column_id = $columnId;
+                $task->position = $index;
+                $task->save();
+            }
         }
     }
 
@@ -165,11 +169,12 @@ class ShowBoard extends Component
             abort(403, 'Ação não autorizada.');
         }
 
-        $this->selectedTask = Task::with('subtasks')->whereHas('column', function($query) {
+        $this->selectedTask = Task::with(['subtasks', 'activities.user'])->whereHas('column', function($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
         
         $this->editingDescription = $this->selectedTask->description ?? '';
+        $this->editingDueDate = $this->selectedTask->due_date ? $this->selectedTask->due_date->format('Y-m-d') : '';
         $this->showTaskModal = true;
     }
 
@@ -179,6 +184,7 @@ class ShowBoard extends Component
         $this->selectedTask = null;
         $this->newSubtaskTitle = '';
         $this->editingDescription = '';
+        $this->editingDueDate = '';
     }
 
     public function updateTaskDescription()
@@ -188,6 +194,21 @@ class ShowBoard extends Component
         $this->selectedTask->update([
             'description' => $this->editingDescription
         ]);
+
+        $this->selectedTask->load('activities.user');
+    }
+
+    public function updateTaskDueDate()
+    {
+        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+
+        $dueDate = !empty($this->editingDueDate) ? $this->editingDueDate : null;
+
+        $this->selectedTask->update([
+            'due_date' => $dueDate
+        ]);
+
+        $this->selectedTask->load('activities.user');
     }
 
     public function createSubtask()
@@ -224,6 +245,109 @@ class ShowBoard extends Component
         $this->selectedTask->load('subtasks');
     }
 
+    public function exportCsv()
+    {
+        if ($this->board->user_id !== auth()->id()) {
+            abort(403, 'Ação não autorizada.');
+        }
+
+        $fileName = 'export_' . str($this->board->title)->slug() . '_' . now()->format('Ymd_His') . '.csv';
+
+        $columns = $this->board->columns()->orderBy('position')->with(['tasks' => function($q) {
+            $q->orderBy('position')->with(['assignee', 'subtasks']);
+        }])->get();
+
+        $headers = [
+            'Content-type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($columns) {
+            $file = fopen('php://output', 'w');
+            
+            // Add UTF-8 BOM to make Excel open it correctly
+            fputs($file, "\xEF\xBB\xBF");
+
+            // Header row
+            fputcsv($file, ['Coluna', 'Tarefa', 'Descrição', 'Prioridade', 'Responsável', 'Subtarefas Concluídas', 'Total Subtarefas', 'Prazo', 'Criado Em'], ';');
+
+            $priorities = ['low' => 'Baixa', 'medium' => 'Média', 'high' => 'Alta'];
+
+            foreach ($columns as $column) {
+                foreach ($column->tasks as $task) {
+                    $completedSubtasks = $task->subtasks->where('is_completed', true)->count();
+                    $totalSubtasks = $task->subtasks->count();
+                    
+                    fputcsv($file, [
+                        $column->title,
+                        $task->title,
+                        $task->description ?? '',
+                        $priorities[$task->priority ?? 'medium'] ?? 'Média',
+                        $task->assignee ? $task->assignee->name : 'Ninguém',
+                        $completedSubtasks,
+                        $totalSubtasks,
+                        $task->due_date ? $task->due_date->format('d/m/Y') : 'Sem prazo',
+                        $task->created_at->format('d/m/Y H:i'),
+                    ], ';');
+                }
+            }
+
+            fclose($file);
+        };
+
+        return response()->streamDownload($callback, $fileName, $headers);
+    }
+
+    public function openTrashModal()
+    {
+        $this->showTrashModal = true;
+    }
+
+    public function closeTrashModal()
+    {
+        $this->showTrashModal = false;
+    }
+
+    public function restoreTask($taskId)
+    {
+        if ($this->board->user_id !== auth()->id()) {
+            abort(403, 'Ação não autorizada.');
+        }
+
+        $task = Task::onlyTrashed()->whereHas('column', function($query) {
+            $query->where('board_id', $this->board->id);
+        })->findOrFail($taskId);
+
+        $task->restore();
+    }
+
+    public function forceDeleteTask($taskId)
+    {
+        if ($this->board->user_id !== auth()->id()) {
+            abort(403, 'Ação não autorizada.');
+        }
+
+        $task = Task::onlyTrashed()->whereHas('column', function($query) {
+            $query->where('board_id', $this->board->id);
+        })->findOrFail($taskId);
+
+        $task->forceDelete();
+    }
+
+    public function setLocale($locale)
+    {
+        $validLocales = ['en', 'pt_BR', 'es'];
+        if (in_array($locale, $validLocales)) {
+            session()->put('locale', $locale);
+            app()->setLocale($locale);
+            
+            return $this->redirectRoute('board.show', ['board' => $this->board->id], navigate: true);
+        }
+    }
+
     public function render()
     {
         $columns = $this->board->columns()
@@ -254,9 +378,17 @@ class ShowBoard extends Component
 
         $users = \App\Models\User::all();
 
+        $trashedTasks = Task::onlyTrashed()
+            ->whereHas('column', function($q) {
+                $q->where('board_id', $this->board->id);
+            })
+            ->with('column')
+            ->get();
+
         return view('livewire.show-board', [
             'columns' => $columns,
-            'users' => $users
+            'users' => $users,
+            'trashedTasks' => $trashedTasks
         ]);
     }
 }
