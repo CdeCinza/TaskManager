@@ -20,4 +20,9 @@ class Board extends Model
     {
         return $this->hasMany(Column::class);
     }
+
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

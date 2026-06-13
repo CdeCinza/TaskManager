@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class, 'user_id');
     }
+
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }
