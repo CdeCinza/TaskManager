@@ -36,17 +36,17 @@ document.addEventListener('livewire:init', () => {
     }
 });
 
-window.confirmAction = function(message, callback) {
+window.confirmAction = function(message, callback, title = 'Atenção', confirmText = 'Sim, confirmar!', cancelText = 'Cancelar') {
     if (typeof Swal !== 'undefined') {
         Swal.fire({
-            title: 'Atenção',
+            title: title,
             text: message,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#4f46e5',
             cancelButtonColor: '#e11d48',
-            confirmButtonText: 'Sim, confirmar!',
-            cancelButtonText: 'Cancelar',
+            confirmButtonText: confirmText,
+            cancelButtonText: cancelText,
             background: '#1e293b',
             color: '#f8fafc',
             customClass: {

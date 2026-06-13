@@ -19,9 +19,10 @@
         <script src="https://unpkg.com/lucide@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     </head>
     <body class="bg-slate-900 text-slate-100 antialiased overflow-hidden">
         {{ $slot }}
-
+        <script src="{{ asset('js/board.js') }}"></script>
     </body>
 </html>
