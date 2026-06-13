@@ -37,14 +37,7 @@ class DatabaseSeeder extends Seeder
                     'position' => $index, // 0, 1, 2, 3...
                 ]);
 
-                // 4. Cria de 2 a 5 tarefas aleatórias dentro de cada coluna
-                $quantidadeTarefas = rand(2, 5);
-                for ($i = 0; $i < $quantidadeTarefas; $i++) {
-                    \App\Models\Task::factory()->create([
-                        'column_id' => $column->id,
-                        'position' => $i, // Mantém a ordem sequencial das tasks
-                    ]);
-                }
+
             }
         });
     }
