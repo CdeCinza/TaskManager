@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Activity;
 use App\Models\Board;
 use App\Models\Task;
+use App\Models\Ticket;
 use App\Models\User;
 use Livewire\Component;
 
@@ -117,6 +118,26 @@ class Dashboard extends Component
             ->get();
 
         $completionRate = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
+        $ticketQuery = Ticket::where('user_id', $user?->id);
+        $ticketStats = [
+            'total' => (clone $ticketQuery)->count(),
+            'open' => (clone $ticketQuery)->whereIn('status', ['open', 'progress', 'waiting'])->count(),
+            'slaRisk' => (clone $ticketQuery)
+                ->whereNotIn('status', ['resolved'])
+                ->whereNotNull('sla_due_at')
+                ->where('sla_due_at', '<=', now()->addDay())
+                ->count(),
+        ];
+        $ticketsDueSoon = (clone $ticketQuery)
+            ->whereNotIn('status', ['resolved'])
+            ->where(function ($query) {
+                $query->whereBetween('due_date', [today(), now()->endOfWeek()])
+                    ->orWhereBetween('sla_due_at', [now(), now()->addDays(3)]);
+            })
+            ->with(['assignee', 'board'])
+            ->orderByRaw('COALESCE(sla_due_at, due_date)')
+            ->take(6)
+            ->get();
 
         return view('livewire.dashboard', [
             'totalBoards' => $totalBoards,
@@ -135,6 +156,8 @@ class Dashboard extends Component
             'unassignedTasks' => $unassignedTasks,
             'riskyBoards' => $riskyBoards,
             'relevantActivities' => $relevantActivities,
+            'ticketStats' => $ticketStats,
+            'ticketsDueSoon' => $ticketsDueSoon,
         ]);
     }
 }

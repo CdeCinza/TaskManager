@@ -37,6 +37,12 @@
                         <span class="flex-1">{{ __('Kanban') }}</span>
                     </a>
                 @endif
+
+                <a href="{{ route('tickets') }}" wire:navigate
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Chamados') }}</span>
+                </a>
             </div>
 
             <!-- Boards Section -->
@@ -253,6 +259,31 @@
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Usuários ativos') }}</p>
                     </div>
                 </div>
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
+                            <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Chamados') }}</span>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-white tracking-tight">{{ $ticketStats['open'] }}</p>
+                        <p class="text-xs text-slate-500 mt-0.5">{{ __('Em aberto') }}</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                            <i data-lucide="alarm-clock" class="w-4 h-4 text-rose-400"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">SLA</span>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold {{ $ticketStats['slaRisk'] > 0 ? 'text-rose-400' : 'text-white' }} tracking-tight">{{ $ticketStats['slaRisk'] }}</p>
+                        <p class="text-xs text-slate-500 mt-0.5">{{ __('Chamados em risco') }}</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Actionable Dashboard -->
@@ -325,7 +356,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="user-round-x" class="w-4 h-4 text-amber-400"></i>
@@ -339,6 +370,28 @@
                             </a>
                         @empty
                             <p class="py-6 text-center text-xs text-slate-500">{{ __('Tudo atribuído.') }}</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i data-lucide="alarm-clock" class="w-4 h-4 text-sky-400"></i>
+                        <h3 class="text-sm font-semibold text-slate-200">{{ __('Chamados próximos') }}</h3>
+                    </div>
+                    <div class="flex flex-col gap-2 max-h-56 overflow-y-auto custom-scrollbar pr-1">
+                        @forelse($ticketsDueSoon as $ticket)
+                            <a href="{{ route('tickets') }}" wire:navigate class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3 hover:border-sky-500/30 transition">
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="truncate text-xs font-semibold text-slate-200">{{ $ticket->title }}</p>
+                                    <span class="text-[10px] font-bold {{ $ticket->sla_due_at && $ticket->sla_due_at->isPast() ? 'text-rose-400' : 'text-sky-400' }}">
+                                        {{ ($ticket->sla_due_at ?? $ticket->due_date)?->format('d/m') }}
+                                    </span>
+                                </div>
+                                <p class="mt-1 truncate text-[10px] text-slate-500">{{ $ticket->assignee?->name ?? __('Sem responsável') }} · {{ $ticket->board?->title ?? __('Sem quadro') }}</p>
+                            </a>
+                        @empty
+                            <p class="py-6 text-center text-xs text-slate-500">{{ __('Nenhum chamado crítico.') }}</p>
                         @endforelse
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Task;
+use App\Models\Ticket;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 
@@ -14,6 +15,7 @@ class Calendar extends Component
     public string $filterPriority = '';
     public string $filterBoard = '';
     public $selectedTask = null;
+    public $selectedTicket = null;
 
     public function mount()
     {
@@ -57,6 +59,18 @@ class Calendar extends Component
         $this->selectedTask = null;
     }
 
+    public function openTicket(int $ticketId): void
+    {
+        $this->selectedTicket = Ticket::where('user_id', auth()->id())
+            ->with(['assignee', 'board', 'checklistItems'])
+            ->find($ticketId);
+    }
+
+    public function closeTicket(): void
+    {
+        $this->selectedTicket = null;
+    }
+
     public function render()
     {
         $date = Carbon::parse($this->currentDate);
@@ -78,6 +92,26 @@ class Calendar extends Component
             ->orderBy('due_date')
             ->take(40)
             ->get();
+        $tickets = Ticket::where('user_id', auth()->id())
+            ->whereNotIn('status', ['resolved'])
+            ->where(function ($query) use ($start, $end) {
+                $query->whereBetween('due_date', [$start->toDateString(), $end->toDateString()])
+                    ->orWhereBetween('sla_due_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()]);
+            })
+            ->with(['assignee', 'board'])
+            ->orderByRaw('COALESCE(sla_due_at, due_date)')
+            ->get();
+        $ticketsByDay = $tickets->groupBy(fn(Ticket $ticket) => ($ticket->due_date ?? $ticket->sla_due_at)->toDateString());
+        $listTickets = Ticket::where('user_id', auth()->id())
+            ->whereNotIn('status', ['resolved'])
+            ->where(function ($query) {
+                $query->where('due_date', '>=', now()->subWeek()->toDateString())
+                    ->orWhere('sla_due_at', '>=', now()->subWeek());
+            })
+            ->with(['assignee', 'board'])
+            ->orderByRaw('COALESCE(sla_due_at, due_date)')
+            ->take(25)
+            ->get();
 
         return view('livewire.calendar', [
             'date' => $date,
@@ -85,6 +119,8 @@ class Calendar extends Component
             'end' => $end,
             'tasksByDay' => $tasks,
             'listTasks' => $listTasks,
+            'ticketsByDay' => $ticketsByDay,
+            'listTickets' => $listTickets,
         ]);
     }
 

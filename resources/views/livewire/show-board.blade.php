@@ -35,6 +35,12 @@
                     <span class="flex-1">{{ __('Kanban') }}</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                 </a>
+
+                <a href="{{ route('tickets') }}" wire:navigate
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Chamados') }}</span>
+                </a>
             </div>
 
             <!-- Boards Section -->

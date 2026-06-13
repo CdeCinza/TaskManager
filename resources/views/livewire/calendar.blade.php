@@ -26,6 +26,10 @@
                         <span class="flex-1">{{ __('Kanban') }}</span>
                     </a>
                 @endif
+                <a href="{{ route('tickets') }}" wire:navigate class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Chamados') }}</span>
+                </a>
             </div>
 
             <div class="hidden sm:flex flex-col gap-3">
@@ -187,7 +191,18 @@
 
             @if($viewMode === 'list')
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                    @forelse($listTasks as $task)
+                    @foreach($listTickets as $ticket)
+                        <button wire:click="openTicket({{ $ticket->id }})" class="text-left rounded-xl border border-sky-500/20 bg-sky-500/10 p-4 hover:border-sky-400/40 transition">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-100 truncate">{{ $ticket->title }}</p>
+                                    <p class="text-xs text-sky-200/70 truncate">{{ __('Chamado') }} · {{ $ticket->requester_name ?: __('Sem solicitante') }}</p>
+                                </div>
+                                <span class="text-xs font-bold text-sky-300">{{ ($ticket->due_date ?? $ticket->sla_due_at)?->format('d/m') }}</span>
+                            </div>
+                        </button>
+                    @endforeach
+                    @foreach($listTasks as $task)
                         <button wire:click="openTask({{ $task->id }})" class="text-left rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-indigo-500/40 transition">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="min-w-0">
@@ -197,9 +212,10 @@
                                 <span class="text-xs font-bold {{ $task->due_date->isPast() && !$task->due_date->isToday() ? 'text-rose-400' : 'text-indigo-300' }}">{{ $task->due_date->format('d/m') }}</span>
                             </div>
                         </button>
-                    @empty
-                        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-sm text-slate-500">{{ __('Nenhuma tarefa com prazo encontrada.') }}</div>
-                    @endforelse
+                    @endforeach
+                    @if($listTasks->isEmpty() && $listTickets->isEmpty())
+                        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center text-sm text-slate-500">{{ __('Nenhum prazo encontrado.') }}</div>
+                    @endif
                 </div>
             @else
                 <div class="grid grid-cols-7 gap-px overflow-hidden rounded-2xl border border-slate-800 bg-slate-800">
@@ -211,23 +227,29 @@
                         @php
                             $key = $day->toDateString();
                             $dayTasks = $tasksByDay->get($key, collect());
+                            $dayTickets = $ticketsByDay->get($key, collect());
                             $isMuted = $viewMode === 'month' && !$day->isSameMonth($date);
                         @endphp
                         <div class="min-h-32 bg-slate-950/70 p-2 {{ $isMuted ? 'opacity-45' : '' }} {{ $day->isToday() ? 'ring-1 ring-inset ring-indigo-500/60' : '' }}">
                             <div class="mb-2 flex items-center justify-between">
                                 <span class="text-xs font-bold {{ $day->isToday() ? 'text-indigo-300' : 'text-slate-400' }}">{{ $day->format('d') }}</span>
-                                @if($dayTasks->isNotEmpty())
-                                    <span class="rounded-full bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold text-slate-400">{{ $dayTasks->count() }}</span>
+                                @if($dayTasks->isNotEmpty() || $dayTickets->isNotEmpty())
+                                    <span class="rounded-full bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold text-slate-400">{{ $dayTasks->count() + $dayTickets->count() }}</span>
                                 @endif
                             </div>
                             <div class="flex flex-col gap-1.5">
+                                @foreach($dayTickets->take(2) as $ticket)
+                                    <button wire:click="openTicket({{ $ticket->id }})" class="truncate rounded-lg border border-sky-500/30 bg-sky-500/10 px-2 py-1.5 text-left text-[10px] font-semibold text-sky-200">
+                                        {{ $ticket->title }}
+                                    </button>
+                                @endforeach
                                 @foreach($dayTasks->take(4) as $task)
                                     <button wire:click="openTask({{ $task->id }})" class="truncate rounded-lg border px-2 py-1.5 text-left text-[10px] font-semibold {{ $priorityClasses[$task->priority ?? 'medium'] ?? $priorityClasses['medium'] }}">
                                         {{ $task->title }}
                                     </button>
                                 @endforeach
-                                @if($dayTasks->count() > 4)
-                                    <span class="text-[10px] text-slate-500">+{{ $dayTasks->count() - 4 }} {{ __('mais') }}</span>
+                                @if(($dayTasks->count() + $dayTickets->count()) > 6)
+                                    <span class="text-[10px] text-slate-500">+{{ ($dayTasks->count() + $dayTickets->count()) - 6 }} {{ __('mais') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -264,6 +286,43 @@
                     <a href="{{ route('board.show', $selectedTask->column->board_id) }}" wire:navigate class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 transition">
                         <i data-lucide="kanban" class="w-4 h-4"></i>
                         {{ __('Abrir no Kanban') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($selectedTicket)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+            <div class="w-full max-w-lg rounded-2xl border border-slate-700/70 bg-slate-900 shadow-2xl">
+                <div class="flex items-start justify-between gap-4 border-b border-slate-800 p-5">
+                    <div class="min-w-0">
+                        <h3 class="truncate text-xl font-bold text-white">{{ $selectedTicket->title }}</h3>
+                        <p class="mt-1 text-xs text-slate-500">{{ __('Chamado') }} #{{ $selectedTicket->id }} · {{ $selectedTicket->requester_name ?: __('Sem solicitante') }}</p>
+                    </div>
+                    <button wire:click="closeTicket" class="rounded-xl bg-slate-800 p-2 text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 p-5">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="rounded-xl border border-slate-800 bg-slate-950/50 p-3">
+                            <p class="text-[10px] font-bold uppercase text-slate-500">{{ __('Prazo') }}</p>
+                            <p class="mt-1 text-sm font-semibold text-slate-200">{{ $selectedTicket->due_date?->format('d/m/Y') ?? __('Sem prazo') }}</p>
+                        </div>
+                        <div class="rounded-xl border border-slate-800 bg-slate-950/50 p-3">
+                            <p class="text-[10px] font-bold uppercase text-slate-500">SLA</p>
+                            <p class="mt-1 text-sm font-semibold {{ $selectedTicket->sla_due_at && $selectedTicket->sla_due_at->isPast() ? 'text-rose-400' : 'text-slate-200' }}">{{ $selectedTicket->sla_due_at?->format('d/m H:i') ?? __('Sem SLA') }}</p>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed text-slate-400">{{ $selectedTicket->description ?: __('Sem descrição.') }}</p>
+                    <div class="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950/50 p-3">
+                        <span class="text-xs font-semibold text-slate-400">{{ __('Checklist') }}</span>
+                        <span class="text-sm font-bold text-indigo-300">{{ $selectedTicket->checklist_progress }}%</span>
+                    </div>
+                    <a href="{{ route('tickets') }}" wire:navigate class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 transition">
+                        <i data-lucide="inbox" class="w-4 h-4"></i>
+                        {{ __('Abrir chamados') }}
                     </a>
                 </div>
             </div>
