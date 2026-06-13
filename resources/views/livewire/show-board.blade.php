@@ -1,12 +1,10 @@
-<div class="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+<div class="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-slate-100 lg:flex-row">
     <!-- SIDEBAR -->
-    <aside class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col justify-between flex-shrink-0 z-10">
-        <div class="p-6 flex flex-col gap-6 overflow-y-auto">
+    <aside class="w-full bg-slate-900 border-b border-slate-800 flex max-h-[50dvh] flex-col justify-between flex-shrink-0 z-10 lg:h-full lg:max-h-none lg:w-80 lg:border-b-0 lg:border-r">
+        <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto custom-scrollbar">
             <!-- App Brand Header -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="w-10 h-10 flex-shrink-0">
                 <div>
                     <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</h1>
                     <p class="text-xs text-slate-400">Kanban Board</p>
@@ -24,6 +22,12 @@
                     <span class="flex-1">{{ __('Dashboard') }}</span>
                 </a>
 
+                <a href="{{ route('calendar') }}" wire:navigate
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="calendar-days" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Agenda') }}</span>
+                </a>
+
                 <!-- Kanban (current board, highlighted active) -->
                 <a href="#"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
@@ -34,7 +38,7 @@
             </div>
 
             <!-- Boards Section -->
-            <div class="flex flex-col gap-3">
+            <div class="hidden sm:flex flex-col gap-3">
                 <div class="flex items-center justify-between text-xs font-semibold text-slate-400 tracking-wider uppercase px-2">
                     <span>{{ __('Meus Quadros') }}</span>
                     <i data-lucide="folder" class="w-4 h-4"></i>
@@ -55,7 +59,7 @@
             </div>
 
             <!-- Quick Actions Section -->
-            <div class="flex flex-col gap-4 border-t border-slate-800 pt-4">
+            <div class="hidden sm:flex flex-col gap-4 border-t border-slate-800 pt-4">
                 <!-- Add Board Action -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-400 tracking-wider uppercase px-2 mb-2">{{ __('Novo Quadro') }}</label>
@@ -89,7 +93,7 @@
         </div>
 
         <!-- Logged User Profile Footer -->
-        <div class="p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
+        <div class="p-4 sm:p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
             <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
@@ -109,7 +113,7 @@
             </div>
             
             <!-- Dev Credits -->
-            <div class="pt-4 border-t border-slate-800 flex flex-col items-center gap-2 text-center">
+            <div class="hidden sm:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
                 <p class="text-[10px] text-slate-500 font-medium">
                     {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
                 </p>
@@ -136,14 +140,14 @@
     </aside>
 
     <!-- MAIN KANBAN CONTENT -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden">
+    <main class="min-h-0 min-w-0 flex-1 flex flex-col overflow-hidden">
         <!-- Main Navbar Header -->
-        <header class="h-20 border-b border-slate-900 bg-slate-900/20 px-8 flex items-center justify-between flex-shrink-0">
-            <div x-data="{ isEditing: false, title: @js($board->title) }" class="flex items-center gap-4">
+        <header class="min-h-20 border-b border-slate-900 bg-slate-900/20 px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between flex-shrink-0">
+            <div x-data="{ isEditing: false, title: @js($board->title) }" class="flex min-w-0 items-center gap-4">
                 <i data-lucide="kanban" class="w-6 h-6 text-indigo-400"></i>
                 
-                <div x-show="!isEditing" class="flex items-center gap-3">
-                    <h2 class="text-2xl font-bold tracking-tight text-white">{{ $board->title }}</h2>
+                <div x-show="!isEditing" class="flex min-w-0 items-center gap-3">
+                    <h2 class="truncate text-xl sm:text-2xl font-bold tracking-tight text-white">{{ $board->title }}</h2>
                     <button x-on:click="isEditing = true; title = @js($board->title); $nextTick(() => $refs.boardTitleInput.focus())" 
                             class="text-slate-400 hover:text-white transition duration-200" title="{{ __('Renomear Quadro') }}">
                         <i data-lucide="edit-2" class="w-4 h-4"></i>
@@ -166,7 +170,7 @@
                 </div>
             </div>
             
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
                 <button wire:click="exportCsv" 
                         class="flex items-center gap-2 bg-slate-850 hover:bg-slate-850/80 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700/60 transition duration-200">
                     <i data-lucide="download" class="w-3.5 h-3.5 text-indigo-400"></i>
@@ -279,9 +283,9 @@
         </header>
 
         <!-- Filters sub-header -->
-        <div class="bg-slate-900/10 border-b border-slate-900/50 px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 flex-shrink-0">
+        <div class="bg-slate-900/10 border-b border-slate-900/50 px-4 py-3.5 sm:px-6 lg:px-8 flex flex-col items-stretch justify-between gap-3 flex-shrink-0 xl:flex-row xl:items-center">
             <!-- Search bar -->
-            <div class="relative w-72">
+            <div class="relative w-full xl:w-72">
                 <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
                 <input wire:model.live="search" 
                        type="text" 
@@ -290,7 +294,7 @@
             </div>
 
             <!-- Filter Buttons/Dropdowns -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 overflow-x-auto pb-1 custom-scrollbar xl:overflow-visible xl:pb-0">
                 <!-- Priority filter buttons -->
                 <div class="flex items-center gap-1.5 bg-slate-950/40 p-1 border border-slate-800/80 rounded-xl">
                     <button wire:click="$set('filterPriority', '')" 
@@ -316,7 +320,8 @@
                     <label class="text-xs text-slate-500 font-medium">{{ __('Responsável') }}:</label>
                     <div class="relative" x-data="{ open: false }" @click.away="open = false">
                         <button @click="open = !open" 
-                                class="flex items-center justify-between min-w-[160px] bg-slate-950 border border-slate-800/80 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-300 transition group hover:border-indigo-500/50">
+                                class="flex items-center justify-between min-w-[160px] bg-slate-950 border border-slate-800/80 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none text-slate-300 transition group hover:border-indigo-500/50 hover:text-white"
+                                :class="{'border-indigo-500/70 text-white': open}">
                             <span class="truncate">
                                 @if($filterAssignee === '')
                                     {{ __('Todos') }}
@@ -326,7 +331,7 @@
                                     {{ (string)($users->firstWhere('id', $filterAssignee)->name ?? __('Todos')) }}
                                 @endif
                             </span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-transform duration-200" :class="{'rotate-180': open}"></i>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-transform duration-200" :class="{'rotate-180 text-indigo-400': open}"></i>
                         </button>
 
                         <div x-show="open" 
@@ -336,20 +341,20 @@
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
                              x-transition:leave-end="transform opacity-0 scale-95 translate-y-1"
-                             class="absolute top-full mt-1.5 right-0 w-52 bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden z-50 py-1"
+                             class="absolute top-full mt-1.5 right-0 w-56 bg-slate-950 border border-slate-700 rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50 py-1"
                              style="display: none;">
                             <button @click="$wire.set('filterAssignee', ''); open = false; $nextTick(() => window.lucide.createIcons())" 
-                                    class="w-full text-left px-3 py-2 text-xs font-medium transition-colors flex items-center gap-2 {{ $filterAssignee === '' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
+                                    class="w-full text-left px-3 py-2 text-xs font-semibold transition-colors flex items-center gap-2 {{ $filterAssignee === '' ? 'text-indigo-300 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white' }}">
                                 <i data-lucide="users" class="w-3.5 h-3.5"></i> {{ __('Todos') }}
                             </button>
                             <button @click="$wire.set('filterAssignee', 'unassigned'); open = false; $nextTick(() => window.lucide.createIcons())" 
-                                    class="w-full text-left px-3 py-2 text-xs font-medium transition-colors flex items-center gap-2 {{ $filterAssignee === 'unassigned' ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
+                                    class="w-full text-left px-3 py-2 text-xs font-semibold transition-colors flex items-center gap-2 {{ $filterAssignee === 'unassigned' ? 'text-indigo-300 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white' }}">
                                 <i data-lucide="user-minus" class="w-3.5 h-3.5"></i> {{ __('Sem Responsável') }}
                             </button>
                             <div class="h-px bg-slate-700/50 my-1"></div>
                             @foreach($users as $user)
                                 <button @click="$wire.set('filterAssignee', '{{ $user->id }}'); open = false; $nextTick(() => window.lucide.createIcons())" 
-                                        class="w-full text-left px-3 py-2 text-xs font-medium transition-colors flex items-center gap-2 {{ $filterAssignee == $user->id ? 'text-indigo-400 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white' }}">
+                                        class="w-full text-left px-3 py-2 text-xs font-semibold transition-colors flex items-center gap-2 {{ $filterAssignee == $user->id ? 'text-indigo-300 bg-indigo-500/10' : 'text-slate-300 hover:bg-slate-800/70 hover:text-white' }}">
                                     <span class="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-300 shrink-0">
                                         {{ strtoupper(substr($user->name, 0, 2)) }}
                                     </span>
@@ -363,9 +368,9 @@
         </div>
 
         <!-- Columns Area (Horizontal Scroll) -->
-        <div class="flex-1 overflow-x-auto p-8 flex gap-6 items-start">
+        <div class="flex-1 overflow-x-auto p-4 sm:p-6 lg:p-8 flex gap-4 sm:gap-6 items-start custom-scrollbar">
             @foreach($columns as $column)
-                <div wire:key="column-{{ $column->id }}" class="w-80 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col flex-shrink-0 max-h-full shadow-lg">
+                <div wire:key="column-{{ $column->id }}" class="w-[min(20rem,calc(100vw-2rem))] sm:w-80 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col flex-shrink-0 max-h-full shadow-lg">
                     <!-- Column Header -->
                     <div class="flex items-center justify-between mb-4 px-1">
                         <div class="flex items-center gap-2 min-w-0">
@@ -869,4 +874,3 @@
         </div>
     @endif
 </div>
-
