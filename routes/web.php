@@ -2,18 +2,15 @@
 
 use App\Http\Controllers\AuthController;
 use App\Livewire\ShowBoard;
+use App\Livewire\Dashboard;
 use App\Models\Board;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $primeiroBoard = Board::first();
-    
-    if (!$primeiroBoard) {
-        return "Nenhum board encontrado. Você rodou as migrations e os seeders?";
-    }
-
-    return redirect()->route('board.show', $primeiroBoard->id);
+    return redirect()->route('dashboard');
 })->middleware('auth');
+
+Route::get('/dashboard', Dashboard::class)->name('dashboard')->middleware('auth');
 
 Route::get('/board/{board}', ShowBoard::class)->name('board.show')->middleware('auth');
 

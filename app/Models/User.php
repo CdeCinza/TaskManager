@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Board::class);
     }
+
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Task::class, 'user_id');
+    }
 }
