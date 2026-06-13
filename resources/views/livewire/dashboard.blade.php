@@ -1,12 +1,10 @@
-<div class="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+<div class="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-slate-100 lg:flex-row">
     <!-- SIDEBAR -->
-    <aside class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col justify-between flex-shrink-0 z-10">
-        <div class="p-6 flex flex-col gap-6 overflow-y-auto">
+    <aside class="w-full bg-slate-900 border-b border-slate-800 flex max-h-[46dvh] flex-col justify-between flex-shrink-0 z-10 lg:h-full lg:max-h-none lg:w-80 lg:border-b-0 lg:border-r">
+        <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto custom-scrollbar">
             <!-- App Brand Header -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
-                </div>
+                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="w-10 h-10 flex-shrink-0">
                 <div>
                     <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</h1>
                     <p class="text-xs text-slate-400">{{ __('Painel de Controle') }}</p>
@@ -25,6 +23,12 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                 </a>
 
+                <a href="{{ route('calendar') }}" wire:navigate
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="calendar-days" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Agenda') }}</span>
+                </a>
+
                 <!-- Kanban - first board -->
                 @if($userBoards->isNotEmpty())
                     <a href="{{ route('board.show', $userBoards->first()->id) }}" wire:navigate
@@ -36,7 +40,7 @@
             </div>
 
             <!-- Boards Section -->
-            <div class="flex flex-col gap-3">
+            <div class="hidden sm:flex flex-col gap-3">
                 <div class="flex items-center justify-between text-xs font-semibold text-slate-400 tracking-wider uppercase px-2">
                     <span>{{ __('Meus Quadros') }}</span>
                     <i data-lucide="folder" class="w-4 h-4"></i>
@@ -54,7 +58,7 @@
         </div>
 
         <!-- Logged User Profile Footer -->
-        <div class="p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
+        <div class="p-4 sm:p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
             <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
@@ -74,7 +78,7 @@
             </div>
             
             <!-- Dev Credits -->
-            <div class="pt-4 border-t border-slate-800 flex flex-col items-center gap-2 text-center">
+            <div class="hidden sm:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
                 <p class="text-[10px] text-slate-500 font-medium">
                     {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
                 </p>
@@ -101,9 +105,9 @@
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden">
+    <main class="min-h-0 min-w-0 flex-1 flex flex-col overflow-hidden">
         <!-- Header -->
-        <header class="h-20 border-b border-slate-900 bg-slate-900/20 px-8 flex items-center justify-between flex-shrink-0">
+        <header class="min-h-20 border-b border-slate-900 bg-slate-900/20 px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between flex-shrink-0">
             <div class="flex items-center gap-3">
                 <div class="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
                     <i data-lucide="layout-dashboard" class="w-5 h-5 text-indigo-400"></i>
@@ -162,10 +166,10 @@
         </header>
 
         <!-- Scrollable body -->
-        <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
 
             <!-- ═══ KPI CARDS ═══ -->
-            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
                 <!-- Total Boards -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
                     <div class="flex items-center justify-between">
@@ -247,6 +251,139 @@
                     <div>
                         <p class="text-3xl font-bold text-white tracking-tight">{{ $totalUsers }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Usuários ativos') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actionable Dashboard -->
+            <div class="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-6 mb-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="calendar-check" class="w-4 h-4 text-indigo-400"></i>
+                            <h3 class="text-sm font-semibold text-slate-200">{{ __('Minha Semana') }}</h3>
+                        </div>
+                        <a href="{{ route('calendar') }}" wire:navigate class="inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200">
+                            {{ __('Abrir agenda') }}
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+
+                    @php
+                        $weekGroups = [
+                            ['label' => __('Hoje'), 'items' => $myWeek['today'], 'color' => 'text-sky-400', 'icon' => 'sun'],
+                            ['label' => __('Amanhã'), 'items' => $myWeek['tomorrow'], 'color' => 'text-indigo-400', 'icon' => 'calendar-plus'],
+                            ['label' => __('Esta semana'), 'items' => $myWeek['week'], 'color' => 'text-amber-400', 'icon' => 'calendar-clock'],
+                            ['label' => __('Atrasadas'), 'items' => $myWeek['overdue'], 'color' => 'text-rose-400', 'icon' => 'alert-circle'],
+                        ];
+                    @endphp
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                        @foreach($weekGroups as $group)
+                            <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-3">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="{{ $group['icon'] }}" class="w-3.5 h-3.5 {{ $group['color'] }}"></i>
+                                        <span class="text-xs font-bold text-slate-300">{{ $group['label'] }}</span>
+                                    </div>
+                                    <span class="text-[10px] font-bold {{ $group['color'] }}">{{ $group['items']->count() }}</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    @forelse($group['items']->take(3) as $task)
+                                        <a href="{{ route('board.show', $task->column->board_id) }}" wire:navigate class="rounded-lg bg-slate-900/80 border border-slate-800/80 px-2.5 py-2 hover:border-indigo-500/40 transition">
+                                            <p class="truncate text-[11px] font-semibold text-slate-200">{{ $task->title }}</p>
+                                            <p class="truncate text-[9px] text-slate-500">{{ $task->column->board->title }}</p>
+                                        </a>
+                                    @empty
+                                        <p class="py-4 text-center text-[11px] text-slate-600">{{ __('Nada por aqui') }}</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i data-lucide="radar" class="w-4 h-4 text-rose-400"></i>
+                        <h3 class="text-sm font-semibold text-slate-200">{{ __('Atenção agora') }}</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-3">
+                        <div class="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-rose-300">{{ __('Atrasadas') }}</p>
+                            <p class="mt-1 text-2xl font-bold text-white">{{ $myWeek['overdue']->count() }}</p>
+                        </div>
+                        <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-300">{{ __('Sem responsável') }}</p>
+                            <p class="mt-1 text-2xl font-bold text-white">{{ $unassignedTasks->count() }}</p>
+                        </div>
+                        <div class="rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-3">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-300">{{ __('Boards em risco') }}</p>
+                            <p class="mt-1 text-2xl font-bold text-white">{{ $riskyBoards->where('risk_score', '>', 0)->count() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i data-lucide="user-round-x" class="w-4 h-4 text-amber-400"></i>
+                        <h3 class="text-sm font-semibold text-slate-200">{{ __('Tarefas sem responsável') }}</h3>
+                    </div>
+                    <div class="flex flex-col gap-2 max-h-56 overflow-y-auto custom-scrollbar pr-1">
+                        @forelse($unassignedTasks as $task)
+                            <a href="{{ route('board.show', $task->column->board_id) }}" wire:navigate class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3 hover:border-amber-500/30 transition">
+                                <p class="truncate text-xs font-semibold text-slate-200">{{ $task->title }}</p>
+                                <p class="truncate text-[10px] text-slate-500">{{ $task->column->board->title }} / {{ $task->column->title }}</p>
+                            </a>
+                        @empty
+                            <p class="py-6 text-center text-xs text-slate-500">{{ __('Tudo atribuído.') }}</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i data-lucide="triangle-alert" class="w-4 h-4 text-rose-400"></i>
+                        <h3 class="text-sm font-semibold text-slate-200">{{ __('Boards com mais risco') }}</h3>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        @forelse($riskyBoards as $boardRisk)
+                            <a href="{{ route('board.show', $boardRisk->id) }}" wire:navigate class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3 hover:border-rose-500/30 transition">
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="truncate text-xs font-semibold text-slate-200">{{ $boardRisk->title }}</p>
+                                    <span class="text-[10px] font-bold text-rose-400">{{ $boardRisk->risk_score }}</span>
+                                </div>
+                                <p class="mt-1 text-[10px] text-slate-500">{{ $boardRisk->overdue_tasks }} {{ __('atrasadas') }} / {{ $boardRisk->total_tasks }} {{ __('tarefas') }}</p>
+                            </a>
+                        @empty
+                            <p class="py-6 text-center text-xs text-slate-500">{{ __('Nenhum risco encontrado.') }}</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
+                        <h3 class="text-sm font-semibold text-slate-200">{{ __('Atividades relevantes') }}</h3>
+                    </div>
+                    <div class="flex flex-col gap-2 max-h-56 overflow-y-auto custom-scrollbar pr-1">
+                        @forelse($relevantActivities as $activity)
+                            @php
+                                $actorName = $activity->user?->name ?? __('Sistema');
+                                $description = is_string($activity->description) ? $activity->description : json_encode($activity->description);
+                            @endphp
+                            <div class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3">
+                                <p class="text-[11px] text-slate-300 leading-tight">
+                                    <span class="font-semibold text-white">{{ $actorName }}</span>
+                                    {{ $description }}
+                                </p>
+                                <p class="mt-1 text-[9px] text-slate-600">{{ $activity->created_at->diffForHumans() }}</p>
+                            </div>
+                        @empty
+                            <p class="py-6 text-center text-xs text-slate-500">{{ __('Nenhuma atividade recente.') }}</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
