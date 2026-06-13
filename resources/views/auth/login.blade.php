@@ -273,14 +273,14 @@
             <!-- Dev Credits Footer -->
             <div class="mt-8 pt-6 border-t border-slate-900/60 text-center">
                 <p class="text-xs text-slate-500">
-                    Desenvolvido por <span class="text-slate-350 font-medium">Matheus Marques Fernandes Vieira</span>
+                    Desenvolvido por <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
                 </p>
-                <div class="flex items-center justify-center gap-4 mt-2">
-                    <a href="https://github.com/CdeCinza" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5 text-xs">
-                        <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                <div class="flex items-center justify-center gap-3 mt-3">
+                    <a href="https://github.com/CdeCinza" target="_blank" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-xs font-semibold shadow-sm">
+                        <i data-lucide="github" class="w-4 h-4 text-indigo-400"></i> GitHub
                     </a>
-                    <a href="https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5 text-xs">
-                        <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
+                    <a href="https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/" target="_blank" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-xs font-semibold shadow-sm">
+                        <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i> LinkedIn
                     </a>
                 </div>
             </div>

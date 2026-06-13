@@ -109,16 +109,16 @@
             </div>
             
             <!-- Dev Credits -->
-            <div class="pt-4 border-t border-slate-850 flex flex-col items-center gap-1.5 text-center">
+            <div class="pt-4 border-t border-slate-800 flex flex-col items-center gap-2 text-center">
                 <p class="text-[10px] text-slate-500 font-medium">
-                    {{ __('Desenvolvido por') }} <span class="text-slate-400">Matheus Marques Fernandes Vieira</span>
+                    {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
                 </p>
-                <div class="flex items-center gap-3 text-[10px]">
-                    <a href="https://github.com/CdeCinza" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
-                        <i data-lucide="github" class="w-3.5 h-3.5"></i> GitHub
+                <div class="flex items-center gap-2 mt-0.5">
+                    <a href="https://github.com/CdeCinza" target="_blank" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-[10px] font-semibold">
+                        <i data-lucide="github" class="w-3.5 h-3.5 text-indigo-400"></i> GitHub
                     </a>
-                    <a href="https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/" target="_blank" class="text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1">
-                        <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> LinkedIn
+                    <a href="https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/" target="_blank" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-[10px] font-semibold">
+                        <i data-lucide="linkedin" class="w-3.5 h-3.5 text-indigo-400"></i> LinkedIn
                     </a>
                 </div>
             </div>
