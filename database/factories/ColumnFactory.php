@@ -18,7 +18,7 @@ class ColumnFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->randomElement(['Backlog', 'To Do', 'In Progress', 'Done']),
+            'title' => fake()->randomElement(['A Fazer', 'Em Progresso', 'Revisão', 'Concluído']),
         ];
     }
 }

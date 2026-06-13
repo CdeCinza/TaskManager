@@ -17,8 +17,19 @@ class BoardFactory extends Factory
      */
     public function definition(): array
     {
+        $projects = [
+            'Website Institucional',
+            'Aplicativo Mobile de Vendas',
+            'Painel Administrativo',
+            'Redesign da Landing Page',
+            'Plataforma E-commerce',
+            'Portal de Clientes',
+            'Sistema de Agendamentos',
+            'API de Integração de Pagamento',
+        ];
+
         return [
-            'title' => fake()->word() . ' Project',
+            'title' => fake()->unique()->randomElement($projects),
         ];
     }
 }
