@@ -467,8 +467,34 @@
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <!-- Assignee selector in Task Card -->
-                                        <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                                            <button @click.stop="open = !open" 
+                                        <!-- Assignee selector in Task Card -->
+                                        <div class="relative" x-data="{
+                                            open: false,
+                                            coords: { top: 0, left: 0 },
+                                            update() {
+                                                if (!this.open || !this.$refs.trigger) return;
+                                                const rect = this.$refs.trigger.getBoundingClientRect();
+                                                this.coords.top = rect.bottom + window.scrollY;
+                                                this.coords.left = rect.right - (this.$refs.dropdown?.offsetWidth || 176) + window.scrollX;
+                                            },
+                                            init() {
+                                                const up = () => this.update();
+                                                this.$watch('open', value => {
+                                                    if (value) {
+                                                        this.$nextTick(() => {
+                                                            this.update();
+                                                            window.addEventListener('scroll', up, true);
+                                                            window.addEventListener('resize', up);
+                                                        });
+                                                    } else {
+                                                        window.removeEventListener('scroll', up, true);
+                                                        window.removeEventListener('resize', up);
+                                                    }
+                                                });
+                                            }
+                                        }">
+                                            <button x-ref="trigger"
+                                                    @click.stop="open = !open" 
                                                     title="{{ __('Responsável') }}: {{ $task->assignee ? $task->assignee->name : __('Ninguém') }}"
                                                     class="flex items-center justify-center w-5 h-5 rounded-full text-[9px] font-bold border transition duration-200 cursor-pointer {{ $task->assignee ? 'bg-indigo-650 border-indigo-400 text-white shadow-sm' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500' }}">
                                                 @if($task->assignee)
@@ -479,31 +505,36 @@
                                             </button>
 
                                             <!-- Assignee Popover -->
-                                            <div x-show="open" 
-                                                 x-transition:enter="transition ease-out duration-100"
-                                                 x-transition:enter-start="transform opacity-0 scale-95 translate-y-2"
-                                                 x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
-                                                 x-transition:leave="transition ease-in duration-75"
-                                                 x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
-                                                 x-transition:leave-end="transform opacity-0 scale-95 translate-y-2"
-                                                 class="absolute bottom-full right-0 mb-2 w-44 bg-slate-800 border border-slate-700 rounded-lg shadow-xl p-1 z-50"
-                                                 style="display: none;">
-                                                <button @click.stop="open = false; $wire.assignTask({{ $task->id }}, null)"
-                                                        class="w-full text-left px-2.5 py-1.5 text-[11px] rounded-md transition hover:bg-slate-700 text-slate-400 hover:text-white flex items-center gap-2">
-                                                    <i data-lucide="user-minus" class="w-3.5 h-3.5"></i>
-                                                    {{ __('Sem responsável') }}
-                                                </button>
-                                                <div class="h-px bg-slate-700/50 my-1"></div>
-                                                @foreach($users as $user)
-                                                    <button @click.stop="open = false; $wire.assignTask({{ $task->id }}, {{ $user->id }})"
-                                                            class="w-full text-left px-2.5 py-1.5 text-[11px] rounded-md transition hover:bg-slate-700 {{ $task->user_id == $user->id ? 'text-indigo-400 bg-indigo-500/10 font-semibold' : 'text-slate-300 hover:text-white' }} flex items-center gap-2">
-                                                        <span class="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-300">
-                                                            {{ strtoupper(substr($user->name, 0, 2)) }}
-                                                        </span>
-                                                        <span class="truncate">{{ $user->name }}</span>
+                                            <template x-teleport="body">
+                                                <div x-show="open" 
+                                                     x-ref="dropdown"
+                                                     @click.outside="open = false"
+                                                     x-transition:enter="transition ease-out duration-100"
+                                                     x-transition:enter-start="transform opacity-0 scale-95"
+                                                     x-transition:enter-end="transform opacity-100 scale-100"
+                                                     x-transition:leave="transition ease-in duration-75"
+                                                     x-transition:leave-start="transform opacity-100 scale-100"
+                                                     x-transition:leave-end="transform opacity-0 scale-95"
+                                                     :style="'position: absolute; z-index: 9999; top: ' + coords.top + 'px; left: ' + coords.left + 'px;'"
+                                                     class="w-44 bg-slate-800 border border-slate-700 rounded-lg shadow-xl p-1"
+                                                     style="display: none;">
+                                                    <button @click.stop="open = false; $wire.assignTask({{ $task->id }}, null)"
+                                                            class="w-full text-left px-2.5 py-1.5 text-[11px] rounded-md transition hover:bg-slate-700 text-slate-400 hover:text-white flex items-center gap-2">
+                                                        <i data-lucide="user-minus" class="w-3.5 h-3.5"></i>
+                                                        {{ __('Sem responsável') }}
                                                     </button>
-                                                @endforeach
-                                            </div>
+                                                    <div class="h-px bg-slate-700/50 my-1"></div>
+                                                    @foreach($users as $user)
+                                                        <button @click.stop="open = false; $wire.assignTask({{ $task->id }}, {{ $user->id }})"
+                                                                class="w-full text-left px-2.5 py-1.5 text-[11px] rounded-md transition hover:bg-slate-700 {{ $task->user_id == $user->id ? 'text-indigo-400 bg-indigo-500/10 font-semibold' : 'text-slate-300 hover:text-white' }} flex items-center gap-2">
+                                                            <span class="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-300">
+                                                                {{ strtoupper(substr($user->name, 0, 2)) }}
+                                                            </span>
+                                                            <span class="truncate">{{ $user->name }}</span>
+                                                        </button>
+                                                    @endforeach
+                                                </div>
+                                            </template>
                                         </div>
 
                                         @php
@@ -518,27 +549,57 @@
                                                 'high' => __('Alta'),
                                             ];
                                         @endphp
-                                        <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                                            <button @click.stop="open = !open" 
+                                        <div class="relative" x-data="{
+                                            open: false,
+                                            coords: { top: 0, left: 0 },
+                                            update() {
+                                                if (!this.open || !this.$refs.trigger) return;
+                                                const rect = this.$refs.trigger.getBoundingClientRect();
+                                                this.coords.top = rect.bottom + window.scrollY;
+                                                this.coords.left = rect.right - (this.$refs.dropdown?.offsetWidth || 96) + window.scrollX;
+                                            },
+                                            init() {
+                                                const up = () => this.update();
+                                                this.$watch('open', value => {
+                                                    if (value) {
+                                                        this.$nextTick(() => {
+                                                            this.update();
+                                                            window.addEventListener('scroll', up, true);
+                                                            window.addEventListener('resize', up);
+                                                        });
+                                                    } else {
+                                                        window.removeEventListener('scroll', up, true);
+                                                        window.removeEventListener('resize', up);
+                                                    }
+                                                });
+                                            }
+                                        }">
+                                            <button x-ref="trigger"
+                                                    @click.stop="open = !open" 
                                                     title="{{ __('Clique para escolher a prioridade') }}"
                                                     class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md border transition-colors cursor-pointer {{ $priorityColors[$task->priority ?? 'medium'] }}">
                                                 {{ $priorityLabels[$task->priority ?? 'medium'] }}
                                             </button>
 
                                             <!-- Popover Menu -->
-                                            <div x-show="open" 
-                                                 x-transition:enter="transition ease-out duration-100"
-                                                 x-transition:enter-start="transform opacity-0 scale-95 translate-y-2"
-                                                 x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
-                                                 x-transition:leave="transition ease-in duration-75"
-                                                 x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
-                                                 x-transition:leave-end="transform opacity-0 scale-95 translate-y-2"
-                                                 class="absolute bottom-full right-0 mb-2 w-24 bg-slate-800 border border-slate-700 rounded-lg shadow-xl overflow-hidden z-20"
-                                                 style="display: none;">
-                                                <button @click.stop="$wire.setPriority({{ $task->id }}, 'high'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-slate-700 transition-colors border-b border-slate-700/50">{{ __('Alta') }}</button>
-                                                <button @click.stop="$wire.setPriority({{ $task->id }}, 'medium'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-amber-400 hover:bg-slate-700 transition-colors border-b border-slate-700/50">{{ __('Média') }}</button>
-                                                <button @click.stop="$wire.setPriority({{ $task->id }}, 'low'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-emerald-400 hover:bg-slate-700 transition-colors">{{ __('Baixa') }}</button>
-                                            </div>
+                                            <template x-teleport="body">
+                                                <div x-show="open" 
+                                                     x-ref="dropdown"
+                                                     @click.outside="open = false"
+                                                     x-transition:enter="transition ease-out duration-100"
+                                                     x-transition:enter-start="transform opacity-0 scale-95"
+                                                     x-transition:enter-end="transform opacity-100 scale-100"
+                                                     x-transition:leave="transition ease-in duration-75"
+                                                     x-transition:leave-start="transform opacity-100 scale-100"
+                                                     x-transition:leave-end="transform opacity-0 scale-95"
+                                                     :style="'position: absolute; z-index: 9999; top: ' + coords.top + 'px; left: ' + coords.left + 'px;'"
+                                                     class="w-24 bg-slate-800 border border-slate-700 rounded-lg shadow-xl overflow-hidden"
+                                                     style="display: none;">
+                                                    <button @click.stop="$wire.setPriority({{ $task->id }}, 'high'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-slate-700 transition-colors border-b border-slate-700/50">{{ __('Alta') }}</button>
+                                                    <button @click.stop="$wire.setPriority({{ $task->id }}, 'medium'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-amber-400 hover:bg-slate-700 transition-colors border-b border-slate-700/50">{{ __('Média') }}</button>
+                                                    <button @click.stop="$wire.setPriority({{ $task->id }}, 'low'); open = false" class="w-full text-left px-3 py-2 text-xs font-semibold text-emerald-400 hover:bg-slate-700 transition-colors">{{ __('Baixa') }}</button>
+                                                </div>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
