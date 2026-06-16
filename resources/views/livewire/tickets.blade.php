@@ -244,9 +244,21 @@
                     <button type="button" wire:click="closeCreateModal" class="rounded-xl bg-slate-800 p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
                 </div>
                 <div class="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
-                    <input wire:model="form.title" class="sm:col-span-2 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="{{ __('Título do chamado') }}">
-                    <input wire:model="form.requester_name" class="rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="{{ __('Solicitante') }}">
-                    <input wire:model="form.requester_email" class="rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="{{ __('E-mail') }}">
+                    <div class="sm:col-span-2 flex flex-col gap-1">
+                        <input wire:model="form.title" class="rounded-xl border @error('form.title') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none" placeholder="{{ __('Título do chamado') }}">
+                        @error('form.title') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <input wire:model="form.requester_name" class="rounded-xl border @error('form.requester_name') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none" placeholder="{{ __('Solicitante') }}">
+                        @error('form.requester_name') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <input wire:model="form.requester_email" class="rounded-xl border @error('form.requester_email') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none" placeholder="{{ __('E-mail') }}">
+                        @error('form.requester_email') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
+
                     <div class="relative" x-data="{ open: false }" @click.away="open = false">
                         <button type="button" @click="open = !open" class="flex w-full items-center justify-between gap-3 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-indigo-500/50" :class="{'border-indigo-500/70 text-white': open}">
                             <span class="truncate">{{ ['portal' => 'Portal', 'email' => 'E-mail', 'whatsapp' => 'WhatsApp', 'phone' => __('Telefone')][$form['origin']] ?? 'Portal' }}</span>
@@ -299,9 +311,18 @@
                             @endforeach
                         </div>
                     </div>
-                    <input type="date" wire:model="form.due_date" class="rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none">
-                    <input type="datetime-local" wire:model="form.sla_due_at" class="rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none">
-                    <textarea wire:model="form.description" class="sm:col-span-2 min-h-28 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none" placeholder="{{ __('Descrição do problema, contexto e expectativa') }}"></textarea>
+                    <div class="flex flex-col gap-1">
+                        <input type="date" wire:model="form.due_date" class="w-full rounded-xl border @error('form.due_date') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none">
+                        @error('form.due_date') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <input type="datetime-local" wire:model="form.sla_due_at" class="w-full rounded-xl border @error('form.sla_due_at') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none">
+                        @error('form.sla_due_at') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="sm:col-span-2 flex flex-col gap-1">
+                        <textarea wire:model="form.description" class="min-h-28 rounded-xl border @error('form.description') border-rose-500 focus:border-rose-500 @else border-slate-800 focus:border-indigo-500 @enderror bg-slate-950 px-3 py-2.5 text-sm text-white focus:outline-none" placeholder="{{ __('Descrição do problema, contexto e expectativa') }}"></textarea>
+                        @error('form.description') <span class="text-xs text-rose-500 px-1">{{ $message }}</span> @enderror
+                    </div>
                 </div>
                 <div class="flex justify-end gap-2 border-t border-slate-800 p-5">
                     <button type="button" wire:click="closeCreateModal" class="rounded-xl border border-slate-800 px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white">{{ __('Cancelar') }}</button>

@@ -60,6 +60,32 @@ class Tickets extends Component
         $this->showCreateModal = false;
     }
 
+    public function messages(): array
+    {
+        return [
+            'form.title.required' => __('O título do chamado é obrigatório.'),
+            'form.title.string' => __('O título do chamado deve ser um texto válido.'),
+            'form.title.max' => __('O título não pode ter mais de 255 caracteres.'),
+            'form.requester_name.string' => __('O nome do solicitante deve ser um texto válido.'),
+            'form.requester_name.max' => __('O nome do solicitante não pode ter mais de 255 caracteres.'),
+            'form.requester_email.email' => __('Por favor, insira um e-mail válido.'),
+            'form.requester_email.max' => __('O e-mail não pode ter mais de 255 caracteres.'),
+            'form.origin.required' => __('A origem do chamado é obrigatória.'),
+            'form.origin.string' => __('A origem do chamado deve ser um texto válido.'),
+            'form.origin.max' => __('A origem do chamado não pode ter mais de 50 caracteres.'),
+            'form.status.required' => __('O status do chamado é obrigatório.'),
+            'form.status.string' => __('O status do chamado deve ser um texto válido.'),
+            'form.status.max' => __('O status do chamado não pode ter mais de 50 caracteres.'),
+            'form.priority.required' => __('A prioridade do chamado é obrigatória.'),
+            'form.priority.string' => __('A prioridade do chamado deve ser um texto válido.'),
+            'form.priority.max' => __('A prioridade do chamado não pode ter mais de 50 caracteres.'),
+            'form.assignee_id.exists' => __('O responsável selecionado não é válido.'),
+            'form.board_id.exists' => __('O quadro selecionado não é válido.'),
+            'form.due_date.date' => __('A data de vencimento deve ser uma data válida.'),
+            'form.sla_due_at.date' => __('O SLA deve ser uma data/hora válida.'),
+        ];
+    }
+
     public function createTicket(): void
     {
         $validated = $this->validate([
