@@ -193,9 +193,44 @@ i[data-lucide] {
     border-color: rgba(2, 132, 199, 0.2) !important;
 }
 
-/* Modals */
-.theme-light .bg-slate-900 {
+/* Modals & Dropdown Containers */
+.theme-light .bg-slate-900,
+.theme-light .bg-slate-950\/60,
+.theme-light .bg-slate-900\/50,
+.theme-light .bg-slate-950\/70,
+.theme-light .absolute.bg-slate-950,
+.theme-light .absolute.bg-slate-800,
+.theme-light .fixed.bg-slate-900,
+.theme-light .fixed .bg-slate-900 {
     background-color: #ffffff !important;
+}
+
+.theme-light .bg-slate-950 {
+    background-color: #f8fafc !important; /* Page background */
+}
+
+/* Dropdown list items hover states (avoid camouflage) */
+.theme-light .absolute button:hover,
+.theme-light .absolute a:hover,
+.theme-light [x-show] button:hover,
+.theme-light [x-show] a:hover,
+.theme-light .hover\:bg-slate-800\/70:hover,
+.theme-light .hover\:bg-slate-700:hover,
+.theme-light button.hover\:bg-slate-800\/70:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Custom day cells, header, and grid for calendar in light mode */
+.theme-light .grid.bg-slate-800,
+.theme-light .grid.border-slate-800 {
+    background-color: #cbd5e1 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.theme-light .grid .bg-slate-900 {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
 }
 
 /* Scrollbars */
