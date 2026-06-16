@@ -483,7 +483,7 @@
                                     const cy = height / 2;
                                     ctx.save();
                                     ctx.font = 'bold 26px Outfit, sans-serif';
-                                    ctx.fillStyle = '#f8fafc';
+                                    ctx.fillStyle = document.documentElement.classList.contains('theme-light') ? '#0f172a' : '#f8fafc';
                                     ctx.textAlign = 'center';
                                     ctx.textBaseline = 'middle';
                                     ctx.fillText('{{ $total }}', cx, cy - 9);

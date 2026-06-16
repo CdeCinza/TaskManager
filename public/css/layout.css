@@ -28,3 +28,186 @@ body {
 i[data-lucide] {
     display: inline-block;
 }
+
+/* ==========================================================================
+   LIGHT THEME (CLEAN WHITE) OVERRIDES
+   ========================================================================== */
+
+.theme-light {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+.theme-light body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+/* Base backgrounds override */
+.theme-light .bg-slate-950 {
+    background-color: #f8fafc !important;
+}
+.theme-light .bg-slate-900 {
+    background-color: #ffffff !important;
+}
+.theme-light .bg-slate-900\/20,
+.theme-light .bg-slate-900\/50,
+.theme-light .bg-slate-900\/60,
+.theme-light .bg-slate-950\/40,
+.theme-light .bg-slate-950\/50 {
+    background-color: #f1f5f9 !important;
+}
+.theme-light .bg-slate-850,
+.theme-light .bg-slate-850\/80,
+.theme-light .bg-slate-800,
+.theme-light .bg-slate-800\/80,
+.theme-light .bg-slate-900\/60 {
+    background-color: #ffffff !important;
+}
+
+/* Input styles */
+.theme-light input,
+.theme-light textarea,
+.theme-light select {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+.theme-light input::placeholder,
+.theme-light textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Hover background states */
+.theme-light .hover\:bg-slate-850:hover,
+.theme-light .hover\:bg-slate-850\/80:hover,
+.theme-light .hover\:bg-slate-800\/60:hover,
+.theme-light .hover\:bg-slate-700:hover,
+.theme-light .hover\:bg-rose-500\/10:hover {
+    background-color: #f1f5f9 !important;
+}
+
+/* Borders */
+.theme-light .border-slate-950,
+.theme-light .border-slate-900,
+.theme-light .border-slate-900\/50,
+.theme-light .border-slate-800,
+.theme-light .border-slate-800\/80,
+.theme-light .border-slate-700,
+.theme-light .border-slate-700\/30,
+.theme-light .border-slate-700\/50,
+.theme-light .border-slate-700\/60,
+.theme-light .divide-slate-800 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #cbd5e1 !important;
+}
+
+/* Texts */
+.theme-light .text-slate-100,
+.theme-light .text-slate-200,
+.theme-light .text-white,
+.theme-light h1,
+.theme-light h2,
+.theme-light h3,
+.theme-light h4,
+.theme-light h5,
+.theme-light h6 {
+    color: #0f172a !important;
+}
+
+.theme-light .bg-clip-text {
+    background-image: none !important;
+    -webkit-text-fill-color: #0f172a !important;
+    color: #0f172a !important;
+}
+
+.theme-light .text-slate-300,
+.theme-light .text-slate-400 {
+    color: #475569 !important;
+}
+
+.theme-light .text-slate-500,
+.theme-light .text-slate-600 {
+    color: #64748b !important;
+}
+
+/* Navigation links */
+.theme-light a:not(.bg-indigo-600) {
+    color: #475569 !important;
+}
+.theme-light a:not(.bg-indigo-600):hover {
+    color: #0f172a !important;
+    background-color: #f1f5f9 !important;
+}
+
+/* Badges and tags adjustments */
+.theme-light .text-indigo-400,
+.theme-light .text-indigo-300 {
+    color: #4f46e5 !important;
+}
+.theme-light .bg-indigo-500\/10 {
+    background-color: rgba(79, 70, 229, 0.1) !important;
+}
+.theme-light .border-indigo-500\/20 {
+    border-color: rgba(79, 70, 229, 0.2) !important;
+}
+
+.theme-light .text-emerald-400 {
+    color: #16a34a !important;
+}
+.theme-light .bg-emerald-500\/10 {
+    background-color: rgba(22, 163, 74, 0.1) !important;
+}
+.theme-light .border-emerald-500\/20 {
+    border-color: rgba(22, 163, 74, 0.2) !important;
+}
+
+.theme-light .text-amber-400,
+.theme-light .text-amber-300 {
+    color: #d97706 !important;
+}
+.theme-light .bg-amber-500\/10 {
+    background-color: rgba(217, 119, 6, 0.1) !important;
+}
+.theme-light .border-amber-500\/20 {
+    border-color: rgba(217, 119, 6, 0.2) !important;
+}
+
+.theme-light .text-rose-400,
+.theme-light .text-rose-300 {
+    color: #dc2626 !important;
+}
+.theme-light .bg-rose-500\/10 {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+}
+.theme-light .border-rose-500\/20 {
+    border-color: rgba(220, 38, 38, 0.2) !important;
+}
+
+.theme-light .text-sky-400 {
+    color: #0284c7 !important;
+}
+.theme-light .bg-sky-500\/10 {
+    background-color: rgba(2, 132, 199, 0.1) !important;
+}
+.theme-light .border-sky-500\/20 {
+    border-color: rgba(2, 132, 199, 0.2) !important;
+}
+
+/* Modals */
+.theme-light .bg-slate-900 {
+    background-color: #ffffff !important;
+}
+
+/* Scrollbars */
+.theme-light ::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+.theme-light ::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.2) !important;
+}
+.theme-light ::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.4) !important;
+}
+.theme-light * {
+    scrollbar-color: rgba(99, 102, 241, 0.2) #f1f5f9 !important;
+}

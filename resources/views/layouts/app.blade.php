@@ -24,9 +24,66 @@
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
         @livewireStyles
+        <script>
+            // Apply theme configuration as early as possible to prevent flashing
+            (function() {
+                const theme = localStorage.getItem('theme') || 'dark';
+                if (theme === 'light') {
+                    document.documentElement.classList.add('theme-light');
+                }
+            })();
+        </script>
     </head>
     <body class="bg-slate-900 text-slate-100 antialiased overflow-hidden">
+        <script>
+            // Also apply to body immediately when it starts rendering
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('theme-light');
+            }
+        </script>
         {{ $slot }}
+
+        <!-- Theme Switcher floating button -->
+        <div class="fixed bottom-6 right-6 z-[9999]" x-data="{
+            theme: localStorage.getItem('theme') || 'dark',
+            toggle() {
+                this.theme = this.theme === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', this.theme);
+                if (this.theme === 'light') {
+                    document.documentElement.classList.add('theme-light');
+                    document.body.classList.add('theme-light');
+                } else {
+                    document.documentElement.classList.remove('theme-light');
+                    document.body.classList.remove('theme-light');
+                }
+                // If on dashboard, force re-initialization of charts to redraw texts with new colors
+                if (typeof window.Livewire !== 'undefined') {
+                    // Small delay to let class list update
+                    setTimeout(() => {
+                        const dashboardEl = document.querySelector('[x-data*=\'initChart\']');
+                        if (dashboardEl && dashboardEl.__x) {
+                            // Find the initChart method if available and call it
+                            const xData = dashboardEl.__x.$data;
+                            if (xData && typeof xData.initChart === 'function' && xData.view === 'pie') {
+                                xData.initChart();
+                            }
+                        }
+                    }, 50);
+                }
+            }
+        }">
+            <button @click="toggle()" 
+                    title="{{ __('Alternar Tema') }}"
+                    class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 shadow-2xl backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 group">
+                <span x-show="theme === 'dark'">
+                    <i data-lucide="sun" class="w-5 h-5 text-amber-400"></i>
+                </span>
+                <span x-show="theme === 'light'" style="display: none;">
+                    <i data-lucide="moon" class="w-5 h-5 text-indigo-600"></i>
+                </span>
+            </button>
+        </div>
+
         @livewireScripts
         <script src="{{ asset('js/board.js') }}"></script>
     </body>
