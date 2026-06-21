@@ -1,9 +1,9 @@
-# Taskly - Task Management, Kanban and Agenda
+# Taskly - Gerenciador de Tarefas, Kanban, Agenda e Helpdesk
 
-Taskly is a personal portfolio project created by **Matheus Marques Fernandes Vieira**.  
-It is a task management web application focused on Kanban organization, analytical dashboards, weekly planning and calendar-based due dates.
+Taskly e um projeto pessoal de portfolio criado por **Matheus Marques**.  
+E uma aplicacao web desenvolvida para explorar e demonstrar habilidades com PHP, Laravel, MySQL, Livewire, modelagem relacional e interfaces reativas com foco em produto.
 
-[GitHub](https://github.com/CdeCinza) · [LinkedIn](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
+[GitHub](https://github.com/CdeCinza) | [LinkedIn](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
 
 ---
 
@@ -11,7 +11,7 @@ It is a task management web application focused on Kanban organization, analytic
 
 ### Sobre o projeto
 
-O **Taskly** e um gerenciador de tarefas desenvolvido como projeto de portfolio, com foco em demonstrar dominio de Laravel, Livewire, interfaces reativas, organizacao de dados e experiencia de usuario.
+O **Taskly** e um projeto pessoal de portfolio desenvolvido para explorar, praticar e demonstrar minhas habilidades com PHP, Laravel, MySQL, Livewire, interfaces reativas, modelagem relacional, organizacao de dados e experiencia de usuario.
 
 A proposta do projeto e simular uma ferramenta moderna de produtividade, combinando:
 
@@ -19,10 +19,12 @@ A proposta do projeto e simular uma ferramenta moderna de produtividade, combina
 - Central de chamados (helpdesk) para suporte e atendimento.
 - Dashboard com indicadores, atividades, chamados pendentes e dados acionaveis.
 - Agenda/calendario para acompanhar prazos.
+- Relatorios operacionais para acompanhar produtividade e resolucao.
+- Anexos em tarefas e chamados, incluindo imagens, PDFs e documentos.
 - Fluxo de autenticacao.
-- Organizacao por quadros, colunas, tarefas, prioridades, responsaveis, subtarefas e chamados.
+- Organizacao por quadros, colunas, tarefas, prioridades, responsaveis, subtarefas, chamados, checklists, atividades e anexos.
 
-O objetivo e apresentar um projeto completo, visualmente bem acabado e com funcionalidades proximas de um produto real.
+O objetivo e apresentar um projeto completo, visualmente bem acabado e com funcionalidades proximas de um produto real, mostrando minha evolucao pratica no ecossistema PHP/Laravel.
 
 ### Funcionalidades
 
@@ -43,6 +45,7 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
 - Responsavel por tarefa.
 - Subtarefas com progresso.
 - Data de vencimento.
+- Anexos em tarefas com suporte a imagens, PDFs e documentos.
 - Central de Chamados (`/tickets`):
   - Quadro Kanban de chamados separado por status (Aberto, Em atendimento, Aguardando, Resolvido).
   - Controle de prazos e prazos de SLA (com alerta visual para SLA vencido ou em risco).
@@ -50,9 +53,12 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
   - Informacoes completas de solicitante (nome, e-mail) e origem do chamado (portal, e-mail, whatsapp, telefone).
   - Checklist operacional interno por chamado com progresso dinâmico (%).
   - Busca de chamados por titulo ou solicitante e filtros por status e prioridade.
+  - Upload, listagem, abertura e exclusao de anexos em chamados, incluindo PDFs e documentos.
 - Agenda em `/calendar` com visualizacao mensal, semanal e em lista.
+- Relatorios em `/reports` com indicadores por periodo, desempenho por membros, graficos e opcao de exportar/imprimir como PDF pelo navegador.
 - Filtros por prioridade e quadro.
 - Interface dark responsiva.
+- Alternancia visual de tema.
 - Identidade visual propria com logo e favicon.
 - Suporte visual a PT, EN e ES.
 
@@ -61,7 +67,7 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
 - **Backend:** PHP 8.3, Laravel 13, Eloquent ORM.
 - **Frontend:** Livewire 4, Alpine.js, Tailwind CSS 4, Vite.
 - **UI/UX:** Lucide Icons, SweetAlert2, SortableJS, Chart.js.
-- **Banco de dados:** SQLite por padrao, podendo ser adaptado para MySQL/PostgreSQL.
+- **Banco de dados:** MySQL como banco principal em ambiente local, podendo ser adaptado para SQLite/PostgreSQL.
 
 ### Como executar localmente
 
@@ -70,7 +76,7 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
 - PHP 8.3+
 - Composer
 - Node.js e NPM
-- SQLite ou outro banco configurado no `.env`
+- MySQL ou outro banco configurado no `.env`
 
 #### Passos
 
@@ -107,6 +113,12 @@ Depois execute:
 php artisan migrate --seed
 ```
 
+Crie tambem o link publico de storage para abrir anexos enviados:
+
+```bash
+php artisan storage:link
+```
+
 Para iniciar o ambiente de desenvolvimento:
 
 ```bash
@@ -131,10 +143,10 @@ Senha: password
 
 ### Autor
 
-Desenvolvido por **Matheus Marques Fernandes Vieira**.
+Desenvolvido por **Matheus Marques**.
 
 - GitHub: [github.com/CdeCinza](https://github.com/CdeCinza)
-- LinkedIn: [matheus-marques-fernandes-vieiracln](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
+- LinkedIn: [Matheus Marques](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
 
 ---
 
@@ -142,8 +154,8 @@ Desenvolvido por **Matheus Marques Fernandes Vieira**.
 
 ### About the project
 
-**Taskly** is a task management application built as a portfolio project by **Matheus Marques Fernandes Vieira**.  
-It was designed to demonstrate practical experience with Laravel, Livewire, reactive interfaces, relational data modeling and product-oriented UI design.
+**Taskly** is a personal portfolio project built by **Matheus Marques**.  
+It was designed to explore and demonstrate practical experience with PHP, Laravel, MySQL, Livewire, reactive interfaces, relational data modeling and product-oriented UI design.
 
 The project simulates a modern productivity tool by combining:
 
@@ -151,8 +163,10 @@ The project simulates a modern productivity tool by combining:
 - Helpdesk / support ticketing system.
 - Analytical and actionable dashboard with task metrics, recent activities, and ticket SLA overviews.
 - Calendar and agenda for task deadlines.
+- Operational reports for productivity and resolution tracking.
+- Attachments for tasks and tickets, including images, PDFs and documents.
 - Authentication flow.
-- Relational structure with boards, columns, tasks, priorities, assignees, subtasks, and support tickets.
+- Relational structure with boards, columns, tasks, priorities, assignees, subtasks, support tickets, checklists, activities and attachments.
 
 The goal is to present a complete, polished and realistic web application.
 
@@ -175,6 +189,7 @@ The goal is to present a complete, polished and realistic web application.
 - Task assignee.
 - Subtasks with progress tracking.
 - Due dates.
+- Task attachments with support for images, PDFs and documents.
 - Helpdesk / Ticket Management (`/tickets`):
   - Support ticket Kanban board categorized by status (Open, In progress, Waiting, Resolved).
   - SLA tracking and deadline warnings (with visual indicators for breached or at-risk SLAs).
@@ -182,9 +197,12 @@ The goal is to present a complete, polished and realistic web application.
   - Requester information (name, email) and ticket origin (portal, email, whatsapp, phone).
   - Internal operational checklist per ticket with live progress tracker (%).
   - Ticket search by title or requester, plus filters by status and priority.
+  - Upload, list, open and delete ticket attachments, including PDFs and documents.
 - Calendar page at `/calendar` with monthly, weekly and list views.
+- Reports page at `/reports` with period-based indicators, member performance, charts and browser PDF/print export.
 - Filters by priority and board.
 - Responsive dark interface.
+- Visual theme toggle.
 - Custom visual identity with logo and favicon.
 - Visual support for Portuguese, English and Spanish.
 
@@ -193,7 +211,7 @@ The goal is to present a complete, polished and realistic web application.
 - **Backend:** PHP 8.3, Laravel 13, Eloquent ORM.
 - **Frontend:** Livewire 4, Alpine.js, Tailwind CSS 4, Vite.
 - **UI/UX:** Lucide Icons, SweetAlert2, SortableJS, Chart.js.
-- **Database:** SQLite by default, adaptable to MySQL/PostgreSQL.
+- **Database:** MySQL as the main local database, adaptable to SQLite/PostgreSQL.
 
 ### Running locally
 
@@ -202,7 +220,7 @@ The goal is to present a complete, polished and realistic web application.
 - PHP 8.3+
 - Composer
 - Node.js and NPM
-- SQLite or another database configured in `.env`
+- MySQL or another database configured in `.env`
 
 #### Steps
 
@@ -239,6 +257,12 @@ Then run:
 php artisan migrate --seed
 ```
 
+Create the public storage link so uploaded attachments can be opened:
+
+```bash
+php artisan storage:link
+```
+
 Start the development servers:
 
 ```bash
@@ -263,10 +287,10 @@ Password: password
 
 ### Author
 
-Developed by **Matheus Marques Fernandes Vieira**.
+Developed by **Matheus Marques**.
 
 - GitHub: [github.com/CdeCinza](https://github.com/CdeCinza)
-- LinkedIn: [matheus-marques-fernandes-vieiracln](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
+- LinkedIn: [Matheus Marques](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
 
 ---
 
@@ -274,8 +298,8 @@ Developed by **Matheus Marques Fernandes Vieira**.
 
 ### Sobre el proyecto
 
-**Taskly** es una aplicacion de gestion de tareas creada como proyecto de portafolio por **Matheus Marques Fernandes Vieira**.  
-Fue desarrollada para demostrar experiencia practica con Laravel, Livewire, interfaces reactivas, modelado de datos relacionales y diseno de interfaces orientadas a producto.
+**Taskly** es un proyecto personal de portafolio creado por **Matheus Marques**.  
+Fue desarrollado para explorar y demostrar experiencia practica con PHP, Laravel, MySQL, Livewire, interfaces reactivas, modelado de datos relacionales y diseno de interfaces orientadas a producto.
 
 La propuesta del proyecto es simular una herramienta moderna de productividad, combinando:
 
@@ -283,8 +307,10 @@ La propuesta del proyecto es simular una herramienta moderna de productividad, c
 - Central de tickets (helpdesk) para soporte y servicio.
 - Dashboard analitico y accionable con indicadores, actividades, tickets pendientes y mas.
 - Agenda/calendario para fechas de vencimiento.
+- Reportes operacionales para acompanar productividad y resolucion.
+- Adjuntos en tareas y tickets, incluyendo imagenes, PDFs y documentos.
 - Flujo de autenticacion.
-- Estructura relacional con tableros, columnas, tareas, prioridades, responsables, subtareas y tickets.
+- Estructura relacional con tableros, columnas, tareas, prioridades, responsables, subtareas, tickets, checklists, actividades y adjuntos.
 
 El objetivo es presentar una aplicacion completa, pulida y cercana a un producto real.
 
@@ -307,6 +333,7 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
 - Responsable por tarea.
 - Subtareas con seguimiento de progreso.
 - Fechas de vencimiento.
+- Adjuntos en tareas con soporte para imagenes, PDFs y documentos.
 - Gestion de Tickets / Helpdesk (`/tickets`):
   - Tablero Kanban de tickets categorizado por estado (Abierto, En atencion, Esperando, Resuelto).
   - Control de plazos y vencimientos de SLA (con alertas visuales para SLA vencido o en riesgo).
@@ -314,9 +341,12 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
   - Informacion completa del solicitante (nombre, correo) y origen del ticket (portal, correo, whatsapp, telefono).
   - Checklist operacional interno por ticket con progreso dinámico (%).
   - Busqueda de tickets por titulo o solicitante y filtros por estado y prioridad.
+  - Carga, listado, apertura y eliminacion de adjuntos en tickets, incluyendo PDFs y documentos.
 - Pagina de agenda en `/calendar` con vistas mensual, semanal y de lista.
+- Pagina de reportes en `/reports` con indicadores por periodo, desempeno por miembros, graficos y opcion de exportar/imprimir como PDF desde el navegador.
 - Filtros por prioridad y tablero.
 - Interfaz dark responsiva.
+- Alternancia visual de tema.
 - Identidad visual propia con logo y favicon.
 - Soporte visual para portugues, ingles y espanol.
 
@@ -325,7 +355,7 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
 - **Backend:** PHP 8.3, Laravel 13, Eloquent ORM.
 - **Frontend:** Livewire 4, Alpine.js, Tailwind CSS 4, Vite.
 - **UI/UX:** Lucide Icons, SweetAlert2, SortableJS, Chart.js.
-- **Base de datos:** SQLite por defecto, adaptable a MySQL/PostgreSQL.
+- **Base de datos:** MySQL como base principal en ambiente local, adaptable a SQLite/PostgreSQL.
 
 ### Como ejecutar localmente
 
@@ -334,7 +364,7 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
 - PHP 8.3+
 - Composer
 - Node.js y NPM
-- SQLite u otra base de datos configurada en `.env`
+- MySQL u otra base de datos configurada en `.env`
 
 #### Pasos
 
@@ -371,6 +401,12 @@ Luego ejecuta:
 php artisan migrate --seed
 ```
 
+Crea tambien el enlace publico de storage para abrir los adjuntos enviados:
+
+```bash
+php artisan storage:link
+```
+
 Para iniciar el entorno de desarrollo:
 
 ```bash
@@ -395,10 +431,10 @@ Contrasena: password
 
 ### Autor
 
-Desarrollado por **Matheus Marques Fernandes Vieira**.
+Desarrollado por **Matheus Marques**.
 
 - GitHub: [github.com/CdeCinza](https://github.com/CdeCinza)
-- LinkedIn: [matheus-marques-fernandes-vieiracln](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
+- LinkedIn: [Matheus Marques](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
 
 ---
 
