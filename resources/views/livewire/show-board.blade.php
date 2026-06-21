@@ -41,6 +41,12 @@
                     <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
                     <span class="flex-1">{{ __('Chamados') }}</span>
                 </a>
+
+                <a href="{{ route('reports') }}" wire:navigate
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Relatórios') }}</span>
+                </a>
             </div>
 
             <!-- Boards Section -->
@@ -106,7 +112,7 @@
                         {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
                     </div>
                     <div class="overflow-hidden">
-                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? 'Usuário' }}</h4>
+                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? __('Usuário') }}</h4>
                         <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
                     </div>
                 </div>
@@ -121,7 +127,7 @@
             <!-- Dev Credits -->
             <div class="hidden sm:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
                 <p class="text-[10px] text-slate-500 font-medium">
-                    {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
+                    {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques</span>
                 </p>
                 <div class="flex items-center gap-2 mt-0.5">
                     <a href="https://github.com/CdeCinza" target="_blank" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-[10px] font-semibold group">
@@ -630,7 +636,7 @@
     <!-- TASK DETAILS MODAL -->
     @if($showTaskModal && $selectedTask)
         <div wire:key="modal-{{ $selectedTask->id }}"
-             class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm" 
+             class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80" 
              x-data
              x-init="$nextTick(() => window.lucide.createIcons())">
             
@@ -744,6 +750,74 @@
                                 {{ __('Clica fora para salvar') }}
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Attachments Section -->
+                    <div class="flex flex-col gap-3" x-data="{ isDragging: false }">
+                        <div class="flex items-center gap-2 text-slate-200">
+                            <i data-lucide="paperclip" class="w-4 h-4 text-slate-400" wire:ignore></i>
+                            <h3 class="font-semibold text-sm">{{ __('Anexos') }}</h3>
+                        </div>
+
+                        <!-- Drag and Drop Zone -->
+                        <div class="relative border-2 border-dashed rounded-xl p-6 transition-all duration-200 flex flex-col items-center justify-center text-center cursor-pointer"
+                             :class="isDragging ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-800 bg-slate-950/20 hover:border-slate-700'"
+                             x-on:dragover.prevent="isDragging = true"
+                             x-on:dragleave.prevent="isDragging = false"
+                             x-on:drop.prevent="isDragging = false; @this.uploadMultiple('newAttachments', $event.dataTransfer.files, () => { $wire.uploadAttachments(); }, () => { typeof Swal !== 'undefined' ? Swal.fire({ title: 'Erro de Upload', text: 'Não foi possível fazer o upload. Verifique se o arquivo não excede o limite de tamanho.', icon: 'error', confirmButtonColor: '#4f46e5', background: '#1e293b', color: '#f8fafc', customClass: { popup: 'border border-slate-700 shadow-xl rounded-2xl' } }) : alert('Erro ao fazer upload.'); })">
+                            
+                            <input type="file" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                   x-on:change="@this.uploadMultiple('newAttachments', $event.target.files, () => { $wire.uploadAttachments(); }, () => { typeof Swal !== 'undefined' ? Swal.fire({ title: 'Erro de Upload', text: 'Não foi possível fazer o upload. Verifique se o arquivo não excede o limite de tamanho.', icon: 'error', confirmButtonColor: '#4f46e5', background: '#1e293b', color: '#f8fafc', customClass: { popup: 'border border-slate-700 shadow-xl rounded-2xl' } }) : alert('Erro ao fazer upload.'); }); $event.target.value = ''" />
+
+                            <i data-lucide="upload-cloud" class="w-8 h-8 text-slate-500 mb-2"></i>
+                            <p class="text-xs text-slate-300 font-semibold">{{ __('Arraste arquivos aqui ou clique para fazer upload') }}</p>
+                            <p class="text-[10px] text-slate-500 mt-1">{{ __('Qualquer imagem, PDF ou documento (máx. 10MB)') }}</p>
+                            
+                            <!-- Loading indicator -->
+                            <div wire:loading wire:target="newAttachments" class="absolute inset-0 bg-slate-900/80 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold text-indigo-400">
+                                <i data-lucide="loader" class="w-4 h-4 animate-spin"></i>
+                                <span>{{ __('Fazendo upload...') }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Attachments List -->
+                        @if($selectedTask->attachments && $selectedTask->attachments->count() > 0)
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
+                                @foreach($selectedTask->attachments as $attachment)
+                                    <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-950/40 group hover:border-slate-700 transition">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            @if(str_starts_with($attachment->mime_type, 'image/'))
+                                                <a href="{{ $attachment->url }}" target="_blank" class="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-slate-800 flex items-center justify-center bg-slate-900">
+                                                    <img src="{{ $attachment->url }}" alt="{{ $attachment->name }}" class="object-cover w-full h-full">
+                                                </a>
+                                            @else
+                                                <div class="w-10 h-10 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0">
+                                                    @if(str_contains($attachment->mime_type, 'pdf'))
+                                                        <i data-lucide="file-text" class="w-5 h-5 text-rose-400"></i>
+                                                    @elseif(str_contains($attachment->mime_type, 'zip') || str_contains($attachment->mime_type, 'rar'))
+                                                        <i data-lucide="file-archive" class="w-5 h-5 text-amber-400"></i>
+                                                    @else
+                                                        <i data-lucide="file" class="w-5 h-5 text-indigo-400"></i>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                            
+                                            <div class="min-w-0">
+                                                <a href="{{ $attachment->url }}" target="_blank" class="text-xs font-semibold text-slate-300 hover:text-white truncate block hover:underline" title="{{ $attachment->name }}">
+                                                    {{ $attachment->name }}
+                                                </a>
+                                                <span class="text-[10px] text-slate-500 block">{{ $attachment->formatted_size }}</span>
+                                            </div>
+                                        </div>
+
+                                        <button x-data x-on:click.stop="confirmAction('{{ __('Excluir este anexo?') }}', () => $wire.deleteAttachment({{ $attachment->id }}), '{{ __('Atenção') }}', '{{ __('Excluir') }}', '{{ __('Cancelar') }}')"
+                                                class="text-slate-500 hover:text-rose-400 p-1.5 rounded transition hover:bg-rose-500/10 shrink-0">
+                                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Subtasks Section -->
@@ -867,7 +941,7 @@
 
     <!-- TRASH MODAL -->
     @if($showTrashModal)
-        <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm"
+        <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80"
              x-data
              x-init="$nextTick(() => window.lucide.createIcons())">
             

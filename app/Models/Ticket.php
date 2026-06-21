@@ -61,4 +61,9 @@ class Ticket extends Model
 
         return (int) round(($this->checklistItems->where('is_completed', true)->count() / $total) * 100);
     }
+
+    public function attachments(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
 }

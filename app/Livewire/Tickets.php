@@ -7,9 +7,11 @@ use App\Models\Ticket;
 use App\Models\TicketChecklistItem;
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Tickets extends Component
 {
+    use WithFileUploads;
     public $userBoards = [];
     public $users = [];
     public string $filterStatus = '';
@@ -18,6 +20,7 @@ class Tickets extends Component
     public $selectedTicket = null;
     public bool $showCreateModal = false;
     public string $newChecklistItem = '';
+    public $newAttachments = [];
 
     public array $form = [
         'title' => '',
@@ -123,7 +126,7 @@ class Tickets extends Component
     public function openTicket(int $ticketId): void
     {
         $this->selectedTicket = $this->baseTicketQuery()
-            ->with(['assignee', 'board', 'checklistItems'])
+            ->with(['assignee', 'board', 'checklistItems', 'attachments'])
             ->find($ticketId);
     }
 
@@ -131,6 +134,57 @@ class Tickets extends Component
     {
         $this->selectedTicket = null;
         $this->newChecklistItem = '';
+        $this->newAttachments = [];
+    }
+
+    public function uploadAttachments(): void
+    {
+        if (!$this->selectedTicket) {
+            return;
+        }
+
+        $this->validate([
+            'newAttachments' => ['required', 'array'],
+            'newAttachments.*' => ['required', 'file', 'max:10240'], // 10MB max
+        ]);
+
+        $ticket = Ticket::query()
+            ->where('user_id', auth()->id())
+            ->find($this->selectedTicket->id);
+
+        if (!$ticket) {
+            $this->closeTicket();
+            return;
+        }
+
+        foreach ($this->newAttachments as $file) {
+            $path = $file->store('attachments', 'public');
+
+            $ticket->attachments()->create([
+                'name' => $file->getClientOriginalName(),
+                'path' => $path,
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'user_id' => auth()->id(),
+            ]);
+        }
+
+        $this->newAttachments = [];
+        $this->resetValidation('newAttachments');
+        $this->openTicket($ticket->id);
+    }
+
+    public function deleteAttachment($attachmentId)
+    {
+        if (!$this->selectedTicket || $this->selectedTicket->user_id !== auth()->id()) return;
+
+        $attachment = $this->selectedTicket->attachments()->findOrFail($attachmentId);
+        
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($attachment->path);
+        
+        $attachment->delete();
+
+        $this->refreshSelectedTicket();
     }
 
     public function updateTicketField(string $field, $value): void

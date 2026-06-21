@@ -3,12 +3,15 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 use App\Models\Board;
 use App\Models\Task;
+use App\Models\Attachment;
 
 class ShowBoard extends Component
 {
+    use WithFileUploads;
     public Board $board;
     public $userBoards = [];
     public $newBoardTitle = '';
@@ -25,6 +28,7 @@ class ShowBoard extends Component
     public $editingDescription = '';
     public $editingDueDate = '';
     public $showTrashModal = false;
+    public $newAttachments = [];
 
     public function mount(Board $board)
     {
@@ -48,7 +52,7 @@ class ShowBoard extends Component
     public function renameBoard($newTitle)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         if (empty(trim((string)$newTitle))) return;
@@ -63,7 +67,7 @@ class ShowBoard extends Component
     public function createColumn()
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         if (empty(trim((string)$this->newColumnTitle))) return;
@@ -81,7 +85,7 @@ class ShowBoard extends Component
     public function createTask($columnId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $title = $this->newTaskTitle[$columnId] ?? '';
@@ -114,7 +118,7 @@ class ShowBoard extends Component
     public function deleteColumn($columnId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $column = $this->board->columns()->findOrFail($columnId);
@@ -124,7 +128,7 @@ class ShowBoard extends Component
     public function deleteTask($taskId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $task = Task::whereHas('column', function($query) {
@@ -137,7 +141,7 @@ class ShowBoard extends Component
     public function setPriority($taskId, $priority)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $validPriorities = ['low', 'medium', 'high'];
@@ -153,7 +157,7 @@ class ShowBoard extends Component
     public function assignTask($taskId, $userId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $task = Task::whereHas('column', function($query) {
@@ -166,10 +170,10 @@ class ShowBoard extends Component
     public function openTaskModal($taskId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
-        $this->selectedTask = Task::with(['subtasks', 'activities.user'])->whereHas('column', function($query) {
+        $this->selectedTask = Task::with(['subtasks', 'activities.user', 'attachments'])->whereHas('column', function($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
         
@@ -185,6 +189,45 @@ class ShowBoard extends Component
         $this->newSubtaskTitle = '';
         $this->editingDescription = '';
         $this->editingDueDate = '';
+        $this->newAttachments = [];
+    }
+
+    public function uploadAttachments()
+    {
+        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+
+        $this->validate([
+            'newAttachments.*' => 'required|max:10240', // 10MB max per file
+        ]);
+
+        foreach ($this->newAttachments as $file) {
+            $path = $file->store('attachments', 'public');
+
+            $this->selectedTask->attachments()->create([
+                'name' => $file->getClientOriginalName(),
+                'path' => $path,
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'user_id' => auth()->id(),
+            ]);
+        }
+
+        $this->newAttachments = [];
+        $this->selectedTask->load('attachments');
+    }
+
+    public function deleteAttachment($attachmentId)
+    {
+        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+
+        $attachment = $this->selectedTask->attachments()->findOrFail($attachmentId);
+        
+        // Remove physical file
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($attachment->path);
+        
+        $attachment->delete();
+
+        $this->selectedTask->load('attachments');
     }
 
     public function updateTaskDescription()
@@ -248,7 +291,7 @@ class ShowBoard extends Component
     public function exportCsv()
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $fileName = 'export_' . str($this->board->title)->slug() . '_' . now()->format('Ymd_His') . '.csv';
@@ -272,7 +315,17 @@ class ShowBoard extends Component
             fputs($file, "\xEF\xBB\xBF");
 
             // Header row
-            fputcsv($file, ['Coluna', 'Tarefa', 'Descrição', 'Prioridade', 'Responsável', 'Subtarefas Concluídas', 'Total Subtarefas', 'Prazo', 'Criado Em'], ';');
+            fputcsv($file, [
+                __('Coluna'),
+                __('Tarefa'),
+                __('Descrição'),
+                __('Prioridade'),
+                __('Responsável'),
+                __('Subtarefas Concluídas'),
+                __('Total Subtarefas'),
+                __('Prazo'),
+                __('Criado Em'),
+            ], ';');
 
             $priorities = ['low' => 'Baixa', 'medium' => 'Média', 'high' => 'Alta'];
 
@@ -282,14 +335,14 @@ class ShowBoard extends Component
                     $totalSubtasks = $task->subtasks->count();
                     
                     fputcsv($file, [
-                        $column->title,
+                        __($column->title),
                         $task->title,
                         $task->description ?? '',
-                        $priorities[$task->priority ?? 'medium'] ?? 'Média',
-                        $task->assignee ? $task->assignee->name : 'Ninguém',
+                        __($priorities[$task->priority ?? 'medium'] ?? 'Média'),
+                        $task->assignee ? $task->assignee->name : __('Ninguém'),
                         $completedSubtasks,
                         $totalSubtasks,
-                        $task->due_date ? $task->due_date->format('d/m/Y') : 'Sem prazo',
+                        $task->due_date ? $task->due_date->format('d/m/Y') : __('Sem prazo'),
                         $task->created_at->format('d/m/Y H:i'),
                     ], ';');
                 }
@@ -314,7 +367,7 @@ class ShowBoard extends Component
     public function restoreTask($taskId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $task = Task::onlyTrashed()->whereHas('column', function($query) {
@@ -327,7 +380,7 @@ class ShowBoard extends Component
     public function forceDeleteTask($taskId)
     {
         if ($this->board->user_id !== auth()->id()) {
-            abort(403, 'Ação não autorizada.');
+            abort(403, __('Ação não autorizada.'));
         }
 
         $task = Task::onlyTrashed()->whereHas('column', function($query) {
