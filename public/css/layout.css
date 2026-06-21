@@ -114,6 +114,30 @@ i[data-lucide] {
     color: #0f172a !important;
 }
 
+/* Ensure that active items, buttons, avatars, and gradients retain white text/icons in light mode */
+.theme-light .bg-indigo-600,
+.theme-light .bg-indigo-600 *,
+.theme-light .bg-indigo-700,
+.theme-light .bg-indigo-700 *,
+.theme-light .bg-indigo-650,
+.theme-light .bg-indigo-650 *,
+.theme-light .bg-indigo-500,
+.theme-light .bg-indigo-500 *,
+.theme-light .bg-emerald-500,
+.theme-light .bg-emerald-500 *,
+.theme-light .bg-amber-500,
+.theme-light .bg-amber-500 *,
+.theme-light .bg-rose-500,
+.theme-light .bg-rose-500 *,
+.theme-light .bg-sky-500,
+.theme-light .bg-sky-500 *,
+.theme-light .bg-violet-500,
+.theme-light .bg-violet-500 *,
+.theme-light .bg-gradient-to-tr,
+.theme-light .bg-gradient-to-tr * {
+    color: #ffffff !important;
+}
+
 .theme-light .bg-clip-text {
     background-image: none !important;
     -webkit-text-fill-color: #0f172a !important;
@@ -245,4 +269,42 @@ i[data-lucide] {
 }
 .theme-light * {
     scrollbar-color: rgba(99, 102, 241, 0.2) #f1f5f9 !important;
+}
+
+/* Print CSS optimization for Reports PDF export */
+@media print {
+    body, html, main, .flex {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Hide layout chrome */
+    aside, 
+    header button, 
+    .fixed, 
+    .print\:hidden {
+        display: none !important;
+    }
+
+    /* Print layout tweaks */
+    main {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .shadow-lg, .shadow-2xl {
+        box-shadow: none !important;
+    }
+
+    .border {
+        border-color: #e2e8f0 !important;
+    }
+
+    /* Page breaks */
+    .page-break-inside-avoid {
+        page-break-inside: avoid !important;
+    }
 }

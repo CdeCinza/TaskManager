@@ -5,6 +5,7 @@ use App\Livewire\ShowBoard;
 use App\Livewire\Dashboard;
 use App\Livewire\Calendar;
 use App\Livewire\Tickets;
+use App\Livewire\Reports;
 use App\Models\Board;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,7 @@ Route::get('/', function () {
 Route::get('/dashboard', Dashboard::class)->name('dashboard')->middleware('auth');
 Route::get('/calendar', Calendar::class)->name('calendar')->middleware('auth');
 Route::get('/tickets', Tickets::class)->name('tickets')->middleware('auth');
+Route::get('/reports', Reports::class)->name('reports')->middleware('auth');
 
 Route::get('/board/{board}', ShowBoard::class)->name('board.show')->middleware('auth');
 
