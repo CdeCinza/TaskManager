@@ -30,6 +30,10 @@
                     <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
                     <span class="flex-1">{{ __('Chamados') }}</span>
                 </a>
+                <a href="{{ route('reports') }}" wire:navigate class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
+                    <span class="flex-1">{{ __('Relatórios') }}</span>
+                </a>
             </div>
 
             <div class="hidden sm:flex flex-col gap-3">
@@ -54,7 +58,7 @@
                         {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
                     </div>
                     <div class="overflow-hidden">
-                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? 'Usuário' }}</h4>
+                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? __('Usuário') }}</h4>
                         <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? '' }}</p>
                     </div>
                 </div>
@@ -69,7 +73,7 @@
             <!-- Dev Credits -->
             <div class="hidden sm:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
                 <p class="text-[10px] text-slate-500 font-medium">
-                    {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
+                    {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques</span>
                 </p>
                 <div class="flex items-center gap-2 mt-0.5">
                     <a href="https://github.com/CdeCinza" target="_blank" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-[10px] font-semibold group">
@@ -288,7 +292,7 @@
     </main>
 
     @if($selectedTask)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4">
             <div class="w-full max-w-lg rounded-2xl border border-slate-700/70 bg-slate-900 shadow-2xl">
                 <div class="flex items-start justify-between gap-4 border-b border-slate-800 p-5">
                     <div class="min-w-0">
@@ -321,7 +325,7 @@
     @endif
 
     @if($selectedTicket)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4">
             <div class="w-full max-w-lg rounded-2xl border border-slate-700/70 bg-slate-900 shadow-2xl">
                 <div class="flex items-start justify-between gap-4 border-b border-slate-800 p-5">
                     <div class="min-w-0">

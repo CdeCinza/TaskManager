@@ -36,7 +36,12 @@ document.addEventListener('livewire:init', () => {
     }
 });
 
-window.confirmAction = function(message, callback, title = 'Atenção', confirmText = 'Sim, confirmar!', cancelText = 'Cancelar') {
+window.confirmAction = function(message, callback, title, confirmText, cancelText) {
+    const i18n = window.TasklyI18n || {};
+    title = title || i18n.attention || 'Attention';
+    confirmText = confirmText || i18n.confirm || 'Yes, confirm!';
+    cancelText = cancelText || i18n.cancel || 'Cancel';
+
     if (typeof Swal !== 'undefined') {
         Swal.fire({
             title: title,

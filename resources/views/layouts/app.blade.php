@@ -17,6 +17,13 @@
         <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
         
         <!-- Script Configuration & Core Libraries -->
+        <script>
+            window.TasklyI18n = {
+                attention: @json(__('Atenção')),
+                confirm: @json(__('Sim, confirmar!')),
+                cancel: @json(__('Cancelar')),
+            };
+        </script>
         <script src="{{ asset('js/layout.js') }}"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
