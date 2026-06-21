@@ -284,7 +284,7 @@
             <!-- Dev Credits Footer -->
             <div class="mt-8 pt-6 border-t border-slate-900/60 text-center">
                 <p class="text-xs text-slate-500">
-                    Desenvolvido por <span class="text-slate-300 font-semibold">Matheus Marques Fernandes Vieira</span>
+                    Desenvolvido por <span class="text-slate-300 font-semibold">Matheus Marques</span>
                 </p>
                 <div class="flex items-center justify-center gap-3 mt-3">
                     <a href="https://github.com/CdeCinza" target="_blank" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition duration-200 text-xs font-semibold shadow-sm group">
