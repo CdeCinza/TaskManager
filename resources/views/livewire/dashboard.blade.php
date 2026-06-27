@@ -519,14 +519,27 @@
                                     plugins: {
                                         legend: { display: false },
                                         tooltip: {
-                                            backgroundColor: '#1e293b',
-                                            borderColor: '#334155',
+                                            backgroundColor: '#0f172a',
+                                            borderColor: '#1e293b',
                                             borderWidth: 1,
-                                            titleColor: '#f8fafc',
-                                            bodyColor: '#94a3b8',
+                                            titleColor: '#ffffff',
+                                            bodyColor: '#cbd5e1',
+                                            titleFont: { family: 'Outfit, sans-serif', size: 12, weight: 'bold' },
+                                            bodyFont: { family: 'Outfit, sans-serif', size: 11 },
                                             padding: 10,
+                                            cornerRadius: 8,
+                                            displayColors: true,
+                                            usePointStyle: true,
+                                            boxWidth: 8,
+                                            boxHeight: 8,
+                                            boxPadding: 4,
                                             callbacks: {
-                                                label: (ctx) => ` ${ctx.parsed} {{ __('tarefas') }} (${Math.round(ctx.parsed / {{ $total ?: 1 }} * 100)}%)`
+                                                label: function(context) {
+                                                    const total = context.dataset.data.reduce((a, b) => a + b, 0) || 1;
+                                                    const value = context.parsed;
+                                                    const percentage = Math.round((value / total) * 100);
+                                                    return ` ${value} tarefas (${percentage}%)`;
+                                                }
                                             }
                                         }
                                     }
