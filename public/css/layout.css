@@ -313,14 +313,24 @@ i[data-lucide] {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(16px);
+        filter: blur(4px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
     }
 }
 
 .animate-fade-in-up {
-    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+.stagger-delay-1 { animation-delay: 80ms; }
+.stagger-delay-2 { animation-delay: 140ms; }
+.stagger-delay-3 { animation-delay: 200ms; }
+.stagger-delay-4 { animation-delay: 260ms; }
+.stagger-delay-5 { animation-delay: 320ms; }
+.stagger-delay-6 { animation-delay: 380ms; }

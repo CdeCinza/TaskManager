@@ -30,8 +30,16 @@
             50% { opacity: 0.7; transform: scale(1.05); }
         }
         @keyframes slide-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+                filter: blur(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
         }
         @keyframes fade-in {
             from { opacity: 0; }
@@ -53,7 +61,7 @@
         .float-2 { animation: float2 8s ease-in-out infinite 1s; }
         .float-3 { animation: float 7s ease-in-out infinite 2s; }
         .pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
-        .slide-up { animation: slide-up 0.5s ease-out forwards; }
+        .slide-up { animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .fade-in { animation: fade-in 0.8s ease-out forwards; }
         .live-dot { animation: live-ping 1.8s ease-in-out infinite; }
         .dashboard-metric { animation: data-glow 4.5s ease-in-out infinite; }

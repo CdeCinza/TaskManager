@@ -25,12 +25,12 @@
         </header>
 
         <!-- Scrollable body -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar animate-fade-in-up">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
 
             <!-- ═══ KPI CARDS ═══ -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
                 <!-- Total Boards -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
                             <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-400"></i>
@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- Total Tasks -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-1">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="clipboard-list" class="w-4 h-4 text-sky-400"></i>
@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Completed -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-2">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
@@ -72,7 +72,7 @@
                 </div>
 
                 <!-- Overdue -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
@@ -86,7 +86,7 @@
                 </div>
 
                 <!-- High Priority -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
                             <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
@@ -100,7 +100,7 @@
                 </div>
 
                 <!-- Total Users -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
                             <i data-lucide="users" class="w-4 h-4 text-violet-400"></i>
@@ -112,7 +112,7 @@
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Usuários ativos') }}</p>
                     </div>
                 </div>
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alarm-clock" class="w-4 h-4 text-rose-400"></i>
@@ -141,7 +141,7 @@
 
             <!-- Actionable Dashboard -->
             <div class="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-6 mb-6">
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
                         <div class="flex items-center gap-2">
                             <i data-lucide="calendar-check" class="w-4 h-4 text-indigo-400"></i>
@@ -187,7 +187,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="radar" class="w-4 h-4 text-rose-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atenção agora') }}</h3>
@@ -210,7 +210,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="user-round-x" class="w-4 h-4 text-amber-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Tarefas sem responsável') }}</h3>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="alarm-clock" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Chamados próximos') }}</h3>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="triangle-alert" class="w-4 h-4 text-rose-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Boards com mais risco') }}</h3>
@@ -269,7 +269,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atividades relevantes') }}</h3>
@@ -294,7 +294,7 @@
             </div>
 
             <!-- ═══ COMPLETION BAR ═══ -->
-            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 mb-6 shadow-lg">
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 mb-6 shadow-lg animate-fade-in-up stagger-delay-5">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-2">
                         <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400"></i>
@@ -319,7 +319,7 @@
 
                 <!-- Priority Breakdown -->
                 @php $total = array_sum($priorityBreakdown); @endphp
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg"
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6"
                      x-data="{
                         view: 'bars',
                         chart: null,
@@ -506,7 +506,7 @@
                 </div>
 
                 <!-- Tasks Due This Week -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Prazos Esta Semana') }}</h3>
@@ -604,7 +604,7 @@
                 </div>
 
                 <!-- Team Workload -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="users" class="w-4 h-4 text-violet-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Carga da Equipe') }}</h3>
@@ -644,7 +644,7 @@
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="activity" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atividade Recente') }}</h3>
