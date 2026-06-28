@@ -55,6 +55,10 @@ class ShowBoard extends Component
             return;
         }
 
+        $this->validate([
+            'newBoardTitle' => ['required', 'string', 'max:255'],
+        ]);
+
         $newBoard = Board::create([
             'user_id' => auth()->id(),
             'title' => $this->newBoardTitle,
@@ -75,6 +79,10 @@ class ShowBoard extends Component
             return;
         }
 
+        if (strlen((string) $newTitle) > 255) {
+            return;
+        }
+
         $this->board->update([
             'title' => $newTitle,
         ]);
@@ -91,6 +99,10 @@ class ShowBoard extends Component
         if (empty(trim((string) $this->newColumnTitle))) {
             return;
         }
+
+        $this->validate([
+            'newColumnTitle' => ['required', 'string', 'max:255'],
+        ]);
 
         $lastPosition = $this->board->columns()->max('position') ?? -1;
 
@@ -113,6 +125,10 @@ class ShowBoard extends Component
             return;
         }
 
+        $this->validate([
+            "newTaskTitle.{$columnId}" => ['required', 'string', 'max:255'],
+        ]);
+
         $lastPosition = Task::where('column_id', $columnId)->max('position') ?? -1;
 
         Task::create([
@@ -127,8 +143,20 @@ class ShowBoard extends Component
     // Reordenação arrastar-e-soltar do frontend (SortableJS)
     public function updateTaskOrder($orderedIds, $columnId)
     {
+        if ($this->board->user_id !== auth()->id()) {
+            abort(403, __('Ação não autorizada.'));
+        }
+
+        $column = $this->board->columns()->find($columnId);
+        if (! $column) {
+            return;
+        }
+
         foreach ($orderedIds as $index => $taskId) {
-            $task = Task::find($taskId);
+            $task = Task::whereHas('column', function ($query) {
+                $query->where('board_id', $this->board->id);
+            })->find($taskId);
+
             if ($task) {
                 $task->column_id = $columnId;
                 $task->position = $index;
@@ -277,6 +305,12 @@ class ShowBoard extends Component
             return;
         }
 
+        if (! empty($this->editingDueDate)) {
+            $this->validate([
+                'editingDueDate' => ['date'],
+            ]);
+        }
+
         $dueDate = ! empty($this->editingDueDate) ? $this->editingDueDate : null;
 
         $this->selectedTask->update([
@@ -295,6 +329,10 @@ class ShowBoard extends Component
         if (empty(trim((string) $this->newSubtaskTitle))) {
             return;
         }
+
+        $this->validate([
+            'newSubtaskTitle' => ['required', 'string', 'max:255'],
+        ]);
 
         $this->selectedTask->subtasks()->create([
             'title' => $this->newSubtaskTitle,

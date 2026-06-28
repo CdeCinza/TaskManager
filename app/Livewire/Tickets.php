@@ -195,6 +195,10 @@ class Tickets extends Component
             return;
         }
 
+        if ($this->selectedTicket->user_id !== auth()->id()) {
+            abort(403, __('Ação não autorizada.'));
+        }
+
         $value = $value === '' ? null : $value;
         $this->selectedTicket->update([
             $field => $value,
@@ -209,6 +213,14 @@ class Tickets extends Component
         if (! $this->selectedTicket || trim($this->newChecklistItem) === '') {
             return;
         }
+
+        if ($this->selectedTicket->user_id !== auth()->id()) {
+            abort(403, __('Ação não autorizada.'));
+        }
+
+        $this->validate([
+            'newChecklistItem' => ['required', 'string', 'max:255'],
+        ]);
 
         $this->selectedTicket->checklistItems()->create([
             'title' => trim($this->newChecklistItem),
