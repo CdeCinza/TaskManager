@@ -21,9 +21,6 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Parse and format the logged JSON description into a translated string.
-     */
     public function getFormattedDescriptionAttribute(): string
     {
         $data = json_decode($this->description, true);

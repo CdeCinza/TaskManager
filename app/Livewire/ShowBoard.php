@@ -29,7 +29,6 @@ class ShowBoard extends Component
 
     public $filterAssignee = '';
 
-    // Modal state
     public $selectedTask = null;
 
     public $showTaskModal = false;
@@ -278,7 +277,6 @@ class ShowBoard extends Component
 
         $attachment = $this->selectedTask->attachments()->findOrFail($attachmentId);
 
-        // Remove physical file
         Storage::disk('public')->delete($attachment->path);
 
         $attachment->delete();
@@ -392,7 +390,6 @@ class ShowBoard extends Component
             // Add UTF-8 BOM to make Excel open it correctly
             fwrite($file, "\xEF\xBB\xBF");
 
-            // Header row
             fputcsv($file, [
                 __('Coluna'),
                 __('Tarefa'),
