@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Ticket extends Model
 {
@@ -31,22 +34,22 @@ class Ticket extends Model
         'resolved_at' => 'datetime',
     ];
 
-    public function owner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function assignee(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assignee_id');
     }
 
-    public function board(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    public function checklistItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function checklistItems(): HasMany
     {
         return $this->hasMany(TicketChecklistItem::class);
     }
@@ -62,7 +65,7 @@ class Ticket extends Model
         return (int) round(($this->checklistItems->where('is_completed', true)->count() / $total) * 100);
     }
 
-    public function attachments(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');
     }

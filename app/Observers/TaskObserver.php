@@ -2,10 +2,11 @@
 
 namespace App\Observers;
 
-use App\Models\Task;
-use App\Models\Column;
-use App\Models\User;
 use App\Models\Activity;
+use App\Models\Column;
+use App\Models\Task;
+use App\Models\User;
+use Carbon\Carbon;
 
 class TaskObserver
 {
@@ -44,7 +45,7 @@ class TaskObserver
                 'user_id' => $userId,
                 'description' => json_encode([
                     'key' => 'activity_moved',
-                    'params' => ['old' => $oldColName, 'new' => $newColName]
+                    'params' => ['old' => $oldColName, 'new' => $newColName],
                 ]),
             ]);
         }
@@ -52,7 +53,7 @@ class TaskObserver
         // 2. Priority changed
         if ($task->wasChanged('priority')) {
             $priorities = ['low' => 'Baixa', 'medium' => 'Média', 'high' => 'Alta'];
-            
+
             $oldPriorityRaw = $task->getOriginal('priority') ?? 'medium';
             $newPriorityRaw = $task->priority ?? 'medium';
 
@@ -64,7 +65,7 @@ class TaskObserver
                 'user_id' => $userId,
                 'description' => json_encode([
                     'key' => 'activity_priority',
-                    'params' => ['old' => $oldPriority, 'new' => $newPriority]
+                    'params' => ['old' => $oldPriority, 'new' => $newPriority],
                 ]),
             ]);
         }
@@ -80,17 +81,17 @@ class TaskObserver
             if ($oldUser && $newUser) {
                 $description = json_encode([
                     'key' => 'activity_assigned_changed',
-                    'params' => ['old' => $oldUser->name, 'new' => $newUser->name]
+                    'params' => ['old' => $oldUser->name, 'new' => $newUser->name],
                 ]);
             } elseif ($newUser) {
                 $description = json_encode([
                     'key' => 'activity_assigned',
-                    'params' => ['new' => $newUser->name]
+                    'params' => ['new' => $newUser->name],
                 ]);
             } else {
                 $description = json_encode([
                     'key' => 'activity_assigned_removed',
-                    'params' => ['old' => $oldUser->name]
+                    'params' => ['old' => $oldUser->name],
                 ]);
             }
 
@@ -111,7 +112,7 @@ class TaskObserver
                 'user_id' => $userId,
                 'description' => json_encode([
                     'key' => 'activity_title',
-                    'params' => ['old' => $oldTitle, 'new' => $newTitle]
+                    'params' => ['old' => $oldTitle, 'new' => $newTitle],
                 ]),
             ]);
         }
@@ -121,9 +122,9 @@ class TaskObserver
             $oldDesc = $task->getOriginal('description');
             $newDesc = $task->description;
 
-            if (empty($oldDesc) && !empty($newDesc)) {
+            if (empty($oldDesc) && ! empty($newDesc)) {
                 $description = json_encode(['key' => 'activity_description_added']);
-            } elseif (!empty($oldDesc) && empty($newDesc)) {
+            } elseif (! empty($oldDesc) && empty($newDesc)) {
                 $description = json_encode(['key' => 'activity_description_removed']);
             } else {
                 $description = json_encode(['key' => 'activity_description_updated']);
@@ -138,23 +139,23 @@ class TaskObserver
 
         // 6. Due date changed
         if ($task->wasChanged('due_date')) {
-            $oldDueDate = $task->getOriginal('due_date') ? \Carbon\Carbon::parse($task->getOriginal('due_date'))->format('d/m/Y') : null;
+            $oldDueDate = $task->getOriginal('due_date') ? Carbon::parse($task->getOriginal('due_date'))->format('d/m/Y') : null;
             $newDueDate = $task->due_date ? $task->due_date->format('d/m/Y') : null;
 
             if ($oldDueDate && $newDueDate) {
                 $description = json_encode([
                     'key' => 'activity_due_date_changed',
-                    'params' => ['old' => $oldDueDate, 'new' => $newDueDate]
+                    'params' => ['old' => $oldDueDate, 'new' => $newDueDate],
                 ]);
             } elseif ($newDueDate) {
                 $description = json_encode([
                     'key' => 'activity_due_date_defined',
-                    'params' => ['new' => $newDueDate]
+                    'params' => ['new' => $newDueDate],
                 ]);
             } else {
                 $description = json_encode([
                     'key' => 'activity_due_date_removed',
-                    'params' => ['old' => $oldDueDate]
+                    'params' => ['old' => $oldDueDate],
                 ]);
             }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketChecklistItem extends Model
 {
@@ -27,12 +28,12 @@ class TicketChecklistItem extends Model
         'completed_at' => 'datetime',
     ];
 
-    public function ticket(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    public function completedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function completedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'completed_by');
     }

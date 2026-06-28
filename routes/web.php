@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Livewire\ShowBoard;
-use App\Livewire\Dashboard;
 use App\Livewire\Calendar;
-use App\Livewire\Tickets;
+use App\Livewire\Dashboard;
 use App\Livewire\Reports;
-use App\Models\Board;
+use App\Livewire\ShowBoard;
+use App\Livewire\Tickets;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

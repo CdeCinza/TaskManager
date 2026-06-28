@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Board;
+use App\Models\Column;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,18 +27,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 2. Cria 2 quadros para este usuário
-        \App\Models\Board::factory(2)->for($user)->create()->each(function ($board) {
-            
+        Board::factory(2)->for($user)->create()->each(function ($board) {
+
             // 3. Define as colunas iniciais de cada quadro
             $titulosColunas = ['A Fazer', 'Em Progresso', 'Revisão', 'Concluído'];
-            
+
             foreach ($titulosColunas as $index => $titulo) {
-                $column = \App\Models\Column::create([
+                $column = Column::create([
                     'board_id' => $board->id,
                     'title' => $titulo,
                     'position' => $index, // 0, 1, 2, 3...
                 ]);
-
 
             }
         });
