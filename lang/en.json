@@ -261,5 +261,20 @@
     "Diagnóstico documentado": "Documented diagnosis",
     "Mês": "Month",
     "Sáb": "Sat",
-    "Solução validada com solicitante": "Solution validated with requester"
+    "Solução validada com solicitante": "Solution validated with requester",
+    "criou a tarefa": "created the task",
+    "moveu a tarefa de :old para :new": "moved the task from :old to :new",
+    "alterou a prioridade de :old para :new": "changed the priority from :old to :new",
+    "alterou o responsável de :old para :new": "changed the assignee from :old to :new",
+    "atribuiu a tarefa para :new": "assigned the task to :new",
+    "removeu :old como responsável": "removed :old as assignee",
+    "alterou o título de :old para :new": "changed the title from :old to :new",
+    "adicionou uma descrição": "added a description",
+    "removeu a descrição": "removed the description",
+    "atualizou a descrição": "updated the description",
+    "alterou o prazo de :old para :new": "changed the due date from :old to :new",
+    "definiu o prazo para :new": "defined the due date to :new",
+    "removeu o prazo de :old": "removed the due date from :old",
+    "arquivou a tarefa": "archived the task",
+    "restaurou a tarefa": "restored the task"
 }

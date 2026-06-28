@@ -278,12 +278,11 @@
                         @forelse($relevantActivities as $activity)
                             @php
                                 $actorName = $activity->user?->name ?? __('Sistema');
-                                $description = is_string($activity->description) ? $activity->description : json_encode($activity->description);
                             @endphp
                             <div class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3">
                                 <p class="text-[11px] text-slate-300 leading-tight">
                                     <span class="font-semibold text-white">{{ $actorName }}</span>
-                                    {{ $description }}
+                                    {{ $activity->formatted_description }}
                                 </p>
                                 <p class="mt-1 text-[9px] text-slate-600">{{ $activity->created_at->diffForHumans() }}</p>
                             </div>

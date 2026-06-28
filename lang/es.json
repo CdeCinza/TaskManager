@@ -261,5 +261,20 @@
     "Diagnóstico documentado": "Diagnóstico documentado",
     "Mês": "Mes",
     "Sáb": "Sáb",
-    "Solução validada com solicitante": "Solución validada con el solicitante"
+    "Solução validada com solicitante": "Solución validada con el solicitante",
+    "criou a tarefa": "creó la tarea",
+    "moveu a tarefa de :old para :new": "movió la tarea de :old a :new",
+    "alterou a prioridade de :old para :new": "cambió la prioridad de :old a :new",
+    "alterou o responsável de :old para :new": "cambió el responsable de :old a :new",
+    "atribuiu a tarefa para :new": "asignó la tarea a :new",
+    "removeu :old como responsável": "eliminó a :old como responsable",
+    "alterou o título de :old para :new": "cambió el título de :old a :new",
+    "adicionou uma descrição": "añadió una descripción",
+    "removeu a descrição": "eliminó la descripción",
+    "atualizou a descrição": "actualizó la descripción",
+    "alterou o prazo de :old para :new": "cambió el plazo de :old a :new",
+    "definiu o prazo para :new": "definió el plazo para :new",
+    "removeu o prazo de :old": "eliminó el plazo de :old",
+    "arquivou a tarefa": "archivó la tarea",
+    "restaurou a tarefa": "restauró la tarea"
 }
