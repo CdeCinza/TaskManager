@@ -17,19 +17,19 @@
         <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
         
         <!-- Script Configuration & Core Libraries -->
-        <script>
+        <script data-navigate-once>
             window.TasklyI18n = {
                 attention: @json(__('Atenção')),
                 confirm: @json(__('Sim, confirmar!')),
                 cancel: @json(__('Cancelar')),
             };
         </script>
-        <script src="{{ asset('js/layout.js') }}"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://unpkg.com/lucide@latest"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+        <script src="{{ asset('js/layout.js') }}" data-navigate-once></script>
+        <script src="https://cdn.tailwindcss.com" data-navigate-once></script>
+        <script src="https://unpkg.com/lucide@latest" data-navigate-once></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" data-navigate-once></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js" data-navigate-once></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" data-navigate-once></script>
         @livewireStyles
         <script>
             // Apply theme configuration as early as possible to prevent flashing
@@ -92,6 +92,6 @@
         </div>
 
         @livewireScripts
-        <script src="{{ asset('js/board.js') }}"></script>
+        <script src="{{ asset('js/board.js') }}" data-navigate-once></script>
     </body>
 </html>
