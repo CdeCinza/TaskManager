@@ -36,6 +36,20 @@ document.addEventListener('livewire:init', () => {
     }
 });
 
+window.tasklyAlertTheme = function() {
+    const isLightTheme = document.documentElement.classList.contains('theme-light') || document.body.classList.contains('theme-light');
+
+    return {
+        background: isLightTheme ? '#ffffff' : '#1e293b',
+        color: isLightTheme ? '#0f172a' : '#f8fafc',
+        customClass: {
+            popup: isLightTheme
+                ? 'border border-slate-300 shadow-xl rounded-2xl'
+                : 'border border-slate-700 shadow-xl rounded-2xl',
+        },
+    };
+};
+
 window.confirmAction = function(message, callback, title, confirmText, cancelText) {
     const i18n = window.TasklyI18n || {};
     title = title || i18n.attention || 'Attention';
@@ -52,11 +66,7 @@ window.confirmAction = function(message, callback, title, confirmText, cancelTex
             cancelButtonColor: '#e11d48',
             confirmButtonText: confirmText,
             cancelButtonText: cancelText,
-            background: '#1e293b',
-            color: '#f8fafc',
-            customClass: {
-                popup: 'border border-slate-700 shadow-xl rounded-2xl',
-            }
+            ...window.tasklyAlertTheme(),
         }).then((result) => {
             if (result.isConfirmed) {
                 callback();
