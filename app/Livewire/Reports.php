@@ -98,10 +98,10 @@ class Reports extends Component
         $unresolvedActive = $unresolvedCount - $unresolvedOverdue;
 
         // 3. Performance per Team Member (Tickets resolved & SLA compliance)
-        $members = User::with(['tickets' => function ($q) use ($start, $end) {
-            $q->whereBetween('created_at', [$start, $end]);
+        $members = User::with(['assignedTickets' => function ($q) use ($start, $end, $user) {
+            $q->where('user_id', $user?->id)->whereBetween('created_at', [$start, $end]);
         }])->get()->map(function ($member) {
-            $memberTickets = $member->tickets;
+            $memberTickets = $member->assignedTickets;
             $total = $memberTickets->count();
             $resolved = $memberTickets->where('status', 'resolved');
             $resolvedCount = $resolved->count();

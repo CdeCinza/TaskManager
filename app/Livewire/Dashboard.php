@@ -53,14 +53,17 @@ class Dashboard extends Component
         ];
 
         $usersStats = User::withCount([
-            'tasks as total_tasks',
-            'tasks as completed_tasks' => fn ($q) => $q->whereHas('column', fn ($c) => $c->where('title', 'like', 'Conclu%')),
-            'tasks as overdue_tasks' => fn ($q) => $q->whereNotNull('due_date')
+            'tasks as total_tasks' => fn ($q) => $q->whereHas('column.board', fn ($b) => $b->where('user_id', $user?->id)),
+            'tasks as completed_tasks' => fn ($q) => $q->whereHas('column.board', fn ($b) => $b->where('user_id', $user?->id))
+                ->whereHas('column', fn ($c) => $c->where('title', 'like', 'Conclu%')),
+            'tasks as overdue_tasks' => fn ($q) => $q->whereHas('column.board', fn ($b) => $b->where('user_id', $user?->id))
+                ->whereNotNull('due_date')
                 ->where('due_date', '<', now()->startOfDay())
                 ->whereDoesntHave('column', fn ($c) => $c->where('title', 'like', 'Conclu%')),
         ])->get();
 
-        $recentActivities = Activity::with(['user', 'task'])
+        $recentActivities = Activity::with(['user', 'task.column.board'])
+            ->whereHas('task.column.board', fn ($q) => $q->where('user_id', $user?->id))
             ->latest()
             ->take(10)
             ->get();
