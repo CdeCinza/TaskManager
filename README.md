@@ -12,7 +12,7 @@ Taskly é um projeto pessoal de portfólio criado por **Matheus Marques** para f
 
 ---
 
-## Portugues
+## Português
 
 ### Sobre o projeto
 
@@ -32,38 +32,38 @@ O objetivo é apresentar um projeto prático e organizado, demonstrando evoluç�
 
 ### Funcionalidades
 
-- Autenticacao de usuarios.
-- Dashboard com KPIs de quadros, tarefas, conclusoes, atrasos, prioridades, membros e resumo de chamados em risco de SLA.
-- Dashboard acionavel com:
+- Autenticação de usuários.
+- Dashboard com KPIs de quadros, tarefas, conclusões, atrasos, prioridades, membros e resumo de chamados em risco de SLA.
+- Dashboard acionável com:
   - Minha Semana.
-  - Tarefas de hoje, amanha e da semana.
-  - Tarefas atrasadas e sem responsavel.
+  - Tarefas de hoje, amanhã e da semana.
+  - Tarefas atrasadas e sem responsável.
   - Quadros com mais risco e atividades recentes relevantes.
-  - Chamados proximos do vencimento ou do limite de SLA.
+  - Chamados próximos do vencimento ou do limite de SLA.
 - Quadro Kanban com colunas e cards.
-- Drag and drop de tarefas com persistencia no banco.
-- Criacao, edicao, exclusao e restauracao de tarefas.
+- Drag and drop de tarefas com persistência no banco.
+- Criação, edição, exclusão e restauração de tarefas.
 - Lixeira com soft delete.
 - Modal detalhado de tarefa.
-- Prioridades: baixa, media e alta.
-- Responsavel por tarefa.
+- Prioridades: baixa, média e alta.
+- Responsável por tarefa.
 - Subtarefas com progresso.
 - Data de vencimento.
 - Anexos em tarefas com suporte a imagens, PDFs e documentos.
 - Central de Chamados (`/tickets`):
   - Quadro Kanban de chamados separado por status (Aberto, Em atendimento, Aguardando, Resolvido).
   - Controle de prazos e prazos de SLA (com alerta visual para SLA vencido ou em risco).
-  - Vinculo opcional do chamado a um quadro (board) e a um responsavel.
-  - Informacoes completas de solicitante (nome, e-mail) e origem do chamado (portal, e-mail, whatsapp, telefone).
+  - Vínculo opcional do chamado a um quadro (board) e a um responsável.
+  - Informações completas de solicitante (nome, e-mail) e origem do chamado (portal, e-mail, whatsapp, telefone).
   - Checklist operacional interno por chamado com progresso dinâmico (%).
-  - Busca de chamados por titulo ou solicitante e filtros por status e prioridade.
-  - Upload, listagem, abertura e exclusao de anexos em chamados, incluindo PDFs e documentos.
-- Agenda em `/calendar` com visualizacao mensal, semanal e em lista.
-- Relatorios em `/reports` com indicadores por periodo, desempenho por membros, graficos e opcao de exportar/imprimir como PDF pelo navegador.
+  - Busca de chamados por título ou solicitante e filtros por status e prioridade.
+  - Upload, listagem, abertura e exclusão de anexos em chamados, incluindo PDFs e documentos.
+- Agenda em `/calendar` com visualização mensal, semanal e em lista.
+- Relatórios em `/reports` com indicadores por período, desempenho por membros, gráficos e opção de exportar/imprimir como PDF pelo navegador.
 - Filtros por prioridade e quadro.
 - Interface dark responsiva.
-- Alternancia visual de tema.
-- Identidade visual propria com logo e favicon.
+- Alternância visual de tema.
+- Identidade visual própria com logo e favicon.
 - Suporte visual a PT, EN e ES.
 - **Arquitetura DRY e Limpeza de Código**: Extração do Sidebar e do seletor de idiomas para componentes Blade reutilizáveis e centralização lógica usando Traits do PHP.
 - **Otimização de Transições SPA**: Uso correto do `data-navigate-once` do Livewire para evitar o carregamento/processamento redundante de assets (como Tailwind Play CDN, Chart.js e Lucide) nas mudanças de rota, acelerando as transições de página.
@@ -79,7 +79,7 @@ O objetivo é apresentar um projeto prático e organizado, demonstrando evoluç�
 
 ### Como executar localmente
 
-#### Pre-requisitos
+#### Pré-requisitos
 
 - PHP 8.3+
 - Composer
@@ -121,7 +121,7 @@ Depois execute:
 php artisan migrate --seed
 ```
 
-Crie tambem o link publico de storage para abrir anexos enviados:
+Crie também o link público de storage para abrir anexos enviados:
 
 ```bash
 php artisan storage:link
@@ -140,9 +140,9 @@ Ou use o script integrado:
 composer run dev
 ```
 
-### Usuario de teste
+### Usuário de teste
 
-Ao rodar os seeders, o projeto cria um usuario padrao:
+Ao rodar os seeders, o projeto cria um usuário padrão:
 
 ```text
 E-mail: admin@teste.com
