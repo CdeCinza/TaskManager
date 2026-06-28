@@ -46,7 +46,7 @@
         </div>
 
         <!-- Scrollable content -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar print:overflow-visible print:p-0 print:h-auto">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar print:overflow-visible print:p-0 print:h-auto animate-fade-in-up">
             <!-- Printing Header Info -->
             <div class="hidden print:block mb-8 border-b pb-4">
                 <h1 class="text-2xl font-bold">{{ __('Taskly - Relatório Operacional') }}</h1>

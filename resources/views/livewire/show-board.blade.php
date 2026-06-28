@@ -226,7 +226,7 @@
         </div>
 
         <!-- Columns Area (Horizontal Scroll) -->
-        <div class="flex-1 overflow-x-auto p-4 sm:p-6 lg:p-8 flex gap-4 sm:gap-6 items-start custom-scrollbar">
+        <div class="flex-1 overflow-x-auto p-4 sm:p-6 lg:p-8 flex gap-4 sm:gap-6 items-start custom-scrollbar animate-fade-in-up">
             @foreach($columns as $column)
                 <div wire:key="column-{{ $column->id }}" class="w-[min(20rem,calc(100vw-2rem))] sm:w-80 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col flex-shrink-0 max-h-full shadow-lg">
                     <!-- Column Header -->

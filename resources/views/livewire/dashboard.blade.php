@@ -25,7 +25,7 @@
         </header>
 
         <!-- Scrollable body -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar animate-fade-in-up">
 
             <!-- ═══ KPI CARDS ═══ -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">

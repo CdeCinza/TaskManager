@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar animate-fade-in-up">
             @php
                 $priorityClasses = [
                     'high' => 'border-rose-500/30 bg-rose-500/10 text-rose-200',

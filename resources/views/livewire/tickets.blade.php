@@ -18,7 +18,7 @@
             </button>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar animate-fade-in-up">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
                 @foreach([
                     ['label' => __('Abertos'), 'value' => $stats['open'], 'icon' => 'circle-dot', 'color' => 'text-sky-400 bg-sky-500/10 border-sky-500/20'],
