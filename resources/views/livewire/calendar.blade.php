@@ -119,22 +119,22 @@
         <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar animate-fade-in-up">
             @php
                 $priorityClasses = [
-                    'high' => 'border-rose-500/30 bg-rose-500/10 text-rose-200',
-                    'medium' => 'border-amber-500/30 bg-amber-500/10 text-amber-200',
-                    'low' => 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200',
+                    'high' => 'border-rose-500/40 bg-rose-500/20 text-rose-400 hover:border-rose-400/60 hover:bg-rose-500/25',
+                    'medium' => 'border-amber-500/40 bg-amber-500/20 text-amber-400 hover:border-amber-400/60 hover:bg-amber-500/25',
+                    'low' => 'border-emerald-500/40 bg-emerald-500/20 text-emerald-400 hover:border-emerald-400/60 hover:bg-emerald-500/25',
                 ];
             @endphp
 
             @if($viewMode === 'list')
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     @foreach($listTickets as $ticket)
-                        <button wire:click="openTicket({{ $ticket->id }})" class="text-left rounded-xl border border-sky-500/20 bg-sky-500/10 p-4 hover:border-sky-400/40 transition">
+                        <button wire:click="openTicket({{ $ticket->id }})" class="text-left rounded-xl border border-sky-500/40 bg-sky-500/20 p-4 shadow-sm transition hover:border-sky-400/60 hover:bg-sky-500/25">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="min-w-0">
-                                    <p class="font-semibold text-slate-100 truncate">{{ $ticket->title }}</p>
-                                    <p class="text-xs text-sky-200/70 truncate">{{ __('Chamado') }} · {{ $ticket->requester_name ?: __('Sem solicitante') }}</p>
+                                    <p class="font-bold text-sky-300 truncate">{{ $ticket->title }}</p>
+                                    <p class="text-xs font-medium text-slate-400 truncate">{{ __('Chamado') }} · {{ $ticket->requester_name ?: __('Sem solicitante') }}</p>
                                 </div>
-                                <span class="text-xs font-bold text-sky-300">{{ ($ticket->due_date ?? $ticket->sla_due_at)?->format('d/m') }}</span>
+                                <span class="text-xs font-bold text-sky-400">{{ ($ticket->due_date ?? $ticket->sla_due_at)?->format('d/m') }}</span>
                             </div>
                         </button>
                     @endforeach
@@ -154,42 +154,44 @@
                     @endif
                 </div>
             @else
-                <div class="grid grid-cols-7 gap-px overflow-hidden rounded-2xl border border-slate-800 bg-slate-800">
-                    @foreach(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'] as $dayName)
-                        <div class="bg-slate-900 px-2 py-3 text-center text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ __($dayName) }}</div>
-                    @endforeach
+                <div class="-mx-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 custom-scrollbar">
+                    <div class="agenda-calendar-grid grid grid-cols-7 gap-px overflow-hidden rounded-2xl border border-slate-800 bg-slate-800">
+                        @foreach(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'] as $dayName)
+                            <div class="bg-slate-900 px-2 py-3 text-center text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ __($dayName) }}</div>
+                        @endforeach
 
-                    @for($day = $start->copy(); $day->lte($end); $day->addDay())
-                        @php
-                            $key = $day->toDateString();
-                            $dayTasks = $tasksByDay->get($key, collect());
-                            $dayTickets = $ticketsByDay->get($key, collect());
-                            $isMuted = $viewMode === 'month' && !$day->isSameMonth($date);
-                        @endphp
-                        <div class="min-h-32 bg-slate-950/70 p-2 {{ $isMuted ? 'opacity-45' : '' }} {{ $day->isToday() ? 'ring-1 ring-inset ring-indigo-500/60' : '' }}">
-                            <div class="mb-2 flex items-center justify-between">
-                                <span class="text-xs font-bold {{ $day->isToday() ? 'text-indigo-300' : 'text-slate-400' }}">{{ $day->format('d') }}</span>
-                                @if($dayTasks->isNotEmpty() || $dayTickets->isNotEmpty())
-                                    <span class="rounded-full bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold text-slate-400">{{ $dayTasks->count() + $dayTickets->count() }}</span>
-                                @endif
+                        @for($day = $start->copy(); $day->lte($end); $day->addDay())
+                            @php
+                                $key = $day->toDateString();
+                                $dayTasks = $tasksByDay->get($key, collect());
+                                $dayTickets = $ticketsByDay->get($key, collect());
+                                $isMuted = $viewMode === 'month' && !$day->isSameMonth($date);
+                            @endphp
+                            <div class="min-h-28 p-2 sm:min-h-32 {{ $isMuted ? 'bg-slate-900/20' : 'bg-slate-950/70' }} {{ $day->isToday() ? 'ring-1 ring-inset ring-indigo-500/60' : '' }}">
+                                <div class="mb-2 flex items-center justify-between">
+                                    <span class="text-xs font-bold {{ $day->isToday() ? 'text-indigo-300' : ($isMuted ? 'text-slate-600' : 'text-slate-400') }}">{{ $day->format('d') }}</span>
+                                    @if($dayTasks->isNotEmpty() || $dayTickets->isNotEmpty())
+                                        <span class="rounded-full bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold text-slate-400">{{ $dayTasks->count() + $dayTickets->count() }}</span>
+                                    @endif
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    @foreach($dayTickets->take(2) as $ticket)
+                                        <button wire:click="openTicket({{ $ticket->id }})" class="agenda-event-card truncate rounded-lg border border-sky-500/40 bg-sky-500/20 px-2 py-1.5 text-left text-[10px] font-bold text-sky-400 shadow-sm transition hover:border-sky-400/60 hover:bg-sky-500/25">
+                                            {{ $ticket->title }}
+                                        </button>
+                                    @endforeach
+                                    @foreach($dayTasks->take(4) as $task)
+                                        <button wire:click="openTask({{ $task->id }})" class="agenda-event-card truncate rounded-lg border px-2 py-1.5 text-left text-[10px] font-bold shadow-sm transition {{ $priorityClasses[$task->priority ?? 'medium'] ?? $priorityClasses['medium'] }}">
+                                            {{ $task->title }}
+                                        </button>
+                                    @endforeach
+                                    @if(($dayTasks->count() + $dayTickets->count()) > 6)
+                                        <span class="text-[10px] text-slate-500">+{{ ($dayTasks->count() + $dayTickets->count()) - 6 }} {{ __('mais') }}</span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="flex flex-col gap-1.5">
-                                @foreach($dayTickets->take(2) as $ticket)
-                                    <button wire:click="openTicket({{ $ticket->id }})" class="truncate rounded-lg border border-sky-500/30 bg-sky-500/10 px-2 py-1.5 text-left text-[10px] font-semibold text-sky-200">
-                                        {{ $ticket->title }}
-                                    </button>
-                                @endforeach
-                                @foreach($dayTasks->take(4) as $task)
-                                    <button wire:click="openTask({{ $task->id }})" class="truncate rounded-lg border px-2 py-1.5 text-left text-[10px] font-semibold {{ $priorityClasses[$task->priority ?? 'medium'] ?? $priorityClasses['medium'] }}">
-                                        {{ $task->title }}
-                                    </button>
-                                @endforeach
-                                @if(($dayTasks->count() + $dayTickets->count()) > 6)
-                                    <span class="text-[10px] text-slate-500">+{{ ($dayTasks->count() + $dayTickets->count()) - 6 }} {{ __('mais') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    @endfor
+                        @endfor
+                    </div>
                 </div>
             @endif
         </div>
