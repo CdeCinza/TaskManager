@@ -61,6 +61,10 @@ O objetivo e apresentar um projeto completo, visualmente bem acabado e com funci
 - Alternancia visual de tema.
 - Identidade visual propria com logo e favicon.
 - Suporte visual a PT, EN e ES.
+- **Arquitetura DRY e Limpeza de Código**: Extração do Sidebar e do seletor de idiomas para componentes Blade reutilizáveis e centralização lógica usando Traits do PHP.
+- **Otimização de Transições SPA**: Uso correto do `data-navigate-once` do Livewire para evitar o carregamento/processamento redundante de assets (como Tailwind Play CDN, Chart.js e Lucide) nas mudanças de rota, acelerando as transições de página.
+- **Resolução de Concorrência Reativa**: Comunicação orientada a eventos no Alpine.js para fechar dropdowns ativos ao abrir outros, impedindo sobreposições visuais.
+- **Interface e Detalhes Polidos**: Checkboxes customizados para login e registro integrados ao estilo visual dark do tema.
 
 ### Stack
 
@@ -205,6 +209,10 @@ The goal is to present a complete, polished and realistic web application.
 - Visual theme toggle.
 - Custom visual identity with logo and favicon.
 - Visual support for Portuguese, English and Spanish.
+- **DRY Architecture & Clean Code**: Sidebar and language selectors extracted into reusable Blade components, with logic consolidated into PHP Traits.
+- **SPA Transition Performance**: Correct application of Livewire's `data-navigate-once` to prevent redundant reload/compilation of heavy scripts (e.g. Tailwind Play CDN, Chart.js, Lucide), making route transitions instantaneous.
+- **Reactive State Coordination**: Event-driven communication in Alpine.js preventing overlay conflicts between card popovers/dropdowns.
+- **Polished UI Details**: Customized styled checkboxes for login and registration views integrated with the application's dark theme.
 
 ### Tech stack
 
@@ -347,8 +355,12 @@ El objetivo es presentar una aplicacion completa, pulida y cercana a un producto
 - Filtros por prioridad y tablero.
 - Interfaz dark responsiva.
 - Alternancia visual de tema.
-- Identidad visual propia con logo y favicon.
+- Identidade visual propia con logo e favicon.
 - Soporte visual para portugues, ingles y espanol.
+- **Arquitectura DRY y Código Limpio**: Barra lateral y selectores de idioma extraídos en componentes Blade reutilizables, centralizando la lógica con PHP Traits.
+- **Rendimiento de Transición SPA**: Aplicación de `data-navigate-once` de Livewire para evitar la recarga/procesamiento redundante de scripts pesados (como Tailwind Play CDN, Chart.js, Lucide) al cambiar de ruta, acelerando las transiciones de página.
+- **Coordinación de Estado Reactivo**: Comunicación orientada a eventos en Alpine.js que evita la superposición indeseada entre los menús desplegables de las tarjetas.
+- **Detalles Visuales Pulidos**: Checkboxes personalizados para inicio de sesión y registro integrados con el tema oscuro de la aplicación.
 
 ### Stack tecnologico
 
