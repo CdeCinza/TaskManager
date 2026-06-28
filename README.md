@@ -1,9 +1,14 @@
 # Taskly - Gerenciador de Tarefas, Kanban, Agenda e Helpdesk
 
-Taskly e um projeto pessoal de portfolio criado por **Matheus Marques**.  
-E uma aplicacao web desenvolvida para explorar e demonstrar habilidades com PHP, Laravel, MySQL, Livewire, modelagem relacional e interfaces reativas com foco em produto.
+Taskly é um projeto pessoal de portfólio criado por **Matheus Marques** para fins exclusivamente didáticos e de evolução técnica pessoal.  
 
 [GitHub](https://github.com/CdeCinza) | [LinkedIn](https://www.linkedin.com/in/matheus-marques-fernandes-vieiracln/)
+
+> [!IMPORTANT]
+> **Aviso de Projeto Educacional Fictício / Disclaimer:**
+> * **Português:** Este projeto é 100% fictício, independente e educacional, desenvolvido apenas para fins de estudo e portfólio. As funcionalidades, dados, telas, fluxos e regras de negócio foram criados do zero com base em padrões públicos comuns de mercado de ferramentas de produtividade e Kanban. O software não representa, não utiliza e não se baseia em códigos, dados de produção, identidade visual ou regras de negócio confidenciais de nenhuma empresa.
+> * **English:** This is a 100% fictional, independent, and educational project built solely for self-study and personal portfolio purposes. It does not copy, represent, or use any proprietary code, database information, secrets, visual identity, or rules from any corporate system.
+> * **Español:** Este proyecto es 100% ficticio, independiente y educativo, desarrollado solo con fines de estudio y portafolio. No copia, representa ni utiliza ningún código, base de datos, secretos, identidad visual o reglas propietarias de ningún sistema corporativo.
 
 ---
 
@@ -11,20 +16,19 @@ E uma aplicacao web desenvolvida para explorar e demonstrar habilidades com PHP,
 
 ### Sobre o projeto
 
-O **Taskly** e um projeto pessoal de portfolio desenvolvido para explorar, praticar e demonstrar minhas habilidades com PHP, Laravel, MySQL, Livewire, interfaces reativas, modelagem relacional, organizacao de dados e experiencia de usuario.
+O **Taskly** é um projeto pessoal de portfólio desenvolvido para praticar e demonstrar minhas habilidades de desenvolvimento com PHP, Laravel, MySQL e Livewire. O foco do projeto foi o aprendizado prático de modelagem relacional de dados, estruturação de fluxos lógicos e criação de componentes dinâmicos de interface.
 
-A proposta do projeto e simular uma ferramenta moderna de produtividade, combinando:
+A proposta é simular, de forma simplificada e independente, recursos comuns presentes em ferramentas de produtividade de mercado:
 
-- Quadro Kanban com drag and drop.
-- Central de chamados (helpdesk) para suporte e atendimento.
-- Dashboard com indicadores, atividades, chamados pendentes e dados acionaveis.
-- Agenda/calendario para acompanhar prazos.
-- Relatorios operacionais para acompanhar produtividade e resolucao.
-- Anexos em tarefas e chamados, incluindo imagens, PDFs e documentos.
-- Fluxo de autenticacao.
-- Organizacao por quadros, colunas, tarefas, prioridades, responsaveis, subtarefas, chamados, checklists, atividades e anexos.
+- Quadro Kanban com drag and drop (movimentação visual de tarefas).
+- Fluxo de chamados (helpdesk fictício) para suporte e registro de atendimento.
+- Dashboard com indicadores consolidados e logs de atividades.
+- Agenda em formato de calendário para visualização de prazos.
+- Relatórios operacionais para acompanhamento de dados.
+- Upload de anexos e arquivos simulados nas tarefas.
+- Autenticação e isolamento seguro de dados entre diferentes usuários.
 
-O objetivo e apresentar um projeto completo, visualmente bem acabado e com funcionalidades proximas de um produto real, mostrando minha evolucao pratica no ecossistema PHP/Laravel.
+O objetivo é apresentar um projeto prático e organizado, demonstrando evolução pessoal em boas práticas de programação e arquitetura de software no ecossistema PHP/Laravel.
 
 ### Funcionalidades
 
@@ -158,21 +162,19 @@ Desenvolvido por **Matheus Marques**.
 
 ### About the project
 
-**Taskly** is a personal portfolio project built by **Matheus Marques**.  
-It was designed to explore and demonstrate practical experience with PHP, Laravel, MySQL, Livewire, reactive interfaces, relational data modeling and product-oriented UI design.
+**Taskly** is a personal, independent portfolio project built by **Matheus Marques** for educational purposes. It was designed to explore and demonstrate practical backend development skills, clean code, database design, and reactive component integration.
 
-The project simulates a modern productivity tool by combining:
+The project implements generic features common in productivity tools:
 
-- Kanban boards with drag and drop.
-- Helpdesk / support ticketing system.
-- Analytical and actionable dashboard with task metrics, recent activities, and ticket SLA overviews.
-- Calendar and agenda for task deadlines.
-- Operational reports for productivity and resolution tracking.
-- Attachments for tasks and tickets, including images, PDFs and documents.
-- Authentication flow.
-- Relational structure with boards, columns, tasks, priorities, assignees, subtasks, support tickets, checklists, activities and attachments.
+- Kanban board layout with drag and drop capabilities.
+- Basic ticketing system layout for support logging.
+- Consolidated dashboard with metrics and activity feeds.
+- Deadline tracking through a calendar view.
+- Operational metrics display ready for report layouts.
+- Simulated attachment uploads.
+- Secure database isolation separating user workspaces.
 
-The goal is to present a complete, polished and realistic web application.
+The goal is to show personal technical evolution, software organization, and programming best practices using Laravel and Livewire.
 
 ### Features
 
@@ -306,21 +308,19 @@ Developed by **Matheus Marques**.
 
 ### Sobre el proyecto
 
-**Taskly** es un proyecto personal de portafolio creado por **Matheus Marques**.  
-Fue desarrollado para explorar y demostrar experiencia practica con PHP, Laravel, MySQL, Livewire, interfaces reactivas, modelado de datos relacionales y diseno de interfaces orientadas a producto.
+**Taskly** es un proyecto personal e independiente de portafolio creado por **Matheus Marques** con fines educativos. Fue desarrollado para practicar y demostrar habilidades técnicas con PHP, Laravel, bases de datos relacionales y componentes reactivos.
 
-La propuesta del proyecto es simular una herramienta moderna de productividad, combinando:
+La aplicación simula funciones comunes del mercado de productividad y organización:
 
-- Tablero Kanban con drag and drop.
-- Central de tickets (helpdesk) para soporte y servicio.
-- Dashboard analitico y accionable con indicadores, actividades, tickets pendientes y mas.
-- Agenda/calendario para fechas de vencimiento.
-- Reportes operacionales para acompanar productividad y resolucion.
-- Adjuntos en tareas y tickets, incluyendo imagenes, PDFs y documentos.
-- Flujo de autenticacion.
-- Estructura relacional con tableros, columnas, tareas, prioridades, responsables, subtareas, tickets, checklists, actividades y adjuntos.
+- Tablero Kanban con drag and drop (movimiento visual de tareas).
+- Flujo básico de tickets para soporte y registro.
+- Dashboard consolidado con indicadores de estado y actividades.
+- Seguimiento de plazos mediante una vista de calendario.
+- Módulos de reportes visuales listos para diseño de impresión.
+- Carga de archivos adjuntos simulados.
+- Aislamiento seguro de datos entre cuentas de usuario.
 
-El objetivo es presentar una aplicacion completa, pulida y cercana a un producto real.
+El objetivo es presentar una estructura de código bien organizada que demuestre la evolución personal y las buenas prácticas de programación en PHP/Laravel.
 
 ### Funcionalidades
 
