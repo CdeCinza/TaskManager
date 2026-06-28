@@ -23,20 +23,20 @@
     ];
 @endphp
 
-<aside class="w-full bg-slate-900 border-b border-slate-800 flex max-h-[46dvh] flex-col justify-between flex-shrink-0 z-10 lg:h-full lg:max-h-none lg:w-80 lg:border-b-0 lg:border-r {{ $activePage === 'reports' ? 'print:hidden' : '' }}">
-    <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto custom-scrollbar">
+<aside class="w-full flex flex-col flex-shrink-0 border-b border-slate-800 bg-slate-900/95 z-20 lg:h-full lg:w-80 lg:justify-between lg:border-b-0 lg:border-r lg:bg-slate-900 {{ $activePage === 'reports' ? 'print:hidden' : '' }}">
+    <div class="p-3 sm:p-4 lg:p-6 flex flex-col gap-3 lg:gap-6 overflow-visible lg:overflow-y-auto custom-scrollbar">
         {{-- App Brand Header --}}
         <div class="flex items-center gap-3">
-            <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="w-10 h-10 flex-shrink-0">
-            <div>
-                <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</h1>
-                <p class="text-xs text-slate-400">{{ $subtitle }}</p>
+            <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="w-9 h-9 flex-shrink-0 lg:w-10 lg:h-10">
+            <div class="min-w-0">
+                <h1 class="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</h1>
+                <p class="text-xs text-slate-400 truncate">{{ $subtitle }}</p>
             </div>
         </div>
 
         {{-- Navigation Section --}}
-        <div class="flex flex-col gap-1">
-            <div class="text-xs font-semibold text-slate-400 tracking-wider uppercase px-2 mb-2">{{ __('Navegação') }}</div>
+        <div class="flex gap-1 overflow-visible lg:flex-col lg:gap-1">
+            <div class="hidden text-xs font-semibold text-slate-400 tracking-wider uppercase px-2 mb-2 lg:block">{{ __('Navegação') }}</div>
 
             @foreach($navItems as $item)
                 @php
@@ -53,33 +53,33 @@
                     @continue
                 @endif
 
-                <a href="{{ $isActive ? '#' : $href }}" @if(!$isActive) wire:navigate @endif
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200
+                <a href="{{ $isActive ? '#' : $href }}" title="{{ $item['label'] }}" @if(!$isActive) wire:navigate @endif
+                   class="flex min-h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-xs font-medium whitespace-nowrap transition duration-200 lg:min-h-0 lg:flex-none lg:justify-start lg:gap-3 lg:px-3 lg:py-2.5 lg:text-sm
                        {{ $isActive
                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
                            : 'text-slate-300 hover:bg-slate-800/60 hover:text-white group' }}">
                     <i data-lucide="{{ $item['icon'] }}" class="w-4 h-4 {{ $isActive ? 'text-indigo-200' : 'text-indigo-400 group-hover:text-white' }}"></i>
-                    <span class="flex-1">{{ $item['label'] }}</span>
+                    <span class="sr-only sm:not-sr-only sm:flex-1 sm:truncate lg:block">{{ $item['label'] }}</span>
                     @if($isActive)
-                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                        <span class="hidden w-1.5 h-1.5 rounded-full bg-white animate-pulse lg:block"></span>
                     @endif
                 </a>
             @endforeach
         </div>
 
         {{-- Boards Section --}}
-        <div class="hidden sm:flex flex-col gap-3">
+        <div class="hidden lg:flex flex-col gap-3">
             <div class="flex items-center justify-between text-xs font-semibold text-slate-400 tracking-wider uppercase px-2">
                 <span>{{ __('Meus Quadros') }}</span>
                 <i data-lucide="folder" class="w-4 h-4"></i>
             </div>
-            <div class="flex flex-col gap-1">
+            <div class="flex gap-2 overflow-x-auto pb-1 custom-scrollbar lg:flex-col lg:gap-1 lg:overflow-visible lg:pb-0">
                 @foreach($userBoards as $ub)
                     @php
                         $isCurrent = $currentBoardId !== null && $currentBoardId === $ub->id;
                     @endphp
                     <a href="{{ route('board.show', $ub->id) }}" wire:navigate
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200
+                       class="flex min-h-10 flex-none items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium whitespace-nowrap transition duration-200 lg:min-h-0 lg:gap-3 lg:py-2.5 lg:text-sm
                            {{ $isCurrent
                                ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/20'
                                : 'text-slate-300 hover:bg-slate-800/60 hover:text-white group' }}">
@@ -98,27 +98,27 @@
     </div>
 
     {{-- Logged User Profile Footer --}}
-    <div class="p-4 sm:p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
+    <div class="p-3 sm:p-4 lg:p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-3 lg:gap-4">
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
+                <div class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-xs lg:text-sm text-white shadow-inner uppercase flex-shrink-0">
                     {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
                 </div>
                 <div class="overflow-hidden">
-                    <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? __('Usuário') }}</h4>
-                    <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
+                    <h4 class="text-xs lg:text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? __('Usuário') }}</h4>
+                    <p class="hidden text-xs text-slate-400 truncate sm:block">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
                 </div>
             </div>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
-                <button type="submit" class="text-slate-400 hover:text-rose-400 p-2 hover:bg-rose-500/10 rounded-xl transition duration-200" title="{{ __('Sair') }}">
+                <button type="submit" class="flex h-10 w-10 items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition duration-200" title="{{ __('Sair') }}">
                     <i data-lucide="log-out" class="w-5 h-5"></i>
                 </button>
             </form>
         </div>
 
         {{-- Dev Credits --}}
-        <div class="hidden sm:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
+        <div class="hidden lg:flex pt-4 border-t border-slate-800 flex-col items-center gap-2 text-center">
             <p class="text-[10px] text-slate-500 font-medium">
                 {{ __('Desenvolvido por') }} <span class="text-slate-300 font-semibold">Matheus Marques</span>
             </p>
