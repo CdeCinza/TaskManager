@@ -31,7 +31,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
                 <!-- Total Boards -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
                             <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-400"></i>
                         </div>
@@ -45,7 +45,7 @@
 
                 <!-- Total Tasks -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="clipboard-list" class="w-4 h-4 text-sky-400"></i>
                         </div>
@@ -59,7 +59,7 @@
 
                 <!-- Completed -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
                         </div>
@@ -73,7 +73,7 @@
 
                 <!-- Overdue -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
                         </div>
@@ -87,7 +87,7 @@
 
                 <!-- High Priority -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
                             <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
                         </div>
@@ -101,7 +101,7 @@
 
                 <!-- Total Users -->
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
                             <i data-lucide="users" class="w-4 h-4 text-violet-400"></i>
                         </div>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i>
                         </div>
@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
                         <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alarm-clock" class="w-4 h-4 text-rose-400"></i>
                         </div>
