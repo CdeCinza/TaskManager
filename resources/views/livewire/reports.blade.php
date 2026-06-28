@@ -1,94 +1,5 @@
 <div class="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-slate-100 lg:flex-row print:bg-white print:text-black">
-    <!-- SIDEBAR (hidden on print) -->
-    <aside class="w-full bg-slate-900 border-b border-slate-800 flex max-h-[46dvh] flex-col justify-between flex-shrink-0 z-10 lg:h-full lg:max-h-none lg:w-80 lg:border-b-0 lg:border-r print:hidden">
-        <div class="p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto custom-scrollbar">
-            <!-- App Brand Header -->
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('assets/identidade-visualpack/taskly_logo_mark.svg') }}" alt="" class="w-10 h-10 flex-shrink-0">
-                <div>
-                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">Taskly</h1>
-                    <p class="text-xs text-slate-400">{{ __('Painel de Controle') }}</p>
-                </div>
-            </div>
-
-            <!-- Navigation Section -->
-            <div class="flex flex-col gap-1">
-                <div class="text-xs font-semibold text-slate-400 tracking-wider uppercase px-2 mb-2">{{ __('Navegação') }}</div>
-                
-                <a href="{{ route('dashboard') }}" wire:navigate
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
-                    <span class="flex-1">{{ __('Dashboard') }}</span>
-                </a>
-
-                <a href="{{ route('calendar') }}" wire:navigate
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
-                    <i data-lucide="calendar-days" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
-                    <span class="flex-1">{{ __('Agenda') }}</span>
-                </a>
-
-                @if($userBoards->isNotEmpty())
-                    <a href="{{ route('board.show', $userBoards->first()->id) }}" wire:navigate
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
-                        <i data-lucide="kanban" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
-                        <span class="flex-1">{{ __('Kanban') }}</span>
-                    </a>
-                @endif
-
-                <a href="{{ route('tickets') }}" wire:navigate
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
-                    <i data-lucide="inbox" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
-                    <span class="flex-1">{{ __('Chamados') }}</span>
-                </a>
-
-                <!-- Relatórios (Ativo) -->
-                <a href="#"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-200"></i>
-                    <span class="flex-1">{{ __('Relatórios') }}</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                </a>
-            </div>
-
-            <!-- Boards Section -->
-            <div class="hidden sm:flex flex-col gap-3">
-                <div class="flex items-center justify-between text-xs font-semibold text-slate-400 tracking-wider uppercase px-2">
-                    <span>{{ __('Meus Quadros') }}</span>
-                    <i data-lucide="folder" class="w-4 h-4"></i>
-                </div>
-                <div class="flex flex-col gap-1">
-                    @foreach($userBoards as $ub)
-                        <a href="{{ route('board.show', $ub->id) }}" wire:navigate
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition duration-200 text-slate-300 hover:bg-slate-800/60 hover:text-white group">
-                            <i data-lucide="kanban" class="w-4 h-4 text-indigo-400 group-hover:text-white"></i>
-                            <span class="truncate flex-1">{{ $ub->title }}</span>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        <!-- Logged User Profile Footer -->
-        <div class="p-4 sm:p-6 border-t border-slate-800 bg-slate-900/60 flex flex-col gap-4">
-            <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 overflow-hidden">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-sm text-white shadow-inner uppercase">
-                        {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
-                    </div>
-                    <div class="overflow-hidden">
-                        <h4 class="text-sm font-semibold text-white truncate">{{ auth()->user()->name ?? __('Usuário') }}</h4>
-                        <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email ?? 'user@teste.com' }}</p>
-                    </div>
-                </div>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="text-slate-400 hover:text-rose-400 p-2 hover:bg-rose-500/10 rounded-xl transition duration-200" title="{{ __('Sair') }}">
-                        <i data-lucide="log-out" class="w-5 h-5"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </aside>
+    <x-sidebar :userBoards="$userBoards" activePage="reports" />
 
     <!-- MAIN CONTENT -->
     <main class="min-h-0 min-w-0 flex-1 flex flex-col overflow-hidden print:overflow-visible print:h-auto print:w-full">
@@ -111,22 +22,7 @@
                     {{ __('Exportar PDF / Imprimir') }}
                 </button>
 
-                <!-- Language Selector -->
-                <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                    <button @click="open = !open"
-                            class="flex items-center gap-2 bg-slate-850 hover:bg-slate-850/80 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700/60 transition duration-200 group">
-                        <i data-lucide="globe" class="w-3.5 h-3.5 text-indigo-400 group-hover:text-white"></i>
-                        <span>
-                            @if(app()->getLocale() === 'en') English @elseif(app()->getLocale() === 'es') Español @else Português @endif
-                        </span>
-                        <i data-lucide="chevron-down" class="w-3 h-3 text-slate-500 group-hover:text-indigo-400 transition-transform" :class="{'rotate-180': open}"></i>
-                    </button>
-                    <div x-show="open" class="absolute top-full mt-1.5 right-0 w-36 bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden z-50 py-1" style="display: none;">
-                        <button wire:click="setLocale('pt_BR')" @click="open = false" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-750">Português</button>
-                        <button wire:click="setLocale('en')" @click="open = false" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-750">English</button>
-                        <button wire:click="setLocale('es')" @click="open = false" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-slate-750">Español</button>
-                    </div>
-                </div>
+                <x-language-selector />
             </div>
         </header>
 

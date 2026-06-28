@@ -2,30 +2,33 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasLocale;
 use App\Models\Board;
 use App\Models\Task;
 use App\Models\Ticket;
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Support\Carbon;
+use Livewire\Component;
 
 class Reports extends Component
 {
-    public $userBoards = [];
+    use HasLocale;
+
     public $startDate;
+
     public $endDate;
+
     public $filterPreset = '30';
 
     public function mount()
     {
-        $this->userBoards = auth()->user() ? auth()->user()->boards : collect();
         $this->setPreset('30');
     }
 
     public function setPreset($days)
     {
         $this->filterPreset = $days;
-        
+
         if ($days === 'all') {
             $this->startDate = Carbon::create(2000, 1, 1)->format('Y-m-d');
             $this->endDate = now()->format('Y-m-d');
@@ -33,18 +36,8 @@ class Reports extends Component
             $this->startDate = now()->startOfMonth()->format('Y-m-d');
             $this->endDate = now()->endOfMonth()->format('Y-m-d');
         } else {
-            $this->startDate = now()->subDays((int)$days)->format('Y-m-d');
+            $this->startDate = now()->subDays((int) $days)->format('Y-m-d');
             $this->endDate = now()->format('Y-m-d');
-        }
-    }
-
-    public function setLocale($locale)
-    {
-        $validLocales = ['en', 'pt_BR', 'es'];
-        if (in_array($locale, $validLocales, true)) {
-            session()->put('locale', $locale);
-            app()->setLocale($locale);
-            return $this->redirectRoute('reports', navigate: true);
         }
     }
 
@@ -55,30 +48,30 @@ class Reports extends Component
         $end = Carbon::parse($this->endDate)->endOfDay();
 
         // 1. Task Efficiency: completed on time vs overdue vs pending
-        $taskQuery = Task::whereHas('column.board', fn($q) => $q->where('user_id', $user?->id))
+        $taskQuery = Task::whereHas('column.board', fn ($q) => $q->where('user_id', $user?->id))
             ->whereBetween('created_at', [$start, $end]);
 
         $totalTasks = (clone $taskQuery)->count();
         $completedTasks = (clone $taskQuery)
-            ->whereHas('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+            ->whereHas('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
             ->get();
-            
+
         $completedCount = $completedTasks->count();
-        
-        $completedOnTime = $completedTasks->filter(function($task) {
-            return !$task->due_date || $task->updated_at->startOfDay()->lte($task->due_date->startOfDay());
+
+        $completedOnTime = $completedTasks->filter(function ($task) {
+            return ! $task->due_date || $task->updated_at->startOfDay()->lte($task->due_date->startOfDay());
         })->count();
-        
+
         $completedLate = $completedCount - $completedOnTime;
 
         $pendingTasks = (clone $taskQuery)
-            ->whereDoesntHave('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+            ->whereDoesntHave('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
             ->get();
 
         $pendingCount = $pendingTasks->count();
 
-        $pendingOverdue = $pendingTasks->filter(function($task) {
-            return $task->due_date && $task->due_date->isPast() && !$task->due_date->isToday();
+        $pendingOverdue = $pendingTasks->filter(function ($task) {
+            return $task->due_date && $task->due_date->isPast() && ! $task->due_date->isToday();
         })->count();
 
         $pendingActive = $pendingCount - $pendingOverdue;
@@ -91,37 +84,38 @@ class Reports extends Component
         $resolvedTickets = (clone $ticketQuery)->where('status', 'resolved')->get();
         $resolvedCount = $resolvedTickets->count();
 
-        $resolvedOnTime = $resolvedTickets->filter(function($ticket) {
-            return !$ticket->sla_due_at || $ticket->resolved_at->lte($ticket->sla_due_at);
+        $resolvedOnTime = $resolvedTickets->filter(function ($ticket) {
+            return ! $ticket->sla_due_at || $ticket->resolved_at->lte($ticket->sla_due_at);
         })->count();
         $resolvedLate = $resolvedCount - $resolvedOnTime;
 
         $unresolvedTickets = (clone $ticketQuery)->whereNotIn('status', ['resolved'])->get();
         $unresolvedCount = $unresolvedTickets->count();
 
-        $unresolvedOverdue = $unresolvedTickets->filter(function($ticket) {
+        $unresolvedOverdue = $unresolvedTickets->filter(function ($ticket) {
             return $ticket->sla_due_at && $ticket->sla_due_at->isPast();
         })->count();
         $unresolvedActive = $unresolvedCount - $unresolvedOverdue;
 
         // 3. Performance per Team Member (Tickets resolved & SLA compliance)
-        $members = User::with(['tickets' => function($q) use ($start, $end) {
+        $members = User::with(['tickets' => function ($q) use ($start, $end) {
             $q->whereBetween('created_at', [$start, $end]);
-        }])->get()->map(function($member) {
+        }])->get()->map(function ($member) {
             $memberTickets = $member->tickets;
             $total = $memberTickets->count();
             $resolved = $memberTickets->where('status', 'resolved');
             $resolvedCount = $resolved->count();
-            
-            $onTime = $resolved->filter(function($t) {
-                return !$t->sla_due_at || $t->resolved_at->lte($t->sla_due_at);
+
+            $onTime = $resolved->filter(function ($t) {
+                return ! $t->sla_due_at || $t->resolved_at->lte($t->sla_due_at);
             })->count();
 
             $member->total_tickets = $total;
             $member->resolved_tickets = $resolvedCount;
             $member->sla_compliance = $resolvedCount > 0 ? round(($onTime / $resolvedCount) * 100) : 100;
+
             return $member;
-        })->filter(fn($m) => $m->total_tickets > 0)->sortByDesc('resolved_tickets')->values();
+        })->filter(fn ($m) => $m->total_tickets > 0)->sortByDesc('resolved_tickets')->values();
 
         // 4. Ticket Origins breakdown
         $originsBreakdown = [
@@ -137,19 +131,19 @@ class Reports extends Component
             'completedLate' => $completedLate,
             'pendingOverdue' => $pendingOverdue,
             'pendingActive' => $pendingActive,
-            
+
             'totalTickets' => $totalTickets,
             'resolvedOnTime' => $resolvedOnTime,
             'resolvedLate' => $resolvedLate,
             'unresolvedOverdue' => $unresolvedOverdue,
             'unresolvedActive' => $unresolvedActive,
-            
+
             'members' => $members,
             'originsBreakdown' => $originsBreakdown,
             'boards' => Board::where('user_id', $user?->id)->withCount([
-                'columns as total_tasks' => fn($q) => $q->join('tasks', 'columns.id', '=', 'tasks.column_id'),
-                'columns as completed_tasks' => fn($q) => $q->join('tasks', 'columns.id', '=', 'tasks.column_id')->where('columns.title', 'like', 'Conclu%')
-            ])->get()
+                'columns as total_tasks' => fn ($q) => $q->join('tasks', 'columns.id', '=', 'tasks.column_id'),
+                'columns as completed_tasks' => fn ($q) => $q->join('tasks', 'columns.id', '=', 'tasks.column_id')->where('columns.title', 'like', 'Conclu%'),
+            ])->get(),
         ]);
     }
 }

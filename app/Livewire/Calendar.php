@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasLocale;
 use App\Models\Task;
 use App\Models\Ticket;
 use Illuminate\Support\Carbon;
@@ -9,17 +10,22 @@ use Livewire\Component;
 
 class Calendar extends Component
 {
-    public $userBoards = [];
+    use HasLocale;
+
     public string $viewMode = 'month';
+
     public string $currentDate;
+
     public string $filterPriority = '';
+
     public string $filterBoard = '';
+
     public $selectedTask = null;
+
     public $selectedTicket = null;
 
     public function mount()
     {
-        $this->userBoards = auth()->user() ? auth()->user()->boards : collect();
         $this->currentDate = now()->toDateString();
     }
 
@@ -83,7 +89,7 @@ class Calendar extends Component
             ->with(['column.board', 'assignee'])
             ->orderBy('due_date')
             ->get()
-            ->groupBy(fn(Task $task) => $task->due_date->toDateString());
+            ->groupBy(fn (Task $task) => $task->due_date->toDateString());
 
         $listTasks = $this->baseTaskQuery()
             ->whereNotNull('due_date')
@@ -101,7 +107,7 @@ class Calendar extends Component
             ->with(['assignee', 'board'])
             ->orderByRaw('COALESCE(sla_due_at, due_date)')
             ->get();
-        $ticketsByDay = $tickets->groupBy(fn(Ticket $ticket) => ($ticket->due_date ?? $ticket->sla_due_at)->toDateString());
+        $ticketsByDay = $tickets->groupBy(fn (Ticket $ticket) => ($ticket->due_date ?? $ticket->sla_due_at)->toDateString());
         $listTickets = Ticket::where('user_id', auth()->id())
             ->whereNotIn('status', ['resolved'])
             ->where(function ($query) {
@@ -127,8 +133,8 @@ class Calendar extends Component
     private function baseTaskQuery()
     {
         return Task::query()
-            ->whereHas('column.board', fn($query) => $query->where('user_id', auth()->id()))
-            ->when($this->filterPriority !== '', fn($query) => $query->where('priority', $this->filterPriority))
-            ->when($this->filterBoard !== '', fn($query) => $query->whereHas('column', fn($column) => $column->where('board_id', $this->filterBoard)));
+            ->whereHas('column.board', fn ($query) => $query->where('user_id', auth()->id()))
+            ->when($this->filterPriority !== '', fn ($query) => $query->where('priority', $this->filterPriority))
+            ->when($this->filterBoard !== '', fn ($query) => $query->whereHas('column', fn ($column) => $column->where('board_id', $this->filterBoard)));
     }
 }

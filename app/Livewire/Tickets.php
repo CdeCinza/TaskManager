@@ -2,24 +2,34 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasLocale;
 use App\Models\Board;
 use App\Models\Ticket;
 use App\Models\TicketChecklistItem;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Tickets extends Component
 {
+    use HasLocale;
     use WithFileUploads;
-    public $userBoards = [];
+
     public $users = [];
+
     public string $filterStatus = '';
+
     public string $filterPriority = '';
+
     public string $search = '';
+
     public $selectedTicket = null;
+
     public bool $showCreateModal = false;
+
     public string $newChecklistItem = '';
+
     public $newAttachments = [];
 
     public array $form = [
@@ -38,18 +48,7 @@ class Tickets extends Component
 
     public function mount(): void
     {
-        $this->userBoards = auth()->user()?->boards ?? collect();
         $this->users = User::orderBy('name')->get();
-    }
-
-    public function setLocale($locale)
-    {
-        if (in_array($locale, ['en', 'pt_BR', 'es'], true)) {
-            session()->put('locale', $locale);
-            app()->setLocale($locale);
-
-            return $this->redirectRoute('tickets', navigate: true);
-        }
     }
 
     public function openCreateModal(): void
@@ -139,7 +138,7 @@ class Tickets extends Component
 
     public function uploadAttachments(): void
     {
-        if (!$this->selectedTicket) {
+        if (! $this->selectedTicket) {
             return;
         }
 
@@ -152,8 +151,9 @@ class Tickets extends Component
             ->where('user_id', auth()->id())
             ->find($this->selectedTicket->id);
 
-        if (!$ticket) {
+        if (! $ticket) {
             $this->closeTicket();
+
             return;
         }
 
@@ -176,12 +176,14 @@ class Tickets extends Component
 
     public function deleteAttachment($attachmentId)
     {
-        if (!$this->selectedTicket || $this->selectedTicket->user_id !== auth()->id()) return;
+        if (! $this->selectedTicket || $this->selectedTicket->user_id !== auth()->id()) {
+            return;
+        }
 
         $attachment = $this->selectedTicket->attachments()->findOrFail($attachmentId);
-        
-        \Illuminate\Support\Facades\Storage::disk('public')->delete($attachment->path);
-        
+
+        Storage::disk('public')->delete($attachment->path);
+
         $attachment->delete();
 
         $this->refreshSelectedTicket();
@@ -189,7 +191,7 @@ class Tickets extends Component
 
     public function updateTicketField(string $field, $value): void
     {
-        if (!$this->selectedTicket || !in_array($field, ['status', 'priority', 'assignee_id', 'board_id'], true)) {
+        if (! $this->selectedTicket || ! in_array($field, ['status', 'priority', 'assignee_id', 'board_id'], true)) {
             return;
         }
 
@@ -204,7 +206,7 @@ class Tickets extends Component
 
     public function addChecklistItem(): void
     {
-        if (!$this->selectedTicket || trim($this->newChecklistItem) === '') {
+        if (! $this->selectedTicket || trim($this->newChecklistItem) === '') {
             return;
         }
 
@@ -218,10 +220,10 @@ class Tickets extends Component
 
     public function toggleChecklistItem(int $itemId): void
     {
-        $item = TicketChecklistItem::whereHas('ticket', fn($query) => $query->where('user_id', auth()->id()))->findOrFail($itemId);
+        $item = TicketChecklistItem::whereHas('ticket', fn ($query) => $query->where('user_id', auth()->id()))->findOrFail($itemId);
 
         $item->update([
-            'is_completed' => !$item->is_completed,
+            'is_completed' => ! $item->is_completed,
             'completed_at' => $item->is_completed ? null : now(),
             'completed_by' => $item->is_completed ? null : auth()->id(),
         ]);
@@ -231,7 +233,7 @@ class Tickets extends Component
 
     public function deleteChecklistItem(int $itemId): void
     {
-        TicketChecklistItem::whereHas('ticket', fn($query) => $query->where('user_id', auth()->id()))->findOrFail($itemId)->delete();
+        TicketChecklistItem::whereHas('ticket', fn ($query) => $query->where('user_id', auth()->id()))->findOrFail($itemId)->delete();
         $this->refreshSelectedTicket();
     }
 
@@ -265,10 +267,10 @@ class Tickets extends Component
     {
         return Ticket::query()
             ->where('user_id', auth()->id())
-            ->when($this->filterStatus !== '', fn($query) => $query->where('status', $this->filterStatus))
-            ->when($this->filterPriority !== '', fn($query) => $query->where('priority', $this->filterPriority))
-            ->when(trim($this->search) !== '', fn($query) => $query->where(function ($nested) {
-                $term = '%' . trim($this->search) . '%';
+            ->when($this->filterStatus !== '', fn ($query) => $query->where('status', $this->filterStatus))
+            ->when($this->filterPriority !== '', fn ($query) => $query->where('priority', $this->filterPriority))
+            ->when(trim($this->search) !== '', fn ($query) => $query->where(function ($nested) {
+                $term = '%'.trim($this->search).'%';
                 $nested->where('title', 'like', $term)
                     ->orWhere('requester_name', 'like', $term)
                     ->orWhere('requester_email', 'like', $term);

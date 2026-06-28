@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasLocale;
 use App\Models\Activity;
 use App\Models\Board;
 use App\Models\Task;
@@ -11,38 +12,23 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public $userBoards = [];
-
-    public function mount()
-    {
-        $this->userBoards = auth()->user() ? auth()->user()->boards : collect();
-    }
-
-    public function setLocale($locale)
-    {
-        $validLocales = ['en', 'pt_BR', 'es'];
-        if (in_array($locale, $validLocales, true)) {
-            session()->put('locale', $locale);
-            app()->setLocale($locale);
-            return $this->redirectRoute('dashboard', navigate: true);
-        }
-    }
+    use HasLocale;
 
     public function render()
     {
         $user = auth()->user();
-        $userTaskQuery = Task::whereHas('column.board', fn($q) => $q->where('user_id', $user?->id));
+        $userTaskQuery = Task::whereHas('column.board', fn ($q) => $q->where('user_id', $user?->id));
 
         $totalBoards = Board::where('user_id', $user?->id)->count();
         $totalUsers = User::count();
         $totalTasks = (clone $userTaskQuery)->count();
         $completedTasks = (clone $userTaskQuery)
-            ->whereHas('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+            ->whereHas('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
             ->count();
         $overdueTasks = (clone $userTaskQuery)
             ->whereNotNull('due_date')
             ->where('due_date', '<', now()->startOfDay())
-            ->whereDoesntHave('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+            ->whereDoesntHave('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
             ->count();
         $highPriorityTasks = (clone $userTaskQuery)->where('priority', 'high')->count();
 
@@ -53,8 +39,8 @@ class Dashboard extends Component
                 $tasks = $board->columns->flatMap->tasks;
 
                 $board->total_tasks = $tasks->count();
-                $board->completed_tasks = $tasks->filter(fn($task) => str_starts_with($task->column?->title ?? '', 'Conclu'))->count();
-                $board->overdue_tasks = $tasks->filter(fn($task) => $task->due_date && $task->due_date->isPast() && !$task->due_date->isToday())->count();
+                $board->completed_tasks = $tasks->filter(fn ($task) => str_starts_with($task->column?->title ?? '', 'Conclu'))->count();
+                $board->overdue_tasks = $tasks->filter(fn ($task) => $task->due_date && $task->due_date->isPast() && ! $task->due_date->isToday())->count();
                 $board->risk_score = ($board->overdue_tasks * 3) + $tasks->where('priority', 'high')->count();
 
                 return $board;
@@ -68,10 +54,10 @@ class Dashboard extends Component
 
         $usersStats = User::withCount([
             'tasks as total_tasks',
-            'tasks as completed_tasks' => fn($q) => $q->whereHas('column', fn($c) => $c->where('title', 'like', 'Conclu%')),
-            'tasks as overdue_tasks' => fn($q) => $q->whereNotNull('due_date')
+            'tasks as completed_tasks' => fn ($q) => $q->whereHas('column', fn ($c) => $c->where('title', 'like', 'Conclu%')),
+            'tasks as overdue_tasks' => fn ($q) => $q->whereNotNull('due_date')
                 ->where('due_date', '<', now()->startOfDay())
-                ->whereDoesntHave('column', fn($c) => $c->where('title', 'like', 'Conclu%')),
+                ->whereDoesntHave('column', fn ($c) => $c->where('title', 'like', 'Conclu%')),
         ])->get();
 
         $recentActivities = Activity::with(['user', 'task'])
@@ -94,7 +80,7 @@ class Dashboard extends Component
             'overdue' => (clone $userTaskQuery)
                 ->whereNotNull('due_date')
                 ->where('due_date', '<', today())
-                ->whereDoesntHave('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+                ->whereDoesntHave('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
                 ->with(['column.board', 'assignee'])
                 ->orderBy('due_date')
                 ->take(8)
@@ -103,7 +89,7 @@ class Dashboard extends Component
 
         $unassignedTasks = (clone $userTaskQuery)
             ->whereNull('user_id')
-            ->whereDoesntHave('column', fn($q) => $q->where('title', 'like', 'Conclu%'))
+            ->whereDoesntHave('column', fn ($q) => $q->where('title', 'like', 'Conclu%'))
             ->with(['column.board'])
             ->latest()
             ->take(8)
@@ -112,7 +98,7 @@ class Dashboard extends Component
         $riskyBoards = $boards->sortByDesc('risk_score')->take(4);
 
         $relevantActivities = Activity::with(['user', 'task.column.board'])
-            ->whereHas('task.column.board', fn($q) => $q->where('user_id', $user?->id))
+            ->whereHas('task.column.board', fn ($q) => $q->where('user_id', $user?->id))
             ->latest()
             ->take(6)
             ->get();

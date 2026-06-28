@@ -2,50 +2,66 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasLocale;
+use App\Models\Board;
+use App\Models\Task;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-use App\Models\Board;
-use App\Models\Task;
-use App\Models\Attachment;
-
 class ShowBoard extends Component
 {
+    use HasLocale;
     use WithFileUploads;
+
     public Board $board;
-    public $userBoards = [];
+
     public $newBoardTitle = '';
+
     public $newColumnTitle = '';
+
     public $newTaskTitle = [];
+
     public $search = '';
+
     public $filterPriority = '';
+
     public $filterAssignee = '';
 
     // Modal state
     public $selectedTask = null;
+
     public $showTaskModal = false;
+
     public $newSubtaskTitle = '';
+
     public $editingDescription = '';
+
     public $editingDueDate = '';
+
     public $showTrashModal = false;
+
     public $newAttachments = [];
 
     public function mount(Board $board)
     {
         $this->board = $board;
-        $this->userBoards = auth()->user() ? auth()->user()->boards : collect();
     }
 
     public function createBoard()
     {
-        if (empty(trim((string)$this->newBoardTitle))) return;
-        
+        if (empty(trim((string) $this->newBoardTitle))) {
+            return;
+        }
+
         $newBoard = Board::create([
             'user_id' => auth()->id(),
             'title' => $this->newBoardTitle,
         ]);
 
         $this->newBoardTitle = '';
+
         return redirect()->route('board.show', $newBoard->id)->navigate();
     }
 
@@ -55,13 +71,15 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        if (empty(trim((string)$newTitle))) return;
+        if (empty(trim((string) $newTitle))) {
+            return;
+        }
 
         $this->board->update([
-            'title' => $newTitle
+            'title' => $newTitle,
         ]);
 
-        $this->userBoards = auth()->user() ? auth()->user()->boards : collect();
+        $this->userBoards = auth()->user() ? auth()->user()->boards->fresh() : collect();
     }
 
     public function createColumn()
@@ -70,7 +88,9 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        if (empty(trim((string)$this->newColumnTitle))) return;
+        if (empty(trim((string) $this->newColumnTitle))) {
+            return;
+        }
 
         $lastPosition = $this->board->columns()->max('position') ?? -1;
 
@@ -89,14 +109,16 @@ class ShowBoard extends Component
         }
 
         $title = $this->newTaskTitle[$columnId] ?? '';
-        if (empty(trim((string)$title))) return;
+        if (empty(trim((string) $title))) {
+            return;
+        }
 
         $lastPosition = Task::where('column_id', $columnId)->max('position') ?? -1;
 
         Task::create([
             'column_id' => $columnId,
             'title' => $title,
-            'position' => $lastPosition + 1
+            'position' => $lastPosition + 1,
         ]);
 
         $this->newTaskTitle[$columnId] = '';
@@ -131,7 +153,7 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $task = Task::whereHas('column', function($query) {
+        $task = Task::whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
 
@@ -145,9 +167,11 @@ class ShowBoard extends Component
         }
 
         $validPriorities = ['low', 'medium', 'high'];
-        if (!in_array($priority, $validPriorities)) return;
+        if (! in_array($priority, $validPriorities)) {
+            return;
+        }
 
-        $task = Task::whereHas('column', function($query) {
+        $task = Task::whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
 
@@ -160,7 +184,7 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $task = Task::whereHas('column', function($query) {
+        $task = Task::whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
 
@@ -173,10 +197,10 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $this->selectedTask = Task::with(['subtasks', 'activities.user', 'attachments'])->whereHas('column', function($query) {
+        $this->selectedTask = Task::with(['subtasks', 'activities.user', 'attachments'])->whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
-        
+
         $this->editingDescription = $this->selectedTask->description ?? '';
         $this->editingDueDate = $this->selectedTask->due_date ? $this->selectedTask->due_date->format('Y-m-d') : '';
         $this->showTaskModal = true;
@@ -194,7 +218,9 @@ class ShowBoard extends Component
 
     public function uploadAttachments()
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
         $this->validate([
             'newAttachments.*' => 'required|max:10240', // 10MB max per file
@@ -218,13 +244,15 @@ class ShowBoard extends Component
 
     public function deleteAttachment($attachmentId)
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
         $attachment = $this->selectedTask->attachments()->findOrFail($attachmentId);
-        
+
         // Remove physical file
-        \Illuminate\Support\Facades\Storage::disk('public')->delete($attachment->path);
-        
+        Storage::disk('public')->delete($attachment->path);
+
         $attachment->delete();
 
         $this->selectedTask->load('attachments');
@@ -232,10 +260,12 @@ class ShowBoard extends Component
 
     public function updateTaskDescription()
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
         $this->selectedTask->update([
-            'description' => $this->editingDescription
+            'description' => $this->editingDescription,
         ]);
 
         $this->selectedTask->load('activities.user');
@@ -243,12 +273,14 @@ class ShowBoard extends Component
 
     public function updateTaskDueDate()
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
-        $dueDate = !empty($this->editingDueDate) ? $this->editingDueDate : null;
+        $dueDate = ! empty($this->editingDueDate) ? $this->editingDueDate : null;
 
         $this->selectedTask->update([
-            'due_date' => $dueDate
+            'due_date' => $dueDate,
         ]);
 
         $this->selectedTask->load('activities.user');
@@ -256,12 +288,16 @@ class ShowBoard extends Component
 
     public function createSubtask()
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
-        if (empty(trim((string)$this->newSubtaskTitle))) return;
+        if (empty(trim((string) $this->newSubtaskTitle))) {
+            return;
+        }
 
         $this->selectedTask->subtasks()->create([
-            'title' => $this->newSubtaskTitle
+            'title' => $this->newSubtaskTitle,
         ]);
 
         $this->newSubtaskTitle = '';
@@ -270,11 +306,13 @@ class ShowBoard extends Component
 
     public function toggleSubtask($subtaskId)
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
         $subtask = $this->selectedTask->subtasks()->findOrFail($subtaskId);
         $subtask->update([
-            'is_completed' => !$subtask->is_completed
+            'is_completed' => ! $subtask->is_completed,
         ]);
 
         $this->selectedTask->load('subtasks');
@@ -282,7 +320,9 @@ class ShowBoard extends Component
 
     public function deleteSubtask($subtaskId)
     {
-        if (!$this->selectedTask || $this->board->user_id !== auth()->id()) return;
+        if (! $this->selectedTask || $this->board->user_id !== auth()->id()) {
+            return;
+        }
 
         $this->selectedTask->subtasks()->findOrFail($subtaskId)->delete();
         $this->selectedTask->load('subtasks');
@@ -294,9 +334,9 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $fileName = 'export_' . str($this->board->title)->slug() . '_' . now()->format('Ymd_His') . '.csv';
+        $fileName = 'export_'.str($this->board->title)->slug().'_'.now()->format('Ymd_His').'.csv';
 
-        $columns = $this->board->columns()->orderBy('position')->with(['tasks' => function($q) {
+        $columns = $this->board->columns()->orderBy('position')->with(['tasks' => function ($q) {
             $q->orderBy('position')->with(['assignee', 'subtasks']);
         }])->get();
 
@@ -305,14 +345,14 @@ class ShowBoard extends Component
             'Content-Disposition' => "attachment; filename={$fileName}",
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0'
+            'Expires' => '0',
         ];
 
-        $callback = function() use ($columns) {
+        $callback = function () use ($columns) {
             $file = fopen('php://output', 'w');
-            
+
             // Add UTF-8 BOM to make Excel open it correctly
-            fputs($file, "\xEF\xBB\xBF");
+            fwrite($file, "\xEF\xBB\xBF");
 
             // Header row
             fputcsv($file, [
@@ -333,7 +373,7 @@ class ShowBoard extends Component
                 foreach ($column->tasks as $task) {
                     $completedSubtasks = $task->subtasks->where('is_completed', true)->count();
                     $totalSubtasks = $task->subtasks->count();
-                    
+
                     fputcsv($file, [
                         __($column->title),
                         $task->title,
@@ -370,7 +410,7 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $task = Task::onlyTrashed()->whereHas('column', function($query) {
+        $task = Task::onlyTrashed()->whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
 
@@ -383,42 +423,31 @@ class ShowBoard extends Component
             abort(403, __('Ação não autorizada.'));
         }
 
-        $task = Task::onlyTrashed()->whereHas('column', function($query) {
+        $task = Task::onlyTrashed()->whereHas('column', function ($query) {
             $query->where('board_id', $this->board->id);
         })->findOrFail($taskId);
 
         $task->forceDelete();
     }
 
-    public function setLocale($locale)
-    {
-        $validLocales = ['en', 'pt_BR', 'es'];
-        if (in_array($locale, $validLocales)) {
-            session()->put('locale', $locale);
-            app()->setLocale($locale);
-            
-            return $this->redirectRoute('board.show', ['board' => $this->board->id], navigate: true);
-        }
-    }
-
     public function render()
     {
         $columns = $this->board->columns()
             ->orderBy('position')
-            ->with(['tasks' => function($query) {
+            ->with(['tasks' => function ($query) {
                 $query->orderBy('position')->with(['assignee', 'subtasks']);
-                
-                if (!empty(trim((string)$this->search))) {
-                    $query->where(function($q) {
-                        $q->where('title', 'like', '%' . $this->search . '%')
-                          ->orWhere('description', 'like', '%' . $this->search . '%');
+
+                if (! empty(trim((string) $this->search))) {
+                    $query->where(function ($q) {
+                        $q->where('title', 'like', '%'.$this->search.'%')
+                            ->orWhere('description', 'like', '%'.$this->search.'%');
                     });
                 }
-                
-                if (!empty($this->filterPriority)) {
+
+                if (! empty($this->filterPriority)) {
                     $query->where('priority', $this->filterPriority);
                 }
-                
+
                 if ($this->filterAssignee !== '') {
                     if ($this->filterAssignee === 'unassigned') {
                         $query->whereNull('user_id');
@@ -429,10 +458,10 @@ class ShowBoard extends Component
             }])
             ->get();
 
-        $users = \App\Models\User::all();
+        $users = User::all();
 
         $trashedTasks = Task::onlyTrashed()
-            ->whereHas('column', function($q) {
+            ->whereHas('column', function ($q) {
                 $q->where('board_id', $this->board->id);
             })
             ->with('column')
@@ -441,7 +470,7 @@ class ShowBoard extends Component
         return view('livewire.show-board', [
             'columns' => $columns,
             'users' => $users,
-            'trashedTasks' => $trashedTasks
+            'trashedTasks' => $trashedTasks,
         ]);
     }
 }
