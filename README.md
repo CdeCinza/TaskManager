@@ -6,9 +6,9 @@ Taskly é um projeto pessoal de portfólio criado por **Matheus Marques** para f
 
 > [!IMPORTANT]
 > **Aviso de Projeto Educacional Fictício / Disclaimer:**
-> * **Português:** Este projeto é 100% fictício, independente e educacional, desenvolvido apenas para fins de estudo e portfólio. As funcionalidades, dados, telas, fluxos e regras de negócio foram criados do zero com base em padrões públicos comuns de mercado de ferramentas de produtividade e Kanban. O software não representa, não utiliza e não se baseia em códigos, dados de produção, identidade visual ou regras de negócio confidenciais de nenhuma empresa.
-> * **English:** This is a 100% fictional, independent, and educational project built solely for self-study and personal portfolio purposes. It does not copy, represent, or use any proprietary code, database information, secrets, visual identity, or rules from any corporate system.
-> * **Español:** Este proyecto es 100% ficticio, independiente y educativo, desarrollado solo con fines de estudio y portafolio. No copia, representa ni utiliza ningún código, base de datos, secretos, identidad visual o reglas propietarias de ningún sistema corporativo.
+> * **Português:** Este projeto é 100% fictício, independente e educacional, desenvolvido apenas para fins de estudo e portfólio. As funcionalidades, dados, telas, fluxos e regras de negócio foram criados do zero com base em padrões públicos comuns de mercado de ferramentas de produtividade e Kanban.
+> * **English:** This is a 100% fictional, independent, and educational project built solely for self-study and personal portfolio purposes.
+> * **Español:** Este proyecto es 100% ficticio, independiente y educativo, desarrollado solo con fines de estudio y portafolio.
 
 ---
 
