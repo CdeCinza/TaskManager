@@ -657,23 +657,7 @@
                         <div class="flex flex-col gap-3 overflow-y-auto max-h-64 custom-scrollbar pr-1">
                             @foreach($recentActivities as $activity)
                                 @php
-                                    $raw = $activity->description;
-                                    try {
-                                        $data = is_string($raw) ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR) : null;
-                                    } catch (\Exception $e) {
-                                        $data = null;
-                                    }
                                     $actorName = $activity->user?->name ?? __('Sistema');
-                                    if ($data && isset($data['key'])) {
-                                        $rawParams = $data['params'] ?? array_diff_key($data, ['key' => true]);
-                                        $params = array_map(
-                                            fn($v) => is_array($v) ? json_encode($v) : __((string)$v),
-                                            $rawParams
-                                        );
-                                        $description = __($data['key'], $params);
-                                    } else {
-                                        $description = is_string($raw) ? $raw : json_encode($raw);
-                                    }
                                 @endphp
                                 <div class="flex items-start gap-2.5 p-2.5 bg-slate-800/40 rounded-xl border border-slate-700/30">
                                     <div class="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-[8px] font-bold text-indigo-300 uppercase flex-shrink-0 mt-0.5">
@@ -682,7 +666,7 @@
                                     <div class="flex-1 min-w-0">
                                         <p class="text-[11px] text-slate-300 leading-tight">
                                             <span class="font-semibold text-white">{{ $actorName }}</span>
-                                            {{ $description }}
+                                            {{ $activity->formatted_description }}
                                         </p>
                                         <p class="text-[9px] text-slate-600 mt-1">{{ $activity->created_at->diffForHumans() }}</p>
                                     </div>
