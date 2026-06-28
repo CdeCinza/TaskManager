@@ -4,150 +4,150 @@
     <!-- MAIN CONTENT -->
     <main class="min-h-0 min-w-0 flex-1 flex flex-col overflow-hidden">
         <!-- Header -->
-        <header class="min-h-20 border-b border-slate-900 bg-slate-900/20 px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between flex-shrink-0">
+        <header class="border-b border-slate-900 bg-slate-900/20 px-3 py-3 sm:px-5 lg:px-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between flex-shrink-0">
             <div class="flex items-center gap-3">
-                <div class="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+                <div class="flex-shrink-0 p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
                     <i data-lucide="layout-dashboard" class="w-5 h-5 text-indigo-400"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold tracking-tight text-white">{{ __('Dashboard') }}</h2>
+                    <h2 class="text-lg sm:text-xl font-bold tracking-tight text-white">{{ __('Dashboard') }}</h2>
                     <p class="text-xs text-slate-400">{{ __('Visão geral do seu sistema') }}</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end sm:gap-3">
                 <x-language-selector />
 
-                <div class="text-xs text-slate-500 font-medium">
+                <div class="whitespace-nowrap text-[11px] sm:text-xs text-slate-500 font-medium">
                     {{ now()->format('d/m/Y') }}
                 </div>
             </div>
         </header>
 
         <!-- Scrollable body -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div class="flex-1 overflow-y-auto p-3 pb-24 sm:p-5 sm:pb-6 lg:p-8 custom-scrollbar">
 
             <!-- ═══ KPI CARDS ═══ -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-3 sm:gap-4 mb-5 sm:mb-8">
                 <!-- Total Boards -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
                             <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Quadros') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Quadros') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white tracking-tight">{{ $totalBoards }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-white tracking-tight">{{ $totalBoards }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Total de Quadros') }}</p>
                     </div>
                 </div>
 
                 <!-- Total Tasks -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-1">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-1">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="clipboard-list" class="w-4 h-4 text-sky-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Tarefas') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Tarefas') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white tracking-tight">{{ $totalTasks }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-white tracking-tight">{{ $totalTasks }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Total de Tarefas') }}</p>
                     </div>
                 </div>
 
                 <!-- Completed -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-2">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-2">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Concluídas') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Concluídas') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-emerald-400 tracking-tight">{{ $completedTasks }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-emerald-400 tracking-tight">{{ $completedTasks }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ $completionRate }}% {{ __('de conclusão') }}</p>
                     </div>
                 </div>
 
                 <!-- Overdue -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-3">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Atrasadas') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Atrasadas') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold {{ $overdueTasks > 0 ? 'text-rose-400' : 'text-white' }} tracking-tight">{{ $overdueTasks }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold {{ $overdueTasks > 0 ? 'text-rose-400' : 'text-white' }} tracking-tight">{{ $overdueTasks }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Com prazo vencido') }}</p>
                     </div>
                 </div>
 
                 <!-- High Priority -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-4">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
                             <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Alta Prior.') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Alta Prior.') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-amber-400 tracking-tight">{{ $highPriorityTasks }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-amber-400 tracking-tight">{{ $highPriorityTasks }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Prioridade alta') }}</p>
                     </div>
                 </div>
 
                 <!-- Total Users -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-5">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-violet-500/10 border border-violet-500/20">
                             <i data-lucide="users" class="w-4 h-4 text-violet-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Membros') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Membros') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white tracking-tight">{{ $totalUsers }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-white tracking-tight">{{ $totalUsers }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Usuários ativos') }}</p>
                     </div>
                 </div>
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-sky-500/10 border border-sky-500/20">
                             <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('Chamados') }}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">{{ __('Chamados') }}</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white tracking-tight">{{ $ticketStats['open'] }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold text-white tracking-tight">{{ $ticketStats['open'] }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Em aberto') }}</p>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex min-w-0 flex-col gap-2.5 sm:gap-3 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                        <div class="flex-shrink-0 p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                             <i data-lucide="alarm-clock" class="w-4 h-4 text-rose-400"></i>
                         </div>
-                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">SLA</span>
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider leading-tight truncate min-w-0">SLA</span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold {{ $ticketStats['slaRisk'] > 0 ? 'text-rose-400' : 'text-white' }} tracking-tight">{{ $ticketStats['slaRisk'] }}</p>
+                        <p class="text-2xl sm:text-3xl font-bold {{ $ticketStats['slaRisk'] > 0 ? 'text-rose-400' : 'text-white' }} tracking-tight">{{ $ticketStats['slaRisk'] }}</p>
                         <p class="text-xs text-slate-500 mt-0.5">{{ __('Chamados em risco') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Actionable Dashboard -->
-            <div class="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-6 mb-6">
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-3">
+            <div class="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-4 sm:gap-6 mb-5 sm:mb-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
                         <div class="flex items-center gap-2">
                             <i data-lucide="calendar-check" class="w-4 h-4 text-indigo-400"></i>
                             <h3 class="text-sm font-semibold text-slate-200">{{ __('Minha Semana') }}</h3>
                         </div>
-                        <a href="{{ route('calendar') }}" wire:navigate class="inline-flex items-center gap-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200">
+                        <a href="{{ route('calendar') }}" wire:navigate class="inline-flex min-h-9 items-center gap-2 rounded-lg px-2 -mx-2 text-xs font-semibold text-indigo-300 hover:text-indigo-200">
                             {{ __('Abrir agenda') }}
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
@@ -162,10 +162,10 @@
                         ];
                     @endphp
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
                         @foreach($weekGroups as $group)
                             <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-3">
-                                <div class="flex items-center justify-between mb-3">
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-3">
                                     <div class="flex items-center gap-2">
                                         <i data-lucide="{{ $group['icon'] }}" class="w-3.5 h-3.5 {{ $group['color'] }}"></i>
                                         <span class="text-xs font-bold text-slate-300">{{ $group['label'] }}</span>
@@ -174,7 +174,7 @@
                                 </div>
                                 <div class="flex flex-col gap-2">
                                     @forelse($group['items']->take(3) as $task)
-                                        <a href="{{ route('board.show', $task->column->board_id) }}" wire:navigate class="rounded-lg bg-slate-900/80 border border-slate-800/80 px-2.5 py-2 hover:border-indigo-500/40 transition">
+                                        <a href="{{ route('board.show', $task->column->board_id) }}" wire:navigate class="rounded-lg bg-slate-900/80 border border-slate-800/80 px-3 py-2.5 hover:border-indigo-500/40 transition">
                                             <p class="truncate text-[11px] font-semibold text-slate-200">{{ $task->title }}</p>
                                             <p class="truncate text-[9px] text-slate-500">{{ $task->column->board->title }}</p>
                                         </a>
@@ -187,30 +187,30 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-3">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-3">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="radar" class="w-4 h-4 text-rose-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atenção agora') }}</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-3">
                         <div class="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-rose-300">{{ __('Atrasadas') }}</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider leading-tight text-rose-300">{{ __('Atrasadas') }}</p>
                             <p class="mt-1 text-2xl font-bold text-white">{{ $myWeek['overdue']->count() }}</p>
                         </div>
                         <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-300">{{ __('Sem responsável') }}</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider leading-tight text-amber-300">{{ __('Sem responsável') }}</p>
                             <p class="mt-1 text-2xl font-bold text-white">{{ $unassignedTasks->count() }}</p>
                         </div>
                         <div class="rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-3">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-300">{{ __('Boards em risco') }}</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider leading-tight text-indigo-300">{{ __('Boards em risco') }}</p>
                             <p class="mt-1 text-2xl font-bold text-white">{{ $riskyBoards->where('risk_score', '>', 0)->count() }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 mb-5 sm:mb-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="user-round-x" class="w-4 h-4 text-amber-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Tarefas sem responsável') }}</h3>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-4">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-4">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="alarm-clock" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Chamados próximos') }}</h3>
@@ -235,7 +235,7 @@
                     <div class="flex flex-col gap-2 max-h-56 overflow-y-auto custom-scrollbar pr-1">
                         @forelse($ticketsDueSoon as $ticket)
                             <a href="{{ route('tickets') }}" wire:navigate class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3 hover:border-sky-500/30 transition">
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex min-w-0 items-center justify-between gap-3">
                                     <p class="truncate text-xs font-semibold text-slate-200">{{ $ticket->title }}</p>
                                     <span class="text-[10px] font-bold {{ $ticket->sla_due_at && $ticket->sla_due_at->isPast() ? 'text-rose-400' : 'text-sky-400' }}">
                                         {{ ($ticket->sla_due_at ?? $ticket->due_date)?->format('d/m') }}
@@ -249,7 +249,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-5">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="triangle-alert" class="w-4 h-4 text-rose-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Boards com mais risco') }}</h3>
@@ -257,7 +257,7 @@
                     <div class="flex flex-col gap-2">
                         @forelse($riskyBoards as $boardRisk)
                             <a href="{{ route('board.show', $boardRisk->id) }}" wire:navigate class="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3 hover:border-rose-500/30 transition">
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex min-w-0 items-center justify-between gap-3">
                                     <p class="truncate text-xs font-semibold text-slate-200">{{ $boardRisk->title }}</p>
                                     <span class="text-[10px] font-bold text-rose-400">{{ $boardRisk->risk_score }}</span>
                                 </div>
@@ -269,7 +269,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-5">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-5">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atividades relevantes') }}</h3>
@@ -294,8 +294,8 @@
             </div>
 
             <!-- ═══ COMPLETION BAR ═══ -->
-            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 mb-6 shadow-lg animate-fade-in-up stagger-delay-5">
-                <div class="flex items-center justify-between mb-3">
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 mb-6 shadow-lg animate-fade-in-up stagger-delay-5">
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-3">
                     <div class="flex items-center gap-2">
                         <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400"></i>
                         <span class="text-sm font-semibold text-slate-200">{{ __('Taxa de Conclusão Global') }}</span>
@@ -315,11 +315,11 @@
             </div>
 
             <!-- ═══ MIDDLE ROW: Priority Breakdown + Tasks Due This Week ═══ -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-5 sm:mb-6">
 
                 <!-- Priority Breakdown -->
                 @php $total = array_sum($priorityBreakdown); @endphp
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6"
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-6"
                      x-data="{
                         view: 'bars',
                         chart: null,
@@ -404,24 +404,24 @@
                      }">
 
                     <!-- Card Header -->
-                    <div class="flex items-center justify-between mb-5">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
                         <div class="flex items-center gap-2">
                             <i :data-lucide="view === 'bars' ? 'bar-chart-3' : 'pie-chart'" class="w-4 h-4 text-indigo-400"></i>
                             <h3 class="text-sm font-semibold text-slate-200">{{ __('Distribuição de Prioridade') }}</h3>
                         </div>
                         <!-- Toggle buttons -->
                         <div class="flex items-center gap-1 bg-slate-800/60 border border-slate-700/50 rounded-lg p-0.5">
-                            <button @click="switchTo('bars')"
+                            <button type="button" @click="switchTo('bars')"
                                     :class="view === 'bars' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'"
-                                    class="p-1.5 rounded-md transition-all duration-200"
+                                    class="flex h-9 w-9 items-center justify-center rounded-md transition-all duration-200"
                                     title="{{ __('Barras') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9"/><rect x="10" y="7" width="4" height="14"/><rect x="17" y="3" width="4" height="18"/></svg>
+                                <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>
                             </button>
-                            <button @click="switchTo('pie')"
+                            <button type="button" @click="switchTo('pie')"
                                     :class="view === 'pie' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'"
-                                    class="p-1.5 rounded-md transition-all duration-200"
+                                    class="flex h-9 w-9 items-center justify-center rounded-md transition-all duration-200"
                                     title="{{ __('Pizza') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                                <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i>
                             </button>
                         </div>
                     </div>
@@ -484,11 +484,11 @@
                     <!-- PIE (DOUGHNUT) VIEW -->
                     <div x-show="view === 'pie'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
                         <!-- Chart canvas (center text drawn via plugin, no DOM overlay) -->
-                        <div class="flex justify-center items-center" style="height: 190px;">
+                        <div class="flex h-44 items-center justify-center sm:h-48">
                             <canvas x-ref="pieCanvas"></canvas>
                         </div>
                         <!-- Legend -->
-                        <div class="flex items-center justify-center gap-5 mt-4">
+                        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4">
                             <div class="flex items-center gap-1.5">
                                 <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow shadow-rose-500/40"></span>
                                 <span class="text-[11px] text-slate-400">{{ __('Alta') }} <strong class="text-rose-400">{{ $priorityBreakdown['high'] }}</strong></span>
@@ -506,7 +506,7 @@
                 </div>
 
                 <!-- Tasks Due This Week -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Prazos Esta Semana') }}</h3>
@@ -529,14 +529,14 @@
                                     $isTomorrow = $task->due_date->isTomorrow();
                                 @endphp
                                 <div class="flex items-center gap-3 p-2.5 bg-slate-800/50 rounded-xl border border-slate-700/30 hover:border-slate-600/50 transition">
-                                    <div class="p-1.5 rounded-lg {{ $isToday ? 'bg-rose-500/10 border border-rose-500/20' : ($isTomorrow ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-slate-700/50') }}">
+                                    <div class="flex-shrink-0 p-1.5 rounded-lg {{ $isToday ? 'bg-rose-500/10 border border-rose-500/20' : ($isTomorrow ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-slate-700/50') }}">
                                         <i data-lucide="calendar" class="w-3 h-3 {{ $isToday ? 'text-rose-400' : ($isTomorrow ? 'text-amber-400' : 'text-slate-400') }}"></i>
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-semibold text-slate-200 truncate">{{ $task->title }}</p>
                                         <p class="text-[10px] text-slate-500 truncate">{{ __($task->column->title ?? '') }}</p>
                                     </div>
-                                    <div class="text-right">
+                                    <div class="flex-shrink-0 text-right">
                                         <span class="text-[10px] font-bold {{ $isToday ? 'text-rose-400' : ($isTomorrow ? 'text-amber-400' : 'text-slate-400') }}">
                                             {{ $isToday ? __('Hoje') : ($isTomorrow ? __('Amanhã') : $task->due_date->format('d/m')) }}
                                         </span>
@@ -552,10 +552,10 @@
             </div>
 
             <!-- ═══ BOTTOM ROW: Boards Overview + Team Workload + Recent Activity ═══ -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
                 <!-- Boards Overview -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Visão dos Quadros') }}</h3>
@@ -572,12 +572,12 @@
                             @foreach($boards as $i => $b)
                                 <a href="{{ route('board.show', $b->id) }}" wire:navigate
                                    class="flex flex-col gap-2 p-3 bg-slate-800/40 rounded-xl border border-slate-700/30 hover:border-indigo-500/40 hover:bg-slate-800/70 transition group">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-2 h-2 rounded-full bg-gradient-to-r {{ $boardColors[$i % count($boardColors)] }} to-transparent"></div>
-                                            <span class="text-xs font-semibold text-slate-200 group-hover:text-white truncate max-w-[120px]">{{ $b->title }}</span>
+                                    <div class="flex min-w-0 items-center justify-between">
+                                        <div class="flex min-w-0 flex-1 items-center gap-2">
+                                            <div class="w-2 h-2 flex-shrink-0 rounded-full bg-gradient-to-r {{ $boardColors[$i % count($boardColors)] }} to-transparent"></div>
+                                            <span class="text-xs font-semibold text-slate-200 group-hover:text-white truncate max-w-none flex-1">{{ $b->title }}</span>
                                         </div>
-                                        <div class="flex items-center gap-1.5">
+                                        <div class="flex flex-shrink-0 items-center gap-1.5">
                                             <span class="text-[10px] text-slate-500 font-medium">{{ $b->total_tasks }} {{ __('tarefas') }}</span>
                                             <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600 group-hover:text-indigo-400 transition"></i>
                                         </div>
@@ -604,7 +604,7 @@
                 </div>
 
                 <!-- Team Workload -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="users" class="w-4 h-4 text-violet-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Carga da Equipe') }}</h3>
@@ -625,7 +625,7 @@
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-semibold text-slate-200 truncate">{{ $u->name }}</p>
-                                        <div class="flex items-center gap-2 mt-0.5">
+                                        <div class="flex flex-wrap items-center gap-2 mt-0.5">
                                             <span class="text-[9px] text-slate-500">{{ $u->total_tasks }} {{ __('tarefas') }}</span>
                                             @if($u->overdue_tasks > 0)
                                                 <span class="text-[9px] text-rose-400 font-semibold">• {{ $u->overdue_tasks }} {{ __('atras.') }}</span>
@@ -644,7 +644,7 @@
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-lg animate-fade-in-up stagger-delay-6">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg animate-fade-in-up stagger-delay-6">
                     <div class="flex items-center gap-2 mb-5">
                         <i data-lucide="activity" class="w-4 h-4 text-sky-400"></i>
                         <h3 class="text-sm font-semibold text-slate-200">{{ __('Atividade Recente') }}</h3>
