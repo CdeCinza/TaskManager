@@ -109,6 +109,41 @@
             background-image: radial-gradient(circle, rgba(99,102,241,0.15) 1px, transparent 1px);
             background-size: 28px 28px;
         }
+
+        /* Custom Checkbox Styling */
+        .auth-checkbox {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            outline: none;
+            flex-shrink: 0;
+        }
+        .auth-checkbox:checked {
+            background: #4f46e5;
+            border-color: #6366f1;
+        }
+        .auth-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .auth-checkbox:focus {
+            border-color: rgba(99, 102, 241, 0.7);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
     </style>
 </head>
 <body class="bg-slate-950 min-h-screen flex overflow-hidden">
@@ -383,7 +418,7 @@
                 <!-- Remember me -->
                 <div class="flex items-center gap-2.5">
                     <input type="checkbox" name="remember" id="remember"
-                           class="w-4 h-4 rounded accent-indigo-500 bg-slate-800 border-slate-600 cursor-pointer">
+                           class="auth-checkbox">
                     <label for="remember" class="text-sm text-slate-400 cursor-pointer select-none">Lembrar de mim</label>
                 </div>
 
